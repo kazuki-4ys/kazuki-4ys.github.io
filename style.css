@@ -1,0 +1,30 @@
+body{
+  background: #666666;
+}
+div {
+  margin: 2% auto;
+  padding:10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.22);
+  color: #FFF;
+  border-radius:10px;
+}
+.subject{
+  background: #333333;
+}
+.part{
+  background: #111111;
+}
+a{
+  color: #FFF;
+  text-decoration:none;
+}
+.link{
+  color:#99FFFF;
+  text-decoration:underline;
+}
+img{
+  width:50px;
+  height:50px;
+  padding:10px 10px;
+  border-radius:10px;
+}
