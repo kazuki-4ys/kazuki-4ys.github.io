@@ -31,6 +31,7 @@ body{
 }
 .subForm{
     text-align:center;
+    margin-left: 30px;
 }
 .birthForm{
     display:flex;
@@ -115,7 +116,7 @@ body{
     background-color:black;
 }
 
-.notSelectColor,.SelectColor,button,#height,#weight,#open{
+.notSelectColor,.SelectColor,button,#height,#weight,#open,#specialMii{
     cursor:pointer;
 }
 
