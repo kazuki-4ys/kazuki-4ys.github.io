@@ -381,6 +381,10 @@ function loadFile(event){
     }
 }
 
+open.addEventListener('click',function(event){
+    event.target.value = '';
+});
+
 save.addEventListener('click',function(event){
     var blob = new Blob([miiFileWrite()]);
     var link = document.createElement('a');
