@@ -129,12 +129,12 @@ favorite.addEventListener('click',(event) => {
     sendEdit();
 });
 
-regionLock.addEventListener('click',(event) => {
+regionLock.addEventListener('change',(event) => {
     editMii.regionLock = Number(regionLock.value);
     setUI();
 });
 
-characterSet.addEventListener('click',(event) => {
+characterSet.addEventListener('change',(event) => {
     editMii.characterSet = Number(characterSet.value);
     setUI();
 });
