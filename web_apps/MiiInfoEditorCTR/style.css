@@ -7,15 +7,52 @@ body{
 }
 
 .nameForm{
-    display:flex;
+    display:grid;
+    grid-template: 
+    "mn mnt"
+    "cn cnt";
+    gap:10px;
+    margin-bottom: 30px;
 }
+#mn{grid-area:mn}
+#mnt{grid-area:mnt}
+#cm{grid-area:cn}
+#cnt{grid-area:cnt}
 
 .idForm{
-    display:flex;
+    display:grid;
+    grid-template: 
+    "mi mit"
+    "ci cit0"
+    ".. cit1"
+    "maci macit0"
+    ".... macit1";
+    gap:10px;
+    margin-bottom: 30px;
 }
+#mi{grid-area:mi}
+#mit{grid-area:mit}
+#ci{grid-area:ci}
+#cit0{grid-area:cit0}
+#cit1{grid-area:cit1}
+#maci{grid-area:maci}
+#macit0{grid-area:macit0}
+#macit1{grid-area:macit1}
+
 .sliderForm{
-    display:flex;
+    display:grid;
+    grid-template: 
+    "h hs ht"
+    "w ws wt";
+    gap:10px;
+    margin-bottom: 30px;
 }
+#h{grid-area:h}
+#hs{grid-area:hs}
+#ht{grid-area:ht}
+#w{grid-area:w}
+#ws{grid-area:ws}
+#wt{grid-area:wt}
 
 #main{
     display:flex;
