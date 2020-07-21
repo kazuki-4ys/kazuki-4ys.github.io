@@ -40,6 +40,9 @@ for(i = 0;i < ID_LENGTH;i++){
             return;
         }
         editMii.miiID[id] = tmp;
+        if(id === 0){
+            if(!(editMii.miiID[id] & 0x80))editMii.mingleOff = true;
+        }
         setUI();
         sendEdit();
     });
@@ -69,6 +72,7 @@ gender.addEventListener('click',(event) => {
 mingles.addEventListener('click',(event) => {
     if(editMii.mingleOff){
         editMii.mingleOff = false;
+        editMii.miiID[0] |= 0x80;
     }else{
         editMii.mingleOff = true;
     }
@@ -89,6 +93,7 @@ favorite.addEventListener('click',(event) => {
 specialMii.addEventListener('click',(event) => {
     if(editMii.miiID[0] & 0x80){
         editMii.miiID[0] &= 0x7f;
+        editMii.mingleOff = true;
     }else{
         editMii.miiID[0] |= 0x80;
     }
