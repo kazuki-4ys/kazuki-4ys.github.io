@@ -126,7 +126,11 @@ function miiFileWrite(){
 	buf[0x19] = (editMii.day >>> 3) + (editMii.favColor << 2) + (getInt(editMii.isFavorite) << 6);
 	for(i = 0;i < MII_NAME_LENGTH;i++){
         if(editMii.name.length <= i){
-			buf[0x1a + i * 2] = 0;
+			if(i === 0){
+			    buf[0x1a + i * 2] = 0x20;
+			}else{
+				buf[0x1a + i * 2] = 0;
+			}
 			buf[0x1a + i * 2 + 1] = 0;
 		}else{
 			buf[0x1a + i * 2] = editMii.name.charCodeAt(i) & 0xff;
