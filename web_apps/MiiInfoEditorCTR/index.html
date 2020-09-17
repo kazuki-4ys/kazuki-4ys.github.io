@@ -11,10 +11,11 @@
 </head>
 
 <body>
+    <div id="mainForm">
     <input type ="file" id ="open" accept=".3dsmii"><br>
-    <button id="save">save</button>
+    <button id="save">save</button><button id="QrGen">generate QR code</button>
+    <div id="form">
     <div id="main">
-    <div>
         <div class="nameForm">
             <div id="mn">Mii name:</div><div id="mnt"><input id="miiName" maxlength="10"></div>
             <div id="cn">Creator name:</div><div id="cnt"><input id="creatorName" maxlength="10"></div>
@@ -24,7 +25,7 @@
             <div id="ci">Console ID:</div><div id="cit0"><input class="idTextArea" id="c0" maxlength="2">-<input class="idTextArea" id="c1" maxlength="2">-<input class="idTextArea" id="c2" maxlength="2">-<input class="idTextArea" id="c3" maxlength="2">-</div>
             <div id="cit1"><input class="idTextArea" id="c4" maxlength="2">-<input class="idTextArea" id="c5" maxlength="2">-<input class="idTextArea" id="c6" maxlength="2">-<input class="idTextArea" id="c7" maxlength="2"></div>
             <div id="maci">Creator MAC:</div><div id="macit0"><input class="idTextArea" id="mac0" maxlength="2">-<input class="idTextArea" id="mac1" maxlength="2">-<input class="idTextArea" id="mac2" maxlength="2">-</div>
-            <div id="macit1"><input class="idTextArea" id="mac3" maxlength="2">-<input class="idTextArea" id="mac4" maxlength="2">-<input class="idTextArea" id="mac5" maxlength="2">-</div>
+            <div id="macit1"><input class="idTextArea" id="mac3" maxlength="2">-<input class="idTextArea" id="mac4" maxlength="2">-<input class="idTextArea" id="mac5" maxlength="2"></div>
         </div>
         <div class="sliderForm">
             <div id="h">Height</div><div id="hs"><input type="range" value="64" min="0" max="127" step="1" id="height"></div><div id="ht"><input maxlength="3" size="2" id="heightNum"></div>
@@ -52,7 +53,7 @@
             <div id="colorButton11" class="notSelectColor"></div>
         </div>
     </div>
-    <div class="subForm">
+    <div class="sub">
         Birthday
         <div class="birthForm">
             <div>
@@ -87,7 +88,17 @@
             <option value="3">TWN</option>
         </select></p>
     </div>
-</div>
+    </div>
+    </div>
+    <div id="qrForm">
+        <div>
+            <button id="QrClose">close</button><button id="QrSave">save QR code</button>
+        </div>
+        <img id="qrCode">
+    </div>
+<script src="asmcrypto.all.es5.js"></script>
+<script src="qrcodegen.js"></script>
+<script src="encode.js"></script>
 <script src="mii.js"></script>
 <script src="script.js"></script>
 </body>

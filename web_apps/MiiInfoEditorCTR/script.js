@@ -2,10 +2,36 @@ var i;
 var reader = new FileReader();
 
 function sendEdit(){
+    rawData = null;
+    qrBase64 = null;
 }
+
+function fileSave(data,fn){
+    var blob;
+    if(typeof data == 'string'){
+        var byteString = atob(data.split( "," )[1]);
+        for( var i=0, l=byteString.length, content=new Uint8Array( l ); l>i; i++ ) {
+            content[i] = byteString.charCodeAt(i);
+        }
+        blob = new Blob([content]);
+    }else{
+        blob = new Blob([data]);
+    }
+    var link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = fn;
+    link.click();
+}
+
 //DOMの取得
+var mainForm = document.getElementById('mainForm');
+var qrForm = document.getElementById('qrForm');
 var open = document.getElementById('open');
 var save = document.getElementById('save');
+var QrGen = document.getElementById('QrGen');
+var QrClose = document.getElementById('QrClose');
+var QrSave = document.getElementById('QrSave');
+var QrImg = document.getElementById('qrCode');
 var miiName = document.getElementById('miiName');
 var creatorName = document.getElementById('creatorName');
 var height = document.getElementById('height');
@@ -464,11 +490,25 @@ open.addEventListener('click',function(event){
 });
 
 save.addEventListener('click',function(event){
-    var blob = new Blob([miiFileWrite()]);
-    var link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = 'default.3dsmii'
-    link.click();
+    if(!rawData)miiEncode();
+    fileSave(rawData,'default.3dsmii');
+});
+
+QrGen.addEventListener('click',function(event){
+    if(!qrBase64)qrEncode();
+    QrImg.src = qrBase64;
+    console.log(qrBase64);
+    mainForm.style.display = 'none';
+    qrForm.style.display = 'block';
+});
+
+QrClose.addEventListener('click',function(event){
+    qrForm.style.display = 'none';
+    mainForm.style.display = 'block';
+});
+
+QrSave.addEventListener('click',function(event){
+    fileSave(qrBase64,'qrcode.png');
 });
 
 setUI();

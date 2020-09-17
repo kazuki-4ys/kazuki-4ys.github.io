@@ -4,6 +4,8 @@ const CONSOLE_ID_LENGTH = 0x8;
 const MII_ID_LENGTH = 0x4;
 const MAC_ADDR_LENGTH = 0x6;
 const UNEDIT_SIZE = 0x18;
+var rawData = null;
+var qrBase64 = null;
 var editMii = {
 	//0x1
 	allowCopying:false,
@@ -62,7 +64,8 @@ function bufToUtf16String(buf){
 }
 
 function miiFileRead(buf){
-	console.log(buf);
+	rawData = buf;
+	qrBase64 = null;
 	editMii.allowCopying = getBoolean(buf[0x1] & 1);
 	editMii.profanityFlag = getBoolean((buf[0x1]  >>> 1) & 1);
 	editMii.regionLock = (buf[0x1]  >>> 2) & 3;
@@ -104,7 +107,7 @@ function miiFileRead(buf){
 	setUI();
 }
 
-function miiFileWrite(){
+function miiEncode(){
 	var i;
 	var buf = new Uint8Array(MII_FILE_SIZE);
 	buf[0] = 3;
@@ -150,5 +153,11 @@ function miiFileWrite(){
 		buf[0x30 + i] = editMii.unEdit[i];
 	}
 	buf[0x30] += getInt(!(editMii.sharing));
-	return buf;
+	rawData = buf;
+}
+
+function qrEncode(){
+	if(!rawData)miiEncode();
+	var encodedMii = encodeAesCcm(rawData);
+	qrBase64 = makeQRFromBytes(encodedMii);
 }

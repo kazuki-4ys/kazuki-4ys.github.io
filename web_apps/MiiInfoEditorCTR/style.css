@@ -54,11 +54,14 @@ body{
 #ws{grid-area:ws}
 #wt{grid-area:wt}
 
-#main{
+#form{
     display:flex;
-    
 }
-.subForm{
+
+#qrForm{
+    display:none;
+}
+.sub{
     text-align:center;
     margin-left: 30px;
 }
