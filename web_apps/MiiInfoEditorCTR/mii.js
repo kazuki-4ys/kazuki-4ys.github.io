@@ -8,7 +8,7 @@ var rawData = null;
 var qrBase64 = null;
 var editMii = {
 	//0x1
-	allowCopying:false,
+	allowCopying:true,
 	profanityFlag:false,
 	regionLock:0,
 	characterSet:0,
@@ -20,7 +20,7 @@ var editMii = {
 	//0x4
 	consoleID:[0,0,0,0,0,0,0,0],
 	//0xC
-	miiID:[0x90,0,0,0],
+	miiID:[0x90 + Math.floor(Math.random() * 16),Math.floor(Math.random() * 256),Math.floor(Math.random() * 256),Math.floor(Math.random() * 256)],
 	//0x10
 	creatorMAC:[0x7c,0xbb,0x8a,0,0,0],
 	//0x18
