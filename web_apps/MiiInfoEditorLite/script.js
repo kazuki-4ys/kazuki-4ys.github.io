@@ -398,4 +398,4 @@ save.addEventListener('click',function(event){
     link.click();
 });
 
-setUI();
+setTimeout(setUI,1);

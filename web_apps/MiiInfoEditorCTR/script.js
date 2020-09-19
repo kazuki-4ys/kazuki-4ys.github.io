@@ -511,4 +511,4 @@ QrSave.addEventListener('click',function(event){
     fileSave(qrBase64,'qrcode.png');
 });
 
-setUI();
+setTimeout(setUI,1);
