@@ -6,6 +6,10 @@ body{
     background: linear-gradient(-45deg, rgba(255, 255, 255, 0.8), rgba(153, 255, 204, .8));
 }
 
+input[type="file"] {
+    display: none;
+}
+
 .nameForm{
     display:grid;
     grid-template: 
@@ -58,7 +62,7 @@ body{
     display:flex;
 }
 
-#qrForm{
+#qrForm,#qrReadWait{
     display:none;
 }
 .sub{

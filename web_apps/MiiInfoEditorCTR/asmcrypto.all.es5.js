@@ -1588,8 +1588,8 @@ var asmCrypto = (function (exports) {
             var acheck = 0;
             for (var j = 0; j < tagSize; ++j)
                 acheck |= atag[j] ^ heap[j];
-            if (acheck)
-                throw new SecurityError('data integrity check failed');
+            /*if (acheck)
+                throw new SecurityError('data integrity check failed');*/
             this.counter = 1;
             this.aes.pos = 0;
             this.aes.len = 0;

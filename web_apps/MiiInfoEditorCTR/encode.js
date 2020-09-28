@@ -1,5 +1,6 @@
 var NONCE_OFFSET = 0xC;
 var NONCE_LENGTH = 8;
+var TAG_LENGTH = 0x10;
 
 var aes_key = new Uint8Array([0x59, 0xFC, 0x81, 0x7E, 0x64, 0x46, 0xEA, 0x61, 0x90, 0x34, 0x7B, 0x20, 0xE9, 0xBD, 0xCE, 0x52]);
 var pad = new Uint8Array([0,0,0,0]);
@@ -44,12 +45,18 @@ function crcCalc(data){
 
 function encodeAesCcm(data){
     var nonce = Uint8Cat(data.subarray(NONCE_OFFSET,NONCE_OFFSET + NONCE_LENGTH),pad);
-    console.log(nonce);
     var crcSrc = Uint8Cat(data,new Uint8Array([0,0]));
     var crc = crcCalc(crcSrc);
     var cfsd = Uint8Cat(crcSrc,new Uint8Array([crc >>> 8,crc & 0xff]));
     //AES-CCMで暗号化
     var plaintext = Uint8Cat(cfsd.subarray(0,NONCE_OFFSET),cfsd.subarray(NONCE_OFFSET + NONCE_LENGTH,cfsd.length),pad,pad);
-    var ciphertext = asmCrypto.AES_CCM.encrypt(plaintext,aes_key,nonce,undefined,16);
-    return Uint8Cat(cfsd.subarray(NONCE_OFFSET,NONCE_OFFSET + NONCE_LENGTH),ciphertext.subarray(0,ciphertext.length - 24),ciphertext.subarray(ciphertext.length - 16,ciphertext.length))
+    var ciphertext = asmCrypto.AES_CCM.encrypt(plaintext,aes_key,nonce,undefined,TAG_LENGTH);
+    return Uint8Cat(cfsd.subarray(NONCE_OFFSET,NONCE_OFFSET + NONCE_LENGTH),ciphertext.subarray(0,ciphertext.length - 24),ciphertext.subarray(ciphertext.length - TAG_LENGTH,ciphertext.length))
+}
+
+function decodeAesCcm(data){
+    var nonce = Uint8Cat(data.subarray(0,NONCE_LENGTH),pad);
+    var ciphertext = data.subarray(NONCE_LENGTH,data.length);
+    var plaintext = asmCrypto.AES_CCM.decrypt(ciphertext,aes_key,nonce,undefined,TAG_LENGTH);
+    return Uint8Cat(plaintext.subarray(0,NONCE_OFFSET),data.subarray(0,NONCE_LENGTH),plaintext.subarray(NONCE_OFFSET,plaintext.length - 4));
 }
