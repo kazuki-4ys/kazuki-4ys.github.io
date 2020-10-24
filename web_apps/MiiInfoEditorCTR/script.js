@@ -471,7 +471,7 @@ function setUI(){
 function fileCheck(){
     var buf = new Uint8Array(reader.result);
     if(buf.length === MII_FILE_SIZE){
-        if(buf[0] === 3 && buf[0x16] === 0 && buf[0x17] === 0){
+        if(buf[0x16] === 0 && buf[0x17] === 0){
             miiFileRead(buf);
             return;
         }
@@ -546,7 +546,7 @@ QRFileReader.addEventListener('load',function(event){
         }
         var data = decodeAesCcm(new Uint8Array(qrResult.binaryData));
         if(data.length === MII_FILE_SIZE){
-            if(data[0] === 3 && data[0x16] === 0 && data[0x17] === 0){
+            if(data[0x16] === 0 && data[0x17] === 0){
                 miiFileRead(data);
                 return;
             }
