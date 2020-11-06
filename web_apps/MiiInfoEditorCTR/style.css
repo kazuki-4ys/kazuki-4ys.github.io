@@ -58,6 +58,10 @@ input[type="file"] {
 #ws{grid-area:ws}
 #wt{grid-area:wt}
 
+.checkboxForm,.versionForm{
+    margin-bottom: 20px;
+}
+
 #form{
     display:flex;
 }

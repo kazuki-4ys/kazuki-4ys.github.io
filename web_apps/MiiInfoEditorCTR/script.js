@@ -53,6 +53,7 @@ var regionLock = document.getElementById('regionLock');
 var characterSet = document.getElementById('characterSet');
 var specialMii =  document.getElementById('specialMii');
 var profanityFlag = document.getElementById('profanityMii');
+var version = document.getElementById('version');
 var miiId = [MII_ID_LENGTH];
 var consoleId = [CONSOLE_ID_LENGTH];
 var creatorMAC = [MAC_ADDR_LENGTH];
@@ -237,6 +238,12 @@ weightNum.addEventListener('change',(event) => {
     sendEdit();
 });
 
+version.addEventListener('change',(event) => {
+    editMii.version = Number(version.value);
+    setUI();
+    sendEdit();
+});
+
 for(i = 0;i < 12;i++){
     colorButton[i].addEventListener('click',(event) => {
         editMii.favColor = Number(event.target.getAttribute('id').replace('colorButton',''));
@@ -417,6 +424,7 @@ function setUI(){
     heightNum.value = editMii.height;
     weight.value = editMii.weight;
     weightNum.value = editMii.weight;
+    version.value = editMii.version.toString(10);
     if(editMii.month !== 0){
         month.value = editMii.month;
     }else{

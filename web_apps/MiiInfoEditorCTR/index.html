@@ -32,11 +32,22 @@
             <div id="h">Height</div><div id="hs"><input type="range" value="64" min="0" max="127" step="1" id="height"></div><div id="ht"><input maxlength="3" size="2" id="heightNum"></div>
             <div id="w">Weight</div><div id="ws"><input type="range" value="64" min="0" max="127" step="1" id="weight"></div><div id="wt"><input maxlength="3" size="2" id="weightNum"></div>
         </div>
-        <input type="checkbox" id="specialMii" />
-        <label for="specialMii">Special Mii</label>
-        <input type="checkbox" id="profanityMii" />
-        <label for="profanityMii">Profanity Mii</label>
-        <br>Favorite color
+        <div class="checkboxForm">
+            <input type="checkbox" id="specialMii" />
+            <label for="specialMii">Special Mii</label>
+            <input type="checkbox" id="profanityMii" />
+            <label for="profanityMii">Profanity Mii</label>
+        </div>
+        <div class="versionForm">
+            Version:
+            <select id="version">
+                <option value="1">Wii</option>
+                <option value="2">DSi</option>
+                <option value="3">3DS</option>
+                <option value="4">WiiU</option>
+            </select>
+        </div>
+        Favorite color
         <div class="colorForm">
             <div id="colorButton0" class="notSelectColor"></div>
             <div id="colorButton1" class="notSelectColor"></div>
