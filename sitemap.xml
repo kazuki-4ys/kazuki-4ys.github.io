@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://kazuki-4ys.github.io/</loc>
-        <lastmod>2020-09-17</lastmod>
+        <lastmod>2020-11-16</lastmod>
     </url>
     <url>
         <loc>https://kazuki-4ys.github.io/web_apps/MiiInfoEditorLite/</loc>
@@ -11,5 +11,9 @@
     <url>
         <loc>https://kazuki-4ys.github.io/web_apps/MiiInfoEditorCTR/</loc>
         <lastmod>2020-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://kazuki-4ys.github.io/web_apps/FaceThief/</loc>
+        <lastmod>2020-11-16</lastmod>
     </url>
 </urlset>

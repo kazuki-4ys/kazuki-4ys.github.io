@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Face Thief</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="header" style="text-align: center;">
+        <div style="display:flex;">
+            <div style="flex:1;"></div>
+            <img id="headerImg0" src="img/daisy.png">
+            <div id="headerTitle">
+                Face Thief
+            </div>
+            <img  id="headerImg1" src="img/yoshi.png">
+            <div style="flex:1;"></div>
+        </div>
+        <div id="headerSubTitle">
+            MKWii online save modifier
+        </div>
+    </div>
+    <div style="display:flex;">
+        <div style="flex:1;"></div>
+        <div id="mainForm" style="width:740px;">
+            <div>
+                <input type ="file" id ="open" accept=".dat">
+                <button id="openBtn">open</button>
+                <button id="save" disabled class="disabledBtn">save</button>
+            </div>
+            <div style="margin :30px 0px 0px 0px;">
+                Region:
+                <select id="region" disabled>
+                    <option value="0">Japan</option>
+                    <option value="16">America</option>
+                    <option value="32">Europe</option>
+                    <option value="48">Australia</option>
+                    <option value="64">Taiwan</option>
+                    <option value="80">Korea</option>
+                    <option value="96">China</option>
+                </select>
+            </div>
+            <div style="margin :30px 0px 10px 0px;">
+                <button id="p0" disabled class="disabledBtn">player 1</button>
+                <button id="p1" disabled class="disabledBtn">player 2</button>
+                <button id="p2" disabled class="disabledBtn">player 3</button>
+                <button id="p3" disabled class="disabledBtn">player 4</button>
+            </div>
+            <div>
+                <div style="display:flex;">
+                    <div style="flex:1;">Name:<span id="playerName"></span></div>
+                    <button id="unlockAll" disabled class="disabledBtn">unlock all</button>
+                    <div style="width:10px;"></div>
+                    <button id="friends" disabled class="disabledBtn">friends</button>
+                </div>
+                <div style="display:flex; margin-top:10px;">
+                    <div>VR:</div><div style="flex:1"><input id="vr" class="digits4" disabled maxlength="4"></div>
+                    <div>WFC VS wins:</div><div style="flex:1"><input id="wfcVSWins" class="digits5" disabled maxlength="5"></div>
+                    <div>WFC VS losses:</div><div><input id="wfcVSLosses" class="digits5" disabled  maxlength="5"></div>
+                </div>
+                <div style="display:flex; margin-top:10px;" >
+                    <div>BR:</div><div style="flex:1"><input id="br" class="digits4" disabled maxlength="4"></div>
+                    <div>WFC BT wins:</div><div style="flex:1"><input id="wfcBTWins" class="digits5" disabled maxlength="5"></div>
+                    <div>WFC BT losses:</div><div><input id="wfcBTLosses" class="digits5" disabled  maxlength="5"></div>
+                </div>
+                <div style="display:flex; margin-top:10px;" >
+                    <div>Total Race Count:</div><div style="flex:1"><input id="vCount" class="digits5" disabled maxlength="5"></div>
+                    <div>Total Battle Count:</div><div><input id="bCount" class="digits5" disabled maxlength="5"></div>
+                </div>
+                <div style="display:flex; margin-top:10px;" >
+                    <div>Item Hits Delivered:</div><div style="flex:1"><input id="itemHitsDelivered" class="digits5" disabled maxlength="5"></div>
+                    <div>Item Hits Received:</div><div><input id="itemHitsReceived" class="digits5" disabled maxlength="5"></div>
+                </div>
+                <div style="display:flex; margin-top:10px;" >
+                    <div>Tricks:</div><div style="flex:1"><input id="tricks" class="digits5" disabled maxlength="5"></div>
+                    <div>First-Place Appearances:</div><div><input id="firstPlaceAppearances" class="digits5" disabled maxlength="5"></div>
+                </div>
+                <div style="display:flex; margin-top:10px;" >
+                    <div>Tournaments Played:</div><div style="flex:1"><input id="tournamentsPlayed" class="digits4" disabled maxlength="4"></div>
+                </div>
+            </div>
+        </div>
+        <div id="friendForm" style="display:none; width:740px;">
+        </div>
+       <div style="flex:1;"></div>
+    </div>
+    <script src="utils.js"></script>
+    <script src="rksys.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

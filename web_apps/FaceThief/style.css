@@ -1,0 +1,69 @@
+@font-face {
+	font-family: 'CTMKF';
+	font-style: normal;
+    font-weight: 400;
+    src:url(../MiiInfoEditorLite/font/ctmkf.ttf);
+	unicode-range: U+2460-246E, U+E000-E01C, U+E028, U+E068-E06B, U+F000-F12F;
+}
+
+body{
+    background-color:#333333;
+    color:#ffffff;
+    font-size:20px;
+    min-width: 740px;
+}
+
+#headerImg0,#headerImg1{
+    height: 120px;
+}
+
+#headerTitle{
+    font-size: 100px;
+    width:500px;
+}
+
+#playerName,.friendName{
+    font-family: 'CTMKF';
+}
+
+.friendName{
+    width:250px;
+}
+
+.digits4{
+    width:57px;
+    height:15px;
+}
+
+.digits5{
+    width:72px;
+    height:15px;
+}
+
+button{
+    cursor:pointer;
+    background-color:#000000;
+    border:solid 1px #ffffff;
+    color:#ffffff;
+    font-size:20px;
+}
+
+.selectedBtn{
+    background-color:#f3b713;
+    color:#000000;
+}
+
+.disabledBtn{
+    cursor: default;
+    background-color:#999999;
+    color:#000000;
+}
+
+#open{
+    display:none;
+}
+
+.friendFormChild{
+    display:flex;
+    margin: 20px 0px 20px 0px;
+}
