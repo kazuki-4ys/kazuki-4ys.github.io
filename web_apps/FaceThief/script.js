@@ -26,6 +26,7 @@ var itemHitsReceived = document.getElementById('itemHitsReceived');
 var tricks = document.getElementById('tricks');
 var firstPlaceAppearances = document.getElementById('firstPlaceAppearances');
 var tournamentsPlayed = document.getElementById('tournamentsPlayed');
+var totalDistanceTraveled = document.getElementById('totalDistanceTraveled');
 
 for(var i = 0;i < MAX_PLAYER_NUM;i++){
     playerBtns[i] = document.getElementById('p' + i.toString(10));
@@ -89,6 +90,7 @@ reader.addEventListener('load',(event) => {
         tricks.disabled = false;
         firstPlaceAppearances.disabled = false;
         tournamentsPlayed.disabled = false;
+        totalDistanceTraveled.disabled = false;
         setPlayerUI();
     }else{
         unlockAll.disabled = true;
@@ -121,6 +123,8 @@ reader.addEventListener('load',(event) => {
         firstPlaceAppearances.value = "";
         tournamentsPlayed.disabled = true;
         tournamentsPlayed.value = "";
+        totalDistanceTraveled.disabled = true;
+        totalDistanceTraveled.value = "";
         playerName.innerHTML = " ";
     }
 },false);
@@ -256,6 +260,14 @@ tournamentsPlayed.addEventListener('change',(event) => {
     tournamentsPlayed.value = pd.players[playerIdx].getTournamentsPlayed().toString(10);
 });
 
+totalDistanceTraveled.addEventListener('change',(event) => {
+    var tmp = ston(totalDistanceTraveled.value);
+    if(tmp > -1 && tmp < 10000000001){
+        pd.players[playerIdx].setTotalDistanceTraveled(tmp);
+    }
+    totalDistanceTraveled.value = pd.players[playerIdx].getTotalDistanceTraveled().toString(10);
+});
+
 function setPlayerUI(){
     playerName.innerHTML = pd.players[playerIdx].getName();
     vr.value = pd.players[playerIdx].getVR().toString(10);
@@ -271,6 +283,7 @@ function setPlayerUI(){
     tricks.value = pd.players[playerIdx].getTricks().toString(10);
     firstPlaceAppearances.value = pd.players[playerIdx].get1stPlaceAppearances().toString(10);
     tournamentsPlayed.value = pd.players[playerIdx].getTournamentsPlayed().toString(10);
+    totalDistanceTraveled.value = pd.players[playerIdx].getTotalDistanceTraveled().toString(10);
 }
 
 function showFriendForm(){

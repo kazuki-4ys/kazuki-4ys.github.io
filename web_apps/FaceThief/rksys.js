@@ -166,6 +166,12 @@ class playerData{
     setTournamentsPlayed(val){
         Uint16toBuf(this.rawData,this.RKPDAddr + 0xE8,val);
     }
+    getTotalDistanceTraveled(){
+        return Math.round(bufToFloat32(this.rawData,this.RKPDAddr + 0xC4));
+    }
+    setTotalDistanceTraveled(val){
+        Float32ToBuf(this.rawData,this.RKPDAddr + 0xC4,val);
+    }
     getRKGD(id){
         var oneRkgdAddr = this.RKGDAddr + id * RKGD_MAX_SIZE;
         //TODO:RKGのサイズを取得してその分のデータだけを返すようにする。

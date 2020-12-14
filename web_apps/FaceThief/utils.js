@@ -47,6 +47,24 @@ function buftoUint32(data,addr){
     return (data[addr] << 24) + (data[addr + 1] << 16) + (data[addr + 2] << 8) + data[addr + 3];
 }
 
+function bufToFloat32(data,addr){
+    var tmpArr = new Uint8Array(4),i;
+    for(i = 0;i < 4;i++){
+        tmpArr[i] = data[addr + 4 - i - 1];
+    }
+    var f = new Float32Array(tmpArr.buffer);
+    return Array.prototype.slice.call(f,0);
+}
+
+function Float32ToBuf(data,addr,val){
+    var f = new Float32Array(1);
+    f[0] = val;
+    var tmpArr = new Uint8Array(f.buffer),i;
+    for(i = 0;i < 4;i++){
+        data[addr + 4 - i - 1] = tmpArr[i];
+    }
+}
+
 function bufToAsciiString(data,addr,length){
     var s = '';
     for(i = 0;i < length;i++){

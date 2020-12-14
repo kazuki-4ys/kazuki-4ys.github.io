@@ -40,6 +40,11 @@ body{
     height:15px;
 }
 
+.digits11{
+    width:144px;
+    height:15px;
+}
+
 button{
     cursor:pointer;
     background-color:#000000;
