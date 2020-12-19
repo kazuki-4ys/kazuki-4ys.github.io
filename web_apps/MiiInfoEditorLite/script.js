@@ -18,6 +18,7 @@ var gender = document.getElementById('gender');
 var mingles = document.getElementById('mingles');
 var favorite = document.getElementById('favorite');
 var specialMii =  document.getElementById('specialMii');
+var miiPreview = document.getElementById('miiPreview');
 var miiId = [ID_LENGTH];
 var consoleId = [ID_LENGTH];
 var colorButton = [12];
@@ -62,9 +63,12 @@ for(i = 0;i < ID_LENGTH;i++){
 gender.addEventListener('click',(event) => {
     if(editMii.isGirl){
         editMii.isGirl = false;
+        editMii.studio[0x16] = 0;
     }else{
         editMii.isGirl = true;
+        editMii.studio[0x16] = 1;
     }
+    updateMiiPreview();
     setUI();
     sendEdit();
 });
@@ -115,6 +119,8 @@ creatorName.addEventListener('change',(event) => {
 
 height.addEventListener('change',(event) => {
     editMii.height = height.value;
+    editMii.studio[0x1E] = editMii.height;
+    updateMiiPreview();
     setUI();
     sendEdit();
 });
@@ -126,12 +132,16 @@ heightNum.addEventListener('change',(event) => {
         return;
     }
     editMii.height = tmp;
+    editMii.studio[0x1E] = editMii.height;
+    updateMiiPreview();
     setUI();
     sendEdit();
 });
 
 weight.addEventListener('change',(event) => {
     editMii.weight = weight.value;
+    editMii.studio[2] = editMii.weight;
+    updateMiiPreview();
     setUI();
     sendEdit();
 });
@@ -143,6 +153,8 @@ weightNum.addEventListener('change',(event) => {
         return;
     }
     editMii.weight = tmp;
+    editMii.studio[2] = editMii.weight;
+    updateMiiPreview();
     setUI();
     sendEdit();
 });
@@ -150,6 +162,8 @@ weightNum.addEventListener('change',(event) => {
 for(i = 0;i < 12;i++){
     colorButton[i].addEventListener('click',(event) => {
         editMii.favColor = Number(event.target.getAttribute('id').replace('colorButton',''));
+        editMii.studio[0x15] = editMii.favColor;
+        updateMiiPreview();
         setUI();
         sendEdit();
     });
@@ -305,18 +319,12 @@ function getHex(char){
     }
 }
 
-function getString(int){
-    var str = int.toString(16);
-    if(str.length < 2)str = '0' + str;
-    return str;
-}
-
 function setUI(){
     miiName.value = editMii.name;
     creatorName.value = editMii.creatorName;
     for(i = 0;i < ID_LENGTH;i++){
-        miiId[i].value = getString(editMii.miiID[i]);
-        consoleId[i].value = getString(editMii.consoleID[i]);
+        miiId[i].value = byteToString(editMii.miiID[i]);
+        consoleId[i].value = byteToString(editMii.consoleID[i]);
     }
     height.value = editMii.height;
     heightNum.value = editMii.height;
@@ -361,6 +369,19 @@ function setUI(){
     }
 };
 
+function updateMiiPreview(){
+    editMii.previewData = encodeStudio(editMii.studio);
+    miiPreview.src = NINTENDO_API_URL + editMii.previewData + "&width=270&type=face";
+}
+
+function fileSave(data,fn){
+    var blob = new Blob([data]);
+    var link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = fn;
+    link.click();
+}
+
 function fileCheck(){
     var buf = new Uint8Array(reader.result);
     if(buf.length === MII_FILE_SIZE){
@@ -391,11 +412,7 @@ open.addEventListener('click',function(event){
 });
 
 save.addEventListener('click',function(event){
-    var blob = new Blob([miiFileWrite()]);
-    var link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = 'default.miigx'
-    link.click();
+    fileSave(miiFileWrite(),'default.miigx');
 });
 
 setTimeout(setUI,1);
