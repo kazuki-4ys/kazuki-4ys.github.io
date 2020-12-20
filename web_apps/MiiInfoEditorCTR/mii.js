@@ -48,9 +48,9 @@ var editMii = {
 	wrinkles:0,
 	makeup:0,
 	//0x32
-	hairStyle:0,
+	hairStyle:33,
 	//0x33
-	hairColor:0,
+	hairColor:1,
 	flipHair:0,
 	//0x34
 	eyeStyle:2,
@@ -61,7 +61,7 @@ var editMii = {
 	eyeXspacing:2,
 	eyeYposition:12,
 	//0x38
-	eyebrowStyle:2,
+	eyebrowStyle:6,
 	eyebrowColor:1,
 	eyebrowScale:4,
 	eyebrowYscale:3,
@@ -75,10 +75,10 @@ var editMii = {
 	//0x3E
 	mouseStyle:23,
 	mouseColor:0,
-	mouseScale:13,
+	mouseScale:4,
 	mouseYscale:3,
 	//0x40
-	mouseYposition:20,
+	mouseYposition:13,
 	mustacheStyle:0,
 	//0x42
 	beardStyle:0,
