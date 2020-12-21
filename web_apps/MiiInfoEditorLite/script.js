@@ -19,6 +19,8 @@ var mingles = document.getElementById('mingles');
 var favorite = document.getElementById('favorite');
 var specialMii =  document.getElementById('specialMii');
 var miiPreview = document.getElementById('miiPreview');
+var saveImage = document.getElementById('saveImage');
+var saveAsStudio = document.getElementById('saveAsStudio');
 var miiId = [ID_LENGTH];
 var consoleId = [ID_LENGTH];
 var colorButton = [12];
@@ -318,6 +320,17 @@ function getHex(char){
             return -1;
     }
 }
+
+saveImage.addEventListener('click',(event) => {
+    var link = document.createElement('a');
+    link.href = NINTENDO_API_URL + editMii.previewData + "&width=512&type=face";
+    link.setAttribute('target','_blank');
+    link.click();
+});
+
+saveAsStudio.addEventListener('click',(event) => {
+    fileSave(editMii.studio,'default.studio');
+});
 
 function setUI(){
     miiName.value = editMii.name;

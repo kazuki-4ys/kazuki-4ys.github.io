@@ -63,6 +63,13 @@ body{
     text-align:center;
     margin-left: 30px;
 }
+.miiPreviewForm{
+    text-align:center;
+}
+#miiPreview{
+    width:270px;
+    height:270px;
+}
 .birthForm{
     display:flex;
 }
@@ -80,11 +87,15 @@ body{
     width:25px;
 }
 
-#colorForm{
+#specialMii{
+    margin-bottom: 30px;
+}
+
+.colorForm{
     display:flex;
 }
 
-#colorForm div{
+.colorForm div{
     height:25px;
     width:25px;
     box-shadow: 0px 0px 4px #000;
