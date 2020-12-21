@@ -12,7 +12,7 @@
 
 <body>
     <div id="mainForm">
-    <input type ="file" id ="open" accept=".3dsmii"><button id="openBtn">open Mii data</button>
+    <input type ="file" id ="open" accept=".3dsmii,.miigx,.MII,.mae,.rkg"><button id="openBtn">open Mii data</button>
     <input type ="file" id ="QrRead" accept="image/jpeg,image/png,image/bmp,image/gif"><button id="QrReadBtn">open QR code</button><br>
     <button id="save">save</button><button id="QrGen">generate QR code</button>
     <div id="form">
@@ -100,8 +100,10 @@
             <option value="3">TWN</option>
         </select></p>
     </div>
-    <div>
+    <div class="miiPreviewForm">
         <img id="miiPreview" src="https://studio.mii.nintendo.com/miis/image.png?data=000f165d6574777a7f848f9399a6a9b6bbb8bfc6cdd4dbe2f1fc0310181f450c0f161b161c1619151f22292a353b39&width=270&type=face">
+        <p><button id="saveImage">show high quality preview</button></p>
+        <p><button id="saveAsStudio">save as .studio</button></p>
     </div>
     </div>
     </div>

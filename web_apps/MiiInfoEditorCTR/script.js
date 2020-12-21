@@ -55,6 +55,8 @@ var specialMii =  document.getElementById('specialMii');
 var profanityFlag = document.getElementById('profanityMii');
 var version = document.getElementById('version');
 var miiPreview = document.getElementById('miiPreview');
+var saveImage = document.getElementById('saveImage');
+var saveAsStudio = document.getElementById('saveAsStudio');
 var miiId = [MII_ID_LENGTH];
 var consoleId = [CONSOLE_ID_LENGTH];
 var creatorMAC = [MAC_ADDR_LENGTH];
@@ -286,6 +288,16 @@ day.addEventListener('change',(event) => {
     sendEdit();
 });
 
+saveImage.addEventListener('click',(event) => {
+    var link = document.createElement('a');
+    link.href = NINTENDO_API_URL + editMii.previewData + "&width=512&type=face";
+    link.setAttribute('target','_blank');
+    link.click();
+});
+
+saveAsStudio.addEventListener('click',(event) => {
+    fileSave(editMii.studio,'default.studio');
+});
 
 function setUI(){
     miiName.value = editMii.name;
@@ -362,11 +374,17 @@ function updateMiiPreview(){
 
 function fileCheck(){
     var buf = new Uint8Array(reader.result);
-    if(buf.length === MII_FILE_SIZE){
+    if(buf.length === CTR_MII_FILE_SIZE){
         if(buf[0x16] === 0 && buf[0x17] === 0){
             miiFileRead(buf);
             return;
         }
+    }else if(buf.length === WII_MII_FILE_SIZE){
+        miiFileRead(buf);
+        return;
+    }else if(buf.length >= RKG_MIN_SIZE && bufToAsciiString(buf,0,RKG_MAGIC.length) === RKG_MAGIC){
+        miiFileRead(Uint8Cut(buf,0x3C,WII_MII_FILE_SIZE));
+        return;
     }
     open.value = '';
     alert("invalid file");
@@ -439,7 +457,7 @@ QRFileReader.addEventListener('load',function(event){
             return;
         }
         var data = decodeAesCcm(new Uint8Array(qrResult.binaryData));
-        if(data.length === MII_FILE_SIZE){
+        if(data.length === CTR_MII_FILE_SIZE){
             if(data[0x16] === 0 && data[0x17] === 0){
                 miiFileRead(data);
                 return;

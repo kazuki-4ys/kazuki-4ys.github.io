@@ -73,6 +73,15 @@ input[type="file"] {
     text-align:center;
     margin-left: 30px;
 }
+.miiPreviewForm{
+    text-align:center;
+}
+
+#miiPreview{
+    width:270px;
+    height:270px;
+}
+
 .birthForm{
     display:flex;
 }
