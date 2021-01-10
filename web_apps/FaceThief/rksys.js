@@ -9,7 +9,7 @@ const TT_SIZE = 0xA5000;
 const RKGD_MAX_SIZE = 0x2800;
 const RKGD_MAGIC = "RKGD";
 const MAX_FRIEND_NUM = 30;
-const FRIEND_DATA_OFFSET = 0x56D3;
+const FRIEND_DATA_OFFSET = 0x56D0;
 const FRIEND_DATA_SIZE = 0x1C0;
 const MII_SIZE = 0x4A;
 
@@ -18,6 +18,26 @@ function checkMiiData(data){
         if(data[i] !== 0)return true;
     }
     return false;
+}
+
+function fcPartParse(int){
+    var str = String(int);
+    while(str.length < 4)str = '0' + str;
+    return str;
+}
+
+function bufToFc(data,addr){
+    var pid = buftoUint32(data,addr);
+    if(!pid)return '';
+    var srcBuf = [data[addr + 3],data[addr + 2],data[addr + 1],data[addr + 0],0x4A,0x43,0x4D,0x52];
+    var md5Hash = md5(srcBuf);
+    var fcDec = ((stoh(md5Hash.substring(0,2)) >>> 1) * Math.pow(2,32)) + pid;
+    var fc = '';
+    for(var i = 0;i < 3;i++){
+        fc += fcPartParse(Math.floor(fcDec / Math.pow(10,4 * (2 - i))) % 10000);
+        if(i < 2)fc += '-';
+    }
+    return fc;
 }
 
 class friendData{
@@ -30,23 +50,26 @@ class friendData{
             this.valid = false;
         }
     }
+    getFc(){
+        return bufToFc(this.rawData,this.addr + 4);
+    }
     getName(){
-        return bufToUTF16String(this.rawData,this.addr + 0x19,10);
+        return htmlEscape(bufToUTF16String(this.rawData,this.addr + 0x1C,10));
     }
     getMii(){
-        return Uint8Cut(this.rawData,this.addr + 0x17,MII_SIZE);
+        return Uint8Cut(this.rawData,this.addr + 0x1A,MII_SIZE);
     }
     getWins(){
-        return buftoUint16(this.rawData,this.addr + 0x11);
+        return buftoUint16(this.rawData,this.addr + 0x14);
     }
     setWins(wins){
-        Uint16toBuf(this.rawData,this.addr + 0x11,wins);
+        Uint16toBuf(this.rawData,this.addr + 0x14,wins);
     }
     getLosses(){
-        return buftoUint16(this.rawData,this.addr + 0xF);
+        return buftoUint16(this.rawData,this.addr + 0x12);
     }
     setLosses(loses){
-        Uint16toBuf(this.rawData,this.addr + 0xF,loses);
+        Uint16toBuf(this.rawData,this.addr + 0x12,loses);
     }
 }
 
@@ -76,7 +99,10 @@ class playerData{
         }
     }
     getName(){
-        return bufToUTF16String(this.rawData,this.RKPDAddr + 0x14,10);
+        return htmlEscape(bufToUTF16String(this.rawData,this.RKPDAddr + 0x14,10));
+    }
+    getFc(){
+        return bufToFc(this.rawData,this.RKPDAddr + 0x5C);
     }
     unlockAll(){
         this.rawData[this.RKPDAddr + 0x30] = 0xFF;

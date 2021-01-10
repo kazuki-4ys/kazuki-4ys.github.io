@@ -131,6 +131,12 @@ function getFileName(s){
     return fn;
 }
 
+function htmlEscape(src){
+    var str = src.replace(/\</g,'&lt;');
+    str = str.replace(/\>/g,'&gt;');
+    return str.replace(/\"/g,'&quot;');
+}
+
 //空白削除
 function deleteSpace(string){
     return string.replace(/\s+/g, "");
@@ -179,6 +185,85 @@ function getDec(char){
         case '9':
         case '９':
             return 9;
+        default:
+            return -1;
+    }
+}
+
+//文字列を16進数に変換
+function stoh(a){
+    var string = deleteSpace(a);
+    var i,hex,num = 0;
+    for(i = 0;i < string.length;i++){
+        hex = getHex(string.charAt(i));
+        if(hex === -1)return null;
+        num = num * 16 + hex;
+    }
+    return num;
+}
+
+function getHex(char){
+    switch(char){
+        case '0':
+        case '０':
+            return 0;
+        case '1':
+        case '１':
+            return 1;
+        case '2':
+        case '２':
+            return 2;
+        case '3':
+        case '３':
+            return 3;
+        case '4':
+        case '４':
+            return 4;
+        case '5':
+        case '５':
+            return 5;
+        case '6':
+        case '６':
+            return 6;
+        case '7':
+        case '７':
+            return 7;
+        case '8':
+        case '８':
+            return 8;
+        case '9':
+        case '９':
+            return 9;
+        case 'a':
+        case 'A':
+        case 'ａ':
+        case 'Ａ':
+            return 10;
+        case 'b':
+        case 'B':
+        case 'ｂ':
+        case 'Ｂ':
+            return 11;
+        case 'c':
+        case 'C':
+        case 'ｃ':
+        case 'Ｃ':
+            return 12;
+        case 'd':
+        case 'D':
+        case 'ｄ':
+        case 'Ｄ':
+            return 13;
+        case 'e':
+        case 'E':
+        case 'ｅ':
+        case 'Ｅ':
+            return 14;
+        case 'f':
+        case 'F':
+        case 'ｆ':
+        case 'Ｆ':
+            return 15;
         default:
             return -1;
     }

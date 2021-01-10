@@ -11,6 +11,7 @@ var region = document.getElementById('region');
 var playerBtns = [];
 playerBtns.length = MAX_PLAYER_NUM;
 var playerName = document.getElementById('playerName');
+var playerFc = document.getElementById('playerFc');
 var unlockAll = document.getElementById('unlockAll');
 var friends = document.getElementById('friends');
 var vr = document.getElementById('vr');
@@ -126,6 +127,7 @@ reader.addEventListener('load',(event) => {
         totalDistanceTraveled.disabled = true;
         totalDistanceTraveled.value = "";
         playerName.innerHTML = " ";
+        playerFc.innerHTML = " ";
     }
 },false);
 
@@ -270,6 +272,7 @@ totalDistanceTraveled.addEventListener('change',(event) => {
 
 function setPlayerUI(){
     playerName.innerHTML = pd.players[playerIdx].getName();
+    playerFc.innerHTML = pd.players[playerIdx].getFc();
     vr.value = pd.players[playerIdx].getVR().toString(10);
     br.value = pd.players[playerIdx].getBR().toString(10);
     wfcVSWins.value = pd.players[playerIdx].getWfcVSWins().toString(10);
@@ -295,13 +298,14 @@ function showFriendForm(){
         tmpFriendFormChild.setAttribute("class","friendFormChild");
         var name = document.createElement("div");
         name.setAttribute('class','friendName');
-        name.innerHTML = pd.players[playerIdx].friends[i].getName();
+        name.innerHTML = pd.players[playerIdx].friends[i].getName() + '<br>' + pd.players[playerIdx].friends[i].getFc();
         tmpFriendFormChild.insertBefore(name,null);
         var wins = document.createElement("div");
         wins.innerHTML = "Wins:";
+        wins.setAttribute('class','friendFormChildElement');
         tmpFriendFormChild.insertBefore(wins,null);
         var winsInpParent = document.createElement("div");
-        winsInpParent.style.flex = '1';
+        winsInpParent.setAttribute('class','friendFormChildElement');
         var winsInp = document.createElement("input");
         winsInp.setAttribute("class","digits4");
         winsInp.setAttribute("maxlength","4");
@@ -317,11 +321,15 @@ function showFriendForm(){
         });
         winsInpParent.insertBefore(winsInp,null);
         tmpFriendFormChild.insertBefore(winsInpParent,null);
+        var div0 = document.createElement("div");
+        div0.style.flex = 1;
+        tmpFriendFormChild.insertBefore(div0,null);
         var losses = document.createElement("div");
         losses.innerHTML = "Losses:";
+        losses.setAttribute('class','friendFormChildElement');
         tmpFriendFormChild.insertBefore(losses,null);
         var lossesInpParent = document.createElement("div");
-        lossesInpParent.style.flex = '1';
+        lossesInpParent.setAttribute('class','friendFormChildElement');
         var lossesInp = document.createElement("input");
         lossesInp.setAttribute("class","digits4");
         lossesInp.setAttribute("maxlength","4");
@@ -337,6 +345,11 @@ function showFriendForm(){
         });
         lossesInpParent.insertBefore(lossesInp,null);
         tmpFriendFormChild.insertBefore(lossesInpParent,null);
+        var div1 = document.createElement("div");
+        div1.style.flex = 1;
+        tmpFriendFormChild.insertBefore(div1,null);
+        var saveMiiBtnParent = document.createElement("div");
+        saveMiiBtnParent.setAttribute('class','friendFormChildElement');
         var saveMiiBtn = document.createElement("button");
         saveMiiBtn.innerHTML = 'save Mii';
         saveMiiBtn.setAttribute("data-friendIdx",i.toString(10));
@@ -345,7 +358,8 @@ function showFriendForm(){
             var fileName = getFileName(pd.players[playerIdx].friends[friendIdx].getName()) + ".miigx";
             fileSave(pd.players[playerIdx].friends[friendIdx].getMii(),fileName);
         });
-        tmpFriendFormChild.insertBefore(saveMiiBtn,null);
+        saveMiiBtnParent.insertBefore(saveMiiBtn,null);
+        tmpFriendFormChild.insertBefore(saveMiiBtnParent,null);
         friendForm.insertBefore(tmpFriendFormChild,null);
     }
     mainForm.style.display = 'none';
