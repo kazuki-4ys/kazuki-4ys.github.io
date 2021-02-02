@@ -1,4 +1,4 @@
-const CAMERA_SET = {
+var CAMERA_SET = {
     audio: false,
     video: {
         width: 400,
@@ -483,6 +483,8 @@ qrCameraBtn.addEventListener('click',function(event){
         scanQrFromCanvas();
         return;
     }
+    var regexp = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+    if(window.navigator.userAgent.search(regexp) !== -1)CAMERA_SET.video.facingMode = { exact: "environment" };
     navigator.mediaDevices.getUserMedia(CAMERA_SET).then( (stream) => {
         camera.srcObject = stream;
         camera.onloadedmetadata = (e) => {
