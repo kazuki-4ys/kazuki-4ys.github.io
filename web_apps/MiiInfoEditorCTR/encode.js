@@ -56,7 +56,7 @@ function encodeAesCcm(data){
 
 function decodeAesCcm(data){
     var nonce = Uint8Cat(data.subarray(0,NONCE_LENGTH),pad);
-    var ciphertext = data.subarray(NONCE_LENGTH,data.length);
+    var ciphertext = data.subarray(NONCE_LENGTH,0x70);
     var plaintext = asmCrypto.AES_CCM.decrypt(ciphertext,aes_key,nonce,undefined,TAG_LENGTH);
     return Uint8Cat(plaintext.subarray(0,NONCE_OFFSET),data.subarray(0,NONCE_LENGTH),plaintext.subarray(NONCE_OFFSET,plaintext.length - 4));
 }

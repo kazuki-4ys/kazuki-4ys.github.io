@@ -13,7 +13,8 @@
 <body>
     <div id="mainForm">
     <input type ="file" id ="open" accept=".3dsmii,.miigx,.MII,.mae,.rkg"><button id="openBtn">open Mii data</button>
-    <input type ="file" id ="QrRead" accept="image/jpeg,image/png,image/bmp,image/gif"><button id="QrReadBtn">open QR code</button><br>
+    <input type ="file" id ="QrRead" accept="image/jpeg,image/png,image/bmp,image/gif"><button id="QrReadBtn">open QR code</button>
+    <button id="qrCameraBtn">scan QR code</button><br>
     <button id="save">save</button><button id="QrGen">generate QR code</button>
     <div id="form">
     <div id="main">
@@ -116,6 +117,12 @@
     <div id="qrReadWait">
         画像を処理しています。しばらくお待ちください...<br>
         Please stand by...
+    </div>
+    <div id="qrCamera">
+        <div>
+            <button id="qrCameraClose">close</button>
+        </div>
+        <video id="camera" width="400" height="400" muted></video>
     </div>
 <script src="utils.js"></script>
 <script src="asmcrypto.all.es5.js"></script>
