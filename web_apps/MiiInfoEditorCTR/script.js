@@ -3,7 +3,7 @@ var CAMERA_SET = {
     video: {
         width: 400,
         height: 400,
-      facingMode: "user"
+        facingMode: { exact: "environment" }//外カメラを優先的に使用
     }
 };
 
@@ -469,6 +469,31 @@ function scanQrFromCanvas(){
         scanQrFromCanvas();
     },300);
 }
+
+function setCamera(useFront){
+    if(useFront)CAMERA_SET.video.facingMode = "user";//外カメラが無ければ内カメラを使用
+    navigator.mediaDevices.getUserMedia(CAMERA_SET).then( (stream) => {
+        camera.srcObject = stream;
+        camera.onloadedmetadata = (e) => {
+            camera.play();
+            isCameraReady = true;
+            scanQrFromCanvas();
+        };
+    })
+    .catch( (err) => {
+        if(err.name === 'NotAllowedError'){
+            alert('カメラへのアクセスが拒否されました。\nPermission denied.');
+        }else if(err.name === 'OverconstrainedError' && !useFront){
+            //外カメラが無ければ内カメラを使用
+            setCamera(true);
+            return;
+        }else{
+            alert('不明なエラーが発生しました。\nUnknown error occurred.\n' + err.name + ": " + err.message);
+        }
+        closeQrCamera();
+    });
+}
+
 QrRead.addEventListener('click',function(event){
     open.value = '';
     QrRead.value = '';
@@ -483,24 +508,7 @@ qrCameraBtn.addEventListener('click',function(event){
         scanQrFromCanvas();
         return;
     }
-    var regexp = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-    if(window.navigator.userAgent.search(regexp) !== -1)CAMERA_SET.video.facingMode = { exact: "environment" };
-    navigator.mediaDevices.getUserMedia(CAMERA_SET).then( (stream) => {
-        camera.srcObject = stream;
-        camera.onloadedmetadata = (e) => {
-            camera.play();
-            isCameraReady = true;
-            scanQrFromCanvas();
-        };
-    })
-    .catch( (err) => {
-        if(err.name === 'NotAllowedError'){
-            alert('カメラへのアクセスが拒否されました。\nPermission denied.');
-        }else{
-            alert('不明なエラーが発生しました。\nUnknown error occurred.\n' + err.name + ": " + err.message);
-        }
-        closeQrCamera();
-    });
+    setCamera(false);
 });
 QRFileReader.addEventListener('load',function(event){
     mainForm.style.display = 'none';
