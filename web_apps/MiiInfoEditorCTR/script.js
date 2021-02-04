@@ -10,7 +10,7 @@ var CAMERA_SET = {
 var i;
 var reader = new FileReader();
 var QRFileReader = new FileReader();
-var cameraStream = false;
+var cameraStream = null;
 
 var cameraCanvas = document.createElement('canvas');
 var cameraCtx = cameraCanvas.getContext('2d');
@@ -442,7 +442,8 @@ function loadQRFile(event){
 
 function closeQrCamera(){
     if(cameraStream)stopCamerStrem(cameraStream);
-    cameraStream = false;
+    camera.srcObject = null;
+    cameraStream = null;
     qrCamera.style.display = 'none';
     mainForm.style.display = 'block';
 }
