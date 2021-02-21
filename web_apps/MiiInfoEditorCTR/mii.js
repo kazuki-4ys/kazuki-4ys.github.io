@@ -1,5 +1,6 @@
 const CTR_MII_FILE_SIZE = 0x5C;
 const WII_MII_FILE_SIZE = 0x4A;
+const QR_MII_SIZES = [0x70, 172, 324, 372];
 const RKG_MAGIC = "RKGD";
 const RKG_MIN_SIZE = 0x88;
 const MII_NAME_LENGTH = 10;
