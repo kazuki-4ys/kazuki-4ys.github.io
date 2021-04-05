@@ -507,7 +507,10 @@ function setCamera(useFront){
             return;
         }else if(err.name === 'NotReadableError'){
             alert('カメラをスタートさせられませんでした。\nCould not start camera.');
-        }else{
+        }else if(err.name === 'NotFoundError'){
+            alert('お使いのデバイスにはカメラがありません。\nYour device does not have a camera.');
+        }
+        else{
             alert('不明なエラーが発生しました。\nUnknown error occurred.\n' + err.name + ": " + err.message);
         }
         closeQrCamera();
