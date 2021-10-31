@@ -361,7 +361,7 @@ class SoundPlayer{
         this.source.connect(this.ac.destination);
         this.source.start(this.startTime, this.offset);
         this.taskTimer = setInterval(this.task, 17, this);
-        this.taskStartTime = new Date().getTime();
+        this.taskStartTime = this.ac.currentTime;
     }
     pause(){
         this.offset += (this.ac.currentTime - this.startTime);
@@ -396,7 +396,7 @@ class SoundPlayer{
         }
         if(!this.isPlaying)return;
         this.offset += (this.ac.currentTime + 0.017 - this.startTime);
-        this.taskStartTime = new Date().getTime();
+        this.taskStartTime = this.ac.currentTime;
         this.startTime = this.ac.currentTime + 0.017;
         while(this.offset >= this.source.loopEnd){
             this.offset -= (this.source.loopEnd - this.source.loopStart);
@@ -421,7 +421,7 @@ class SoundPlayer{
         return min + ":" + s + ":" + ms;
     }
     task(self){
-        var curOffset = self.offset + (new Date().getTime() - self.taskStartTime) / 1000;
+        var curOffset = self.offset + self.ac.currentTime - self.taskStartTime;
         if(!self.sound.isLooped && curOffset >= self.sound.loopEnd / self.sound.sampleRate){
             if(self.taskTimer)clearInterval(self.taskTimer);
             self.offset = 0;
