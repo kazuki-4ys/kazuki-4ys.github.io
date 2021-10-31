@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Online Brstm player</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <input type="file" id="brstmOpen" accept=".brstm,.bcstm">
+    <div id="containerParent">
+        <div class="containerPadding"></div>
+        <div id="container">
+            <div id="cd">
+                <div id="cdMsg">BRSTMをドロップ<br>またはクリック!</div>
+            </div>
+        </div>
+        <div class="containerPadding"></div>
+    </div>
+    <div id="footer">
+        <div id ="levelmeter">
+            
+        </div>
+        <div id="time">中</div>
+        <div id="controler">
+            <div class="contlorlerPadding">
+                <div id="backButtonLeft"></div>
+                <img id="backButton" src="back.png">
+            </div>
+            <img id="playButton" src="play.png">
+            <div class="contlorlerPadding">
+                <div id="trackButton"><div id="trackButtonMsg">トラック1</div></div>
+                <div id="trackButtonRight"></div>
+            </div>
+        </div>
+    </div>
+    <script src="utils.js"></script>
+    <script src="sound.js"></script>
+    <script src="script.js"></script>
+</body>

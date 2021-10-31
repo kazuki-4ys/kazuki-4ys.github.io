@@ -1,0 +1,157 @@
+@font-face {
+	font-family: 'GD-DOTFONT-DQ-TTF_008';
+	font-style: normal;
+    src:url(GD-DOTFONT-DQ-TTF_008.ttf);
+}
+
+body{
+    background-color: #03080B;
+}
+
+#brstmOpen{
+    display: none;
+}
+
+#containerParent{
+    display:flex;
+}
+
+.containerPadding{
+    flex:1;
+}
+
+#container{
+    /*width: 500px;*/
+}
+
+#cd{
+    cursor: pointer;
+    position:relative;
+    text-align:center;
+    width: 400px;
+	height: 400px;
+	border-radius: 50%;
+    border:10px solid;
+    border-color:#42ADB5;
+    color: #42ADB5;
+}
+
+#cdMsg{
+    font-size: 50px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:300px;
+    transform:translate(-50%,-50%);
+    font-family: 'GD-DOTFONT-DQ-TTF_008';
+}
+
+#footer{
+    height:150px;
+}
+
+/*900pxまで*/
+#levelmeter{
+    margin-top:20px;
+    display:flex;
+    height:50px;
+}
+
+#time{
+    color: #42ADB5;
+    text-align: center;
+    font-size: 50px;
+    font-family: 'GD-DOTFONT-DQ-TTF_008';
+}
+
+#controler{
+    margin-top: 20px;
+    display:flex;
+}
+
+.contlorlerPadding{
+    flex:1;
+    display: flex;
+}
+
+#backButtonLeft{
+    flex:1;
+}
+
+#backButton{
+    margin-right:20px;
+}
+
+#playButton{
+    
+}
+
+img{
+    cursor: pointer;
+    border:5px solid;
+    border-color:#42ADB5;
+    height: 50px;
+}
+
+#trackButton{
+    cursor: pointer;
+    margin-left:20px;
+    border:5px solid;
+    border-color:#42ADB5;
+    height: 50px;
+    font-size: 50px;
+    font-family: 'GD-DOTFONT-DQ-TTF_008';
+    color:#42ADB5;
+}
+
+#trackButtonMsg{
+    position: relative;
+    top:-15px;
+}
+
+#trackButtonRight{
+    flex:1;
+}
+
+@media screen and (max-width: 480px) {
+	/* 480px以下に適用されるCSS（スマホ用） */
+    #cd{
+        width: 300px;
+        height: 300px;
+        border: 7.5px solid;
+    }
+    #cdMsg{
+        font-size: 37.5px;
+        width:225px;
+    }
+    #levelmeter{
+        margin-top:15px;
+        height:37.5px;
+    }
+    #time{
+        font-size: 37.5px;
+    }
+    #controler{
+        margin-top: 15px;
+    }
+    #backButton{
+        margin-right:15px;
+    }
+    img{
+        border: 3.75px solid;
+        border-color: #42ADB5;
+        height: 37.5px;
+    }
+    
+    #trackButton{
+        margin-left:15px;
+        border:3.75px solid;
+        height: 37.5px;
+        font-size: 37.5px;
+    }
+    
+    #trackButtonMsg{
+        position: relative;
+        top:-12px;
+    }
+}
