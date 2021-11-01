@@ -310,7 +310,8 @@ class Sound{
 }
 
 class SoundPlayer{
-    constructor(sound){
+    constructor(sound, fn){
+        this.cdDeg = 0;
         this.isPlaying = false;
         this.sound = sound;
         this.valid = true;
@@ -343,7 +344,10 @@ class SoundPlayer{
                 }
             }
         }
+        cdMsg.style.width = String(cd.clientWidth / 1.414) + "px";
         time.innerHTML = this.getTimeStr(0) + "/" + this.getTimeStr(sound.loopEnd / sound.sampleRate * 1000);
+        if(fn.length > 50)fn = fn.substr(0,49) + "...";
+        cdMsg.innerHTML = fn;
     }
     getCurSampleIndex(index){
         if(index < this.sound.sampleLength)return index;
@@ -387,6 +391,8 @@ class SoundPlayer{
         this.offset = 0;
         if(this.isPlaying)this.source.stop();
         this.isPlaying = false;
+        this.cdDeg = 0;
+        cdMsg.style.transform = "rotate(0deg)";
         playButton.src = "play.png";
         setLeftLevel(0);
         setRightLevel(0);
@@ -433,6 +439,7 @@ class SoundPlayer{
             self.isPlaying = false;
             time.innerHTML = self.getTimeStr(self.source.loopEnd * 1000) + "/" + self.getTimeStr(self.source.loopEnd * 1000);
             playButton.src = "play.png";
+            self.cdDeg = 0;
             setLeftLevel(0);
             setRightLevel(0);
             return;
@@ -465,6 +472,8 @@ class SoundPlayer{
             }
         }
         time.innerHTML = self.getTimeStr(curOffset * 1000) + "/" + self.getTimeStr(self.source.loopEnd * 1000);
+        self.cdDeg += 0.6;
+        cdMsg.style.transform = "rotate(" + self.cdDeg + "deg)";
     }
 }
 

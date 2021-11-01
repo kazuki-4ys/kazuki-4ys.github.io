@@ -34,16 +34,30 @@ body{
     border:10px solid;
     border-color:#42ADB5;
     color: #42ADB5;
+    font-family: 'PixelMplus12-Regular';
+    font-size: 40px;
+    display:grid;
+    transform-origin:50% 50%;
+    grid-template:
+    "... ..... ......... ..." 1fr
+    "... cdMsg decodeMsg ..."
+    "... ..... ......... ..." 1fr
+    / 1fr auto auto 1fr;
+}
+
+.cdMsgPads{
+    flex:1;
+}
+
+#decodeMsg{
+    grid-area: decodeMsg;
 }
 
 #cdMsg{
-    font-size: 40px;
-    position:absolute;
-    top:50%;
-    left:50%;
-    width:300px;
-    transform:translate(-50%,-50%);
-    font-family: 'PixelMplus12-Regular';
+    word-break: break-all;
+    display:none;
+    grid-area: cdMsg;
+    transform-origin:50% 50%;
 }
 
 #footer{
@@ -111,7 +125,6 @@ img{
 }
 
 @media screen and (max-width: 520px) {
-	/* 480px以下に適用されるCSS（スマホ用） */
     #cd{
         width: 300px;
         height: 300px;
@@ -119,7 +132,9 @@ img{
     }
     #cdMsg{
         font-size: 30px;
-        width:225px;
+    }
+    #decodeMsg{
+        font-size: 30px;
     }
     #levelmeter{
         margin-top:15px;
@@ -147,5 +162,24 @@ img{
         height: 37.5px;
         font-size: 30px;
         min-height: 33px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #backButton{
+        margin-right:10px;
+    }
+    img{
+        border: 3px solid;
+        border-color: #42ADB5;
+        height: 20px;
+    }
+    
+    #trackButton{
+        margin-left:10px;
+        border:3px solid;
+        height: 20px;
+        font-size: 20px;
+        min-height: 22px;
     }
 }

@@ -1,11 +1,15 @@
 var brstmOpen = document.getElementById("brstmOpen");
 var cd = document.getElementById("cd");
+var cdMsg = document.getElementById("cdMsg");
+var decodeMsg = document.getElementById("decodeMsg");
 var levelmeter = document.getElementById("levelmeter");
 var levelDivs = Array(10);
 var time = document.getElementById("time");
 var backButton = document.getElementById("backButton");
 var playButton = document.getElementById("playButton");
 var trackButton = document.getElementById("trackButton");
+var errMsgHideTimer = false;
+
 for(var i = 0; i < 21;i++){
     var curDiv = document.createElement("div");
     if(i & 1){
@@ -21,6 +25,32 @@ for(var i = 0; i < 21;i++){
     levelmeter.appendChild(curDiv);
 }
 
+function cdMsgResizer(){
+    if(!sp.valid)return;
+    cdMsg.style.width = String(cd.clientWidth / 1.414) + "px";
+}
+var res = new ResizeObserver(cdMsgResizer);
+res.observe(cd);
+
+function showDecodeMsg(){
+    decodeMsg.innerHTML = "デコード中...";
+    cdMsg.style.display = "none";
+    decodeMsg.style.display = "block";
+}
+
+function showErrMsg(){
+    decodeMsg.innerHTML = "無効なファイルです";
+    cdMsg.style.display = "none";
+    decodeMsg.style.display = "block";
+    setTimeout(hideErrMsg, 3000);
+}
+
+function hideErrMsg(){
+    errMsgHideTimer = false;
+    decodeMsg.style.display = "none";
+    cdMsg.style.display = "block";
+}
+
 window.addEventListener('dragover', function(ev){
     ev.preventDefault();
 }, false);
@@ -33,15 +63,20 @@ var reader = new FileReader();
 var inputFileName;
 
 function fileLoaded(){
-    var tmpSp = new SoundPlayer(new Sound(new Uint8Array(reader.result)));
+    var tmpSp = new SoundPlayer(new Sound(new Uint8Array(reader.result)),inputFileName);
+    if(errMsgHideTimer){
+        clearTimeout(errMsgHideTimer);
+        errMsgHideTimer = false;
+    }
     if(tmpSp.valid){
-        cdMsg.innerHTML = "BRSTMをドロップ<br>またはクリック!";
+        decodeMsg.style.display = "none";
+        cdMsg.style.display = "block";
         sp.stop();
         sp = tmpSp;
         document.getElementById('trackButtonMsg').innerHTML = "トラック1";
         //sp.play();
     }else{
-        cdMsg.innerHTML = "むこうなファイルです";
+        showErrMsg();
     }
 }
 
@@ -54,7 +89,7 @@ function loadFile(event){
         console.log(f);
         inputFileName = f.name;
         reader.readAsArrayBuffer(f);
-        cdMsg.innerHTML = "デコードちゅう...";
+        showDecodeMsg();
     }
 }
 
@@ -83,7 +118,7 @@ cd.addEventListener('drop', function(event){
         var f = tmp[0];
         inputFileName = f.name;
         reader.readAsArrayBuffer(f);
-        cdMsg.innerHTML = "デコードちゅう...";
+        showDecodeMsg();
     }
 });
 
