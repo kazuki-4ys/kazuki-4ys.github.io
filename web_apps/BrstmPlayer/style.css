@@ -1,7 +1,7 @@
 @font-face {
-	font-family: 'GD-DOTFONT-DQ-TTF_008';
+	font-family: 'PixelMplus12-Regular';
 	font-style: normal;
-    src:url(GD-DOTFONT-DQ-TTF_008.ttf);
+    src:url(PixelMplus12-Regular.ttf);
 }
 
 body{
@@ -37,13 +37,13 @@ body{
 }
 
 #cdMsg{
-    font-size: 50px;
+    font-size: 40px;
     position:absolute;
     top:50%;
     left:50%;
     width:300px;
     transform:translate(-50%,-50%);
-    font-family: 'GD-DOTFONT-DQ-TTF_008';
+    font-family: 'PixelMplus12-Regular';
 }
 
 #footer{
@@ -60,8 +60,9 @@ body{
 #time{
     color: #42ADB5;
     text-align: center;
-    font-size: 50px;
-    font-family: 'GD-DOTFONT-DQ-TTF_008';
+    font-size: 40px;
+    min-height: 43px;
+    font-family: 'PixelMplus12-Regular';
 }
 
 #controler{
@@ -99,21 +100,16 @@ img{
     border:5px solid;
     border-color:#42ADB5;
     height: 50px;
-    font-size: 50px;
-    font-family: 'GD-DOTFONT-DQ-TTF_008';
+    font-size: 40px;
+    font-family: 'PixelMplus12-Regular';
     color:#42ADB5;
-}
-
-#trackButtonMsg{
-    position: relative;
-    top:-15px;
 }
 
 #trackButtonRight{
     flex:1;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 520px) {
 	/* 480px以下に適用されるCSS（スマホ用） */
     #cd{
         width: 300px;
@@ -121,7 +117,7 @@ img{
         border: 7.5px solid;
     }
     #cdMsg{
-        font-size: 37.5px;
+        font-size: 30px;
         width:225px;
     }
     #levelmeter{
@@ -129,7 +125,7 @@ img{
         height:37.5px;
     }
     #time{
-        font-size: 37.5px;
+        font-size: 30px;
     }
     #controler{
         margin-top: 15px;
@@ -147,11 +143,7 @@ img{
         margin-left:15px;
         border:3.75px solid;
         height: 37.5px;
-        font-size: 37.5px;
-    }
-    
-    #trackButtonMsg{
-        position: relative;
-        top:-12px;
+        font-size: 30px;
+        min-height: 33px;
     }
 }
