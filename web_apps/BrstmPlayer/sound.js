@@ -5,6 +5,7 @@ const PCM_32 = 65533;
 const PCM_64 = 65532;
 const BSTM_RSTM_TAG = "RSTM";
 const BSTM_CSTM_TAG = "CSTM";
+const BSTM_FSTM_TAG = "FSTM";
 const BSTM_HEAD_TAG = "HEAD";
 const BSTM_INFO_TAG = "INFO";
 const BSTM_DATA_TAG = "DATA";
@@ -84,7 +85,7 @@ function changeSampleRate(data, beforeSampleRate){
 class Sound{
     constructor(src){
         this.valid = false;
-        /*try{*/
+        try{
             var isLE;
             var isBcstm = false;
             if (bytesToUint16(src, 4, true) == 0xFFFE)
@@ -99,7 +100,7 @@ class Sound{
             }
             if (bytesToString(src, 0, 4) != BSTM_RSTM_TAG)
             {
-                if (bytesToString(src, 0, 4) == BSTM_CSTM_TAG)
+                if (bytesToString(src, 0, 4) == BSTM_CSTM_TAG || bytesToString(src, 0, 4) == BSTM_FSTM_TAG)
                 {
                     isBcstm = true;
                 }
@@ -113,7 +114,7 @@ class Sound{
             var dataSize = 0;
             if (isBcstm)
             {
-                var chunkCount = bytesToUint32(src, 0x10, isLE);
+                var chunkCount = bytesToUint16(src, 0x10, isLE);
                 var curChunk = 0x14;
                 if (chunkCount != 2 && chunkCount != 3) return;
                 for (var i = 0; i < chunkCount; i++)
@@ -147,7 +148,11 @@ class Sound{
             var head1Offset = headOffset + 8 + bytesToUint32(src, headOffset + 0xC, isLE);
             var brstmFormat = src[head1Offset];
             this.channelCount = src[head1Offset + 2];
-            this.sampleRate = bytesToUint16(src, head1Offset + 4, isLE);
+            if(isBcstm){
+                this.sampleRate = bytesToUint32(src, head1Offset + 4, isLE);
+            }else{
+                this.sampleRate = bytesToUint16(src, head1Offset + 4, isLE);
+            }
             this.sampleLength = bytesToUint32(src, head1Offset + 0xC, isLE);
             this.loopStart = 0;
             if (src[head1Offset + 1] != 0)
@@ -232,10 +237,10 @@ class Sound{
                 for(var j = 0; j < this.sampleLength; j++) int16ToBytes(this.data, (this.channelCount * j + i) * 2, srcPcm16[j], true);
             }
             this.valid = true;
-            /*
+            
         }catch{
             return;
-        }*/
+        }
     }
     spilitBrstmDataByChannel(data, blockCount, blockSize, lastBlockSize, lastBlockSizeWithPad, channelCount)
         {
