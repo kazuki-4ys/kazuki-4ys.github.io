@@ -370,7 +370,7 @@ class SoundPlayer{
             this.offset -= (this.source.loopEnd - this.source.loopStart);
         }
         console.log(this.offset);
-        if(this.source)this.source.stop();
+        if(this.isPlaying)this.source.stop();
         this.isPlaying = false;
         playButton.src = "play.png";
         setLeftLevel(0);
@@ -380,7 +380,7 @@ class SoundPlayer{
         if(!this.valid)return;
         if(this.taskTimer)clearInterval(this.taskTimer);
         this.offset = 0;
-        if(this.source)this.source.stop();
+        if(this.isPlaying)this.source.stop();
         this.isPlaying = false;
         playButton.src = "play.png";
         setLeftLevel(0);
