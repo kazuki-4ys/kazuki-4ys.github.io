@@ -63,10 +63,11 @@ body{
     font-size: 40px;
     min-height: 43px;
     font-family: 'PixelMplus12-Regular';
+    margin-top: 10px;
 }
 
 #controler{
-    margin-top: 20px;
+    margin-top: 10px;
     display:flex;
 }
 
@@ -125,9 +126,11 @@ img{
         height:37.5px;
     }
     #time{
+        margin-top: 7.5px;
         font-size: 30px;
     }
     #controler{
+        margin-top: 7.5px;
         margin-top: 15px;
     }
     #backButton{
