@@ -165,12 +165,14 @@ class Sound{
             var blockSize;
             var lastBlockSize;
             var lastBlockSizeWithPad;
+            var dataPadding;
             if (isBcstm)
             {
                 blockCount = bytesToUint32(src, head1Offset + 0x10, isLE);
                 blockSize = bytesToUint32(src, head1Offset + 0x14, isLE);
                 lastBlockSize = bytesToUint32(src, head1Offset + 0x1C, isLE);
                 lastBlockSizeWithPad = bytesToUint32(src, head1Offset + 0x24, isLE);
+                dataPadding = bytesToUint32(src, head1Offset + 0x34, isLE);
             }
             else
             {
@@ -178,6 +180,7 @@ class Sound{
                 blockSize = bytesToUint32(src, head1Offset + 0x18, isLE);
                 lastBlockSize = bytesToUint32(src, head1Offset + 0x20, isLE);
                 lastBlockSizeWithPad = bytesToUint32(src, head1Offset + 0x28, isLE);
+                dataPadding = bytesToUint32(src, dataOffset + 8, isLE);
             }
             var infos = Array(this.channelCount);
             var head3Offset = headOffset + 8 + bytesToUint32(src, headOffset + 0x1C, isLE);
@@ -216,7 +219,6 @@ class Sound{
 
             }
             this.data = new Uint8Array(this.channelCount * this.sampleLength * (this.getBps() / 8));
-            var dataPadding = bytesToUint32(src, dataOffset + 8, isLE);
             var spilitedData = this.spilitBrstmDataByChannel(bytesCut(src, dataOffset + 8 + dataPadding, dataSize - (dataPadding + 8)), blockCount, blockSize, lastBlockSize, lastBlockSizeWithPad, this.channelCount);
             var srcPcm16;
             this.data = new Uint8Array(this.channelCount * this.sampleLength * 2);
