@@ -123,8 +123,9 @@ cd.addEventListener('drop', function(event){
 });
 
 backButton.addEventListener('click', function(event){
-    sp.stop();
-    sp.play();
+    sp.setOffset(0);
+    sp.cdDeg = 0;
+    cdMsg.style.transform = "rotate(0deg)";
 });
 
 playButton.addEventListener('click', function(event){

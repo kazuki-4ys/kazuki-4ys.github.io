@@ -372,7 +372,6 @@ class SoundPlayer{
         this.source.connect(this.ac.destination);
         this.source.start(this.startTime, this.offset);
         this.taskTimer = setInterval(this.task, 17, this);
-        this.taskStartTime = this.ac.currentTime;
     }
     pause(){
         this.offset += (this.ac.currentTime - this.startTime);
@@ -399,6 +398,26 @@ class SoundPlayer{
         setLeftLevel(0);
         setRightLevel(0);
     }
+    setOffset(val){
+        if(!this.valid)return;
+        this.offset = val;
+        while(this.offset >= this.source.loopEnd){
+            this.offset -= (this.source.loopEnd - this.source.loopStart);
+        }
+        if(!this.isPlaying){
+            time.innerHTML = this.getTimeStr(this.offset * 1000) + "/" + this.getTimeStr(this.source.loopEnd * 1000);
+            return;
+        }
+        this.startTime = this.ac.currentTime + 0.017;
+        this.source.stop(this.startTime);
+        this.source = this.ac.createBufferSource();
+        this.source.loop = this.sound.isLooped;
+        this.source.loopStart = this.sound.loopStart / this.sound.sampleRate;
+        this.source.loopEnd = this.sound.loopEnd / this.sound.sampleRate;
+        this.source.buffer = this.buffer[this.track];
+        this.source.connect(this.ac.destination);
+        this.source.start(this.startTime, this.offset);
+    }
     changeTrack(){
         if(!this.sound.valid)return;
         if(this.trackCount == 1)return;
@@ -409,7 +428,6 @@ class SoundPlayer{
         }
         if(!this.isPlaying)return;
         this.offset += (this.ac.currentTime + 0.017 - this.startTime);
-        this.taskStartTime = this.ac.currentTime;
         this.startTime = this.ac.currentTime + 0.017;
         while(this.offset >= this.source.loopEnd){
             this.offset -= (this.source.loopEnd - this.source.loopStart);
@@ -434,7 +452,8 @@ class SoundPlayer{
         return min + ":" + s + ":" + ms;
     }
     task(self){
-        var curOffset = self.offset + self.ac.currentTime - self.taskStartTime;
+        var curOffset = self.offset + self.ac.currentTime - self.startTime;
+        if(self.ac.currentTime - self.startTime < 0)return;
         if(!self.sound.isLooped && curOffset >= self.sound.loopEnd / self.sound.sampleRate){
             if(self.taskTimer)clearInterval(self.taskTimer);
             self.offset = 0;
