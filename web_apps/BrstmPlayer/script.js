@@ -9,6 +9,7 @@ var backButton = document.getElementById("backButton");
 var playButton = document.getElementById("playButton");
 var trackButton = document.getElementById("trackButton");
 var errMsgHideTimer = false;
+var cdResizedCheckerLastWidth = cd.clientWidth;
 
 for(var i = 0; i < 21;i++){
     var curDiv = document.createElement("div");
@@ -29,8 +30,13 @@ function cdMsgResizer(){
     if(!sp.valid)return;
     cdMsg.style.width = String(cd.clientWidth / 1.414) + "px";
 }
-var res = new ResizeObserver(cdMsgResizer);
-res.observe(cd);
+
+function cdResizedChecker(){
+    if(cdResizedCheckerLastWidth != cd.clientWidth)cdMsgResizer();
+    cdResizedCheckerLastWidth = cd.clientWidth;
+}
+
+setInterval(cdResizedChecker, 17);
 
 function showDecodeMsg(){
     decodeMsg.innerHTML = "デコード中...";
