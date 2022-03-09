@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>μ-wave</title>
+    <link rel="shortcut icon" href="mu-wave.ico" type="image/vnd.microsoft.icon">
+    <link rel="icon" href="mu-wave.ico" type="image/vnd.microsoft.icon">
+    <link rel="apple-touch-icon" href="mu-wave.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <input type="file" class="defaultHidden" id="musicOpen" accept=".wav,.wave,.mp3">
+    <div id="header">
+        <div id="title">μ-wave</div>
+        <div id="description"><h1>超お手軽オンラインBRSTM Maker</h1></div>
+    </div>
+    <div id="containerParent">
+        <div class="containerPadding"></div>
+        <div id="container">
+            <div id="noScript">
+                <div id="noScriptMsg">
+                あなたがお使いになっているブラウザは対応していない、またはJavaScriptが無効になっています<br>
+                Your browser is not supportted or JavaScript is disabled.
+                </div>
+            </div>
+            <div id="initWaiting" class="defaultHidden">
+                μ-waveの準備をしています<br>
+                しばらくお待ちください
+            </div>
+            <div id="initFail" class="defaultHidden">
+                μ-waveの準備中にエラーが発生しました
+            </div>
+            <div id="default" class="defaultHidden">
+                <div id="defaultContent">
+                    <div id="defaultMsg">
+                    μ-waveへようこそ!<br>
+                    μ-waveは音声のデコード、エンコード処理をC言語で書き、WebAssembly形式へコンパイルしてブラウザ上で実行することで、JavaScriptよりも高速に(多分)BRSTMを作成できるツールです<br>
+                    さらにあの作るのがめんどくさいマルチBRSTMにも対応しています<br>
+                    さぁ、いますぐmp3かwaveファイルをドロップしよう!!
+                    </div>
+                    <div id="musicButtonParent">
+                        <div id="musicButton" class="bigButton">
+                            <div id="musicButtonMsg">
+                                音声ファイルをドロップorクリック!
+                                <br>対応ファイル:mp3, wave
+                            </div>
+                        </div>
+                        <div id="musicErrorMsg"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="paramsSettings" class="defaultHidden">
+                <div id="paramsSettingsContent">
+                    <div id="paramsSettingsContentHeader">
+                        <div>
+                            チャンネル数:
+                        </div>
+                        <div>
+                            <select name="channelCount" id="channelCount">
+                                <option value="1">1ch</option>
+                                <option value="2" selected>2ch</option>
+                                <option value="3">3ch</option>
+                                <option value="4">4ch</option>
+                                <option value="5">5ch</option>
+                                <option value="6">6ch</option>
+                                <option value="7">7ch</option>
+                                <option value="8">8ch</option>
+                            </select>
+                        </div>
+                        <div class="flex1"></div>
+                        <div>
+                            ループさせる
+                        </div>
+                        <div id="loopCheckBoxParent">
+                            <img id="loopCheckBox" src="checked.png">
+                        </div>
+                    </div>
+                    <div id="sampleRate">
+                    </div>
+                    <div id="loopStartParent">
+                        <div>
+                            ループ開始(サンプル数):
+                        </div>
+                        <div class="flex1">
+                            <input id="loopStart">
+                        </div>
+                        
+                    </div>
+                    <div id="loopEndParent">
+                        <div>
+                            ループ終了(サンプル数):
+                        </div>
+                        <div class="flex1">
+                            <input id="loopEnd">
+                        </div>
+                    </div>
+                    <div id="buildButton" class="bigButton">
+                        <div id="buildButtonMsg">
+                            BRSTM作成!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="encodeWaiting" class="defaultHidden">
+                <div id="encodeWaitingContent">
+                    <div id="encodingMsg">
+                        エンコード中...
+                    </div>
+                    <div id="progressBar">
+                        <div id="progressBarFilled">
+                        </div>
+                        <div class="flex1">
+                        </div>
+                    </div>
+                    <div id="progressMsg">
+                        0%
+                    </div>
+                    <div id="saveButton" class="bigButton">
+                        <div id="saveButtonMsg">
+                            BRSTMを保存
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ossLicense" class="defaultHidden">
+                
+MIT License<br>
+<br>
+Copyright (c) 2017 Alex Barney<br>
+<br>
+Permission is hereby granted, free of charge, to any person obtaining a copy<br>
+of this software and associated documentation files (the "Software"), to deal<br>
+in the Software without restriction, including without limitation the rights<br>
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<br>
+copies of the Software, and to permit persons to whom the Software is<br>
+furnished to do so, subject to the following conditions:<br>
+<br>
+The above copyright notice and this permission notice shall be included in all<br>
+copies or substantial portions of the Software.<br>
+<br>
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br>
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br>
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br>
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br>
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br>
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE<br>
+SOFTWARE.
+            </div>
+            <div id="decodeWaiting" class="defaultHidden">
+                μ-waveの準備中にエラーが発生しました
+            </div>
+        </div>
+        <div class="containerPadding"></div>
+    </div>
+    <div id="footer">
+        <div id="footerContentParent">
+            <a id="footerOss" class="defaultHidden" href="#">使用しているOSS</a>
+            <a id="footerBack" class="defaultHidden" href="#">戻る</a>
+            <a id="startAgain" class="defaultHidden" href="#">最初からやり直す</a>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
