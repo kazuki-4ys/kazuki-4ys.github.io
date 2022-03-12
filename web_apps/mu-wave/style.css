@@ -53,6 +53,7 @@ input{
     background-color: #03080B;
     border:5px solid;
     border-color:#42ADB5;
+    box-sizing:border-box;
     width: 100%;
 }
 
@@ -141,17 +142,18 @@ h1{
 #paramsSettingsContent{
     display: grid;
     grid-template:
-    "..........." 20px
-    "paramsSettingsContentHeader"
-    "..........." 20px
-    "sampleRate"
-    "..........." 20px
-    "loopStartParent"
-    "..........." 20px
-    "loopEndParent"
-    "..........." 1fr
-    "buildButton"
-    "..........." 1fr;
+    "... ... ..." 20px
+    " paramsSettingsContentHeader paramsSettingsContentHeader  paramsSettingsContentHeader"
+    "... ... ..." 20px
+    "sampleRate sampleRate sampleRate"
+    "... ... ..." 20px
+    "loopStartParent loopStartParent loopStartParent"
+    "... ... ..." 20px
+    "loopEndParent loopEndParent loopEndParent"
+    "... ... ..." 1fr
+    "... buildButton ..."
+    "... ... ..." 1fr
+    / 1fr auto 1fr;
 }
 
 
