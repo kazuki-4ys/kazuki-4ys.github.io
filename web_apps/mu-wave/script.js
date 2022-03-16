@@ -36,14 +36,13 @@ var rawPcm16;
 var lang = (navigator.language) ? navigator.language : navigator.userLanguage;
 var islangJpn = lang && lang.toLowerCase().indexOf("ja") !== -1;
 if(!islangJpn)description.innerHTML = "<h1>Super Easy Online BRSTM Maker</h1>";
-if(!islangJpn)initWaiting.innerHTL = "Preparing...<br>Please wait a moment."
+if(!islangJpn)initWaiting.innerHTML = "Preparing...<br>Please wait a moment.";
 
 fetch("giza2.png")
     .then(response => {
         return response.arrayBuffer();
     })
     .then(arrayBuffer => {
-    console.log(uint8ArrayToBlobURL(arrayBuffer));
     progressBarFilled.style.background = "url(" + uint8ArrayToBlobURL(arrayBuffer) + ")";
     })
     .catch(error => {
