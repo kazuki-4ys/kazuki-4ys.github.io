@@ -35,9 +35,23 @@ var soundParams;
 var rawPcm16;
 var lang = (navigator.language) ? navigator.language : navigator.userLanguage;
 var islangJpn = lang && lang.toLowerCase().indexOf("ja") !== -1;
-if(!islangJpn)description.innerHTML = "<h1>Super Easy Online BRSTM Maker</h1>";
-if(!islangJpn)initWaiting.innerHTML = "Preparing...<br>Please wait a moment.";
-
+if(!islangJpn){
+    description.innerHTML = "<h1>Super Easy Online BRSTM Maker</h1>";
+    initWaiting.innerHTML = "Preparing...<br>Please wait a moment.";
+    initFail.innerHTML = "An error has ocurred during initialize μ-wave";
+    document.getElementById("defaultMsg").innerHTML = "Welcome to μ-wave!<br>μ-wave is web-based BRSTM maker using WebAssembly.<br>Multi-Channel BRSTM is also supported.<br>Let's drop your mp3 or wave file now!";
+    musicButtonMsg.innerHTML = "Drop sound file or click!<br>supported file:mp3, wave";
+    document.getElementById("channelCountMsg").innerHTML = "Select Channels:";
+    document.getElementById("loopCheckBoxMsg").innerHTML = "Loop";
+    document.getElementById("loopStartMsg").innerHTML = "Loop start(Samples):";
+    document.getElementById("loopEndMsg").innerHTML = "Loop end(Samples):";
+    document.getElementById("buildButtonMsg").innerHTML = "Build BRSTM!";
+    document.getElementById("encodingMsg").innerHTML = "Encoding...";
+    document.getElementById("saveButtonMsg").innerHTML = "Save BRSTM";
+    footerOss.innerHTML = "OSS in use";
+    footerBack.innerHTML = "Back";
+    startAgain.innerHTML = "Start again";
+}
 fetch("giza2.png")
     .then(response => {
         return response.arrayBuffer();
@@ -134,12 +148,20 @@ soundWorker.onmessage = function(e) {
             break;
         case "decode_result":
             isDecoding = false;
-            musicButtonMsg.innerHTML = "音声ファイルをドロップorクリック!<br>対応ファイル:mp3, wave";
+            if(islangJpn){
+                musicButtonMsg.innerHTML = "音声ファイルをドロップorクリック!<br>対応ファイル:mp3, wave";
+            }else{
+                musicButtonMsg.innerHTML = "Drop sound file or click!<br>supported format:mp3, wave";
+            }
             if(e.data.result){
                 soundParams = e.data.result.soundParams;
                 rawPcm16 = e.data.result.rawPcm16;
                 channelCount.value = "2";
-                sampleRate.innerHTML = "サンプリング周波数:" + String(soundParams[0]) + "Hz";
+                if(islangJpn){
+                    sampleRate.innerHTML = "サンプリング周波数:" + String(soundParams[0]) + "Hz";
+                }else{
+                    sampleRate.innerHTML = "Sample rate:" + String(soundParams[0]) + "Hz";
+                }
                 loopStart.value = String(soundParams[3]);
                 loopEnd.value = String(soundParams[4]);
                 soundParams[6] = String(channelCount.value);
@@ -153,7 +175,11 @@ soundWorker.onmessage = function(e) {
                 defaultDiv.style.display = "none";
                 paramsSettings.style.display = "block";
             }else{
-                musicErrorMsg.innerHTML = "無効なファイルです";
+                if(islangJpn){
+                    musicErrorMsg.innerHTML = "無効なファイルです";
+                }else{
+                    musicErrorMsg.innerHTML = "invalid file";
+                }
             }
             break;
         case "progress_report":
@@ -223,7 +249,11 @@ musicOpen.addEventListener('change',(event) => {
     var tmp = event.target.files;
     if(tmp){
         isDecoding = true;
-        musicButtonMsg.innerHTML = "デコード中...";
+        if(islangJpn){
+            musicButtonMsg.innerHTML = "デコード中...";
+        }else{
+            musicButtonMsg.innerHTML = "Decoding...";
+        }
         musicErrorMsg.innerHTML = "";
         var f = tmp[0];
         reader.readAsArrayBuffer(f);
@@ -237,7 +267,11 @@ musicButton.addEventListener('drop', function(event){
     var tmp = event.dataTransfer.files;
     if(tmp){
         isDecoding = true;
-        musicButtonMsg.innerHTML = "デコード中...";
+        if(islangJpn){
+            musicButtonMsg.innerHTML = "デコード中...";
+        }else{
+            musicButtonMsg.innerHTML = "Decoding...";
+        }
         musicErrorMsg.innerHTML = "";
         var f = tmp[0];
         reader.readAsArrayBuffer(f);
@@ -250,7 +284,11 @@ saveButton.addEventListener('click', function(event){
 
 footerOss.addEventListener('click', function(event){
     if(isDecoding)return;
-    title.innerHTML = "使用しているOSS";
+    if(islangJpn){
+        title.innerHTML = "使用しているOSS";
+    }else{
+        title.innerHTML = "OSS in use";
+    }
     description.innerHTML = "<a href=\"https://github.com/Thealexbarney/DspTool\"><h1>DspTool</h1></a>";
     defaultDiv.style.display = "none";
     ossLicense.style.display = "block";

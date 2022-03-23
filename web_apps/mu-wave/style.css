@@ -147,9 +147,7 @@ h1{
     "... ... ..." 20px
     "sampleRate sampleRate sampleRate"
     "... ... ..." 20px
-    "loopStartParent loopStartParent loopStartParent"
-    "... ... ..." 20px
-    "loopEndParent loopEndParent loopEndParent"
+    "loopStartEndParent loopStartEndParent loopStartEndParent"
     "... ... ..." 1fr
     "... buildButton ..."
     "... ... ..." 1fr
@@ -168,17 +166,30 @@ h1{
     grid-area: sampleRate;
 }
 
+#loopStartMsg{
+    grid-area: loopStartMsg;
+}
+
 #loopStartParent{
     grid-area: loopStartParent;
+}
+
+#loopEndMsg{
+    grid-area: loopEndMsg;
 }
 
 #loopEndParent{
     grid-area: loopEndParent;
 }
 
-
-#loopStartParent, #loopEndParent{
-    display: flex;
+#loopStartEndParent{
+    grid-area: loopStartEndParent;
+    display: grid;
+    grid-template:
+    "loopStartMsg loopStartParent"
+    "... ..." 20px
+    "loopEndMsg loopEndParent"
+    / auto 1fr;
 }
 
 #buildButton{
@@ -315,17 +326,23 @@ h1{
     }
     #paramsSettingsContent{
         grid-template:
-        "..........." 10px
-        "paramsSettingsContentHeader"
-        "..........." 10px
-        "sampleRate"
-        "..........." 10px
-        "loopStartParent"
-        "..........." 10px
-        "loopEndParent"
-        "..........." 1fr
-        "buildButton"
-        "..........." 1fr;
+        "... ... ..." 10px
+        " paramsSettingsContentHeader paramsSettingsContentHeader  paramsSettingsContentHeader"
+        "... ... ..." 10px
+        "sampleRate sampleRate sampleRate"
+        "... ... ..." 10px
+        "loopStartEndParent loopStartEndParent loopStartEndParent"
+        "... ... ..." 1fr
+        "... buildButton ..."
+        "... ... ..." 1fr
+        / 1fr auto 1fr;
+    }
+    #loopStartEndParent{
+        grid-template:
+        "loopStartMsg loopStartParent"
+        "... ..." 10px
+        "loopEndMsg loopEndParent"
+        / auto 1fr;
     }
     #paramsSettingsContentHeader{
         height: 22.5px;
