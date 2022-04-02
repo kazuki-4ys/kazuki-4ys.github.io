@@ -3,7 +3,8 @@ var cd = document.getElementById("cd");
 var cdMsg = document.getElementById("cdMsg");
 var decodeMsg = document.getElementById("decodeMsg");
 var levelmeter = document.getElementById("levelmeter");
-var levelDivs = Array(10);
+var levelDivs = Array(20);
+var levelDivsParent = Array(20);
 var time = document.getElementById("time");
 var backButton = document.getElementById("backButton");
 var playButton = document.getElementById("playButton");
@@ -11,19 +12,34 @@ var trackButton = document.getElementById("trackButton");
 var errMsgHideTimer = false;
 var cdResizedCheckerLastWidth = cd.clientWidth;
 
-for(var i = 0; i < 21;i++){
+for(var i = 0; i < 41;i++){
     var curDiv = document.createElement("div");
     if(i & 1){
-        levelDivs[Math.ceil(i / 2) - 1] = curDiv;
-        curDiv.id ="l" + (Math.ceil(i / 2) - 1);
+        levelDivsParent[Math.ceil(i / 2) - 1] = curDiv;
         curDiv.style.flex = "10";
+        curDiv.style.display = "flex";
+        curDiv.style.flexDirection = "column";
         //curDiv.style.backgroundColor = "#42ADB5";
-    }else if(i == 0 || i == 20){
+    }else if(i == 0 || i == 40){
         curDiv.style.flex = "2";
     }else{
         curDiv.style.flex = "1";
     }
     levelmeter.appendChild(curDiv);
+}
+
+for(var i = 0; i < 20;i++){
+    levelDivs[i] = Array(16);
+    for(var j = 0; j < 32; j++){
+        var curDiv = document.createElement("div");
+        if(j & 1){
+            curDiv.style.flex = "10";
+            levelDivs[i][15 - (j >>> 1)] = curDiv;
+        }else{
+            curDiv.style.flex = "1";
+        }
+        levelDivsParent[i].append(curDiv);
+    }
 }
 
 function cdMsgResizer(){
@@ -147,22 +163,19 @@ trackButton.addEventListener('click', function(event){
     document.getElementById('trackButtonMsg').innerHTML = "トラック" + (sp.track + 1);
 });
 
-function setLeftLevel(lev){
-    if(lev > 5)lev = 5;
-    for(var i = 0;i < 5; i++){
-        levelDivs[i].style.backgroundColor = "#03080B";
-    }
-    for(var i = 0;i < lev; i++){
-        levelDivs[4 - i].style.backgroundColor = "#42ADB5";
+function setLevel(idx, lev){
+    if(lev > 16)lev = 16;
+    for(var i = 0; i < 16;i++){
+        if(lev > i){
+            levelDivs[idx][i].style.backgroundColor = "#123133";
+        }else{
+            levelDivs[idx][i].style.backgroundColor = "#03080B";
+        }
     }
 }
 
-function setRightLevel(lev){
-    if(lev > 5)lev = 5;
-    for(var i = 0;i < 5; i++){
-        levelDivs[i + 5].style.backgroundColor = "#03080B";
-    }
-    for(var i = 0;i < lev; i++){
-        levelDivs[i + 5].style.backgroundColor = "#42ADB5";
+function clearAllLevel(){
+    for(var i = 0;i < 20;i++){
+        for(var j = 0; j < 16;j++)levelDivs[i][j].style.backgroundColor = "#03080B";
     }
 }

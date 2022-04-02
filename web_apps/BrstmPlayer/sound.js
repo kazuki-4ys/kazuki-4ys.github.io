@@ -383,8 +383,7 @@ class SoundPlayer{
         if(this.isPlaying)this.source.stop();
         this.isPlaying = false;
         playButton.src = "play.png";
-        setLeftLevel(0);
-        setRightLevel(0);
+        clearAllLevel();
     }
     stop(){
         if(!this.valid)return;
@@ -395,8 +394,7 @@ class SoundPlayer{
         this.cdDeg = 0;
         cdMsg.style.transform = "rotate(0deg)";
         playButton.src = "play.png";
-        setLeftLevel(0);
-        setRightLevel(0);
+        clearAllLevel();
     }
     setOffset(val){
         if(!this.valid)return;
@@ -460,9 +458,8 @@ class SoundPlayer{
             self.isPlaying = false;
             time.innerHTML = self.getTimeStr(self.source.loopEnd * 1000) + "/" + self.getTimeStr(self.source.loopEnd * 1000);
             playButton.src = "play.png";
+            clearAllLevel();
             self.cdDeg = 0;
-            setLeftLevel(0);
-            setRightLevel(0);
             return;
         }
         while(curOffset >= self.sound.loopEnd / self.sound.sampleRate){
@@ -470,31 +467,41 @@ class SoundPlayer{
         }
         var curOffsetSample = Math.round(curOffset * self.sound.sampleRate);
         self.taskOffset += 0.017;
-        var readSampleCount = 0.017 * self.sound.sampleRate;
-        if(!self.sound.isLooped && readSampleCount + curOffsetSample > self.sound.loopEnd)readSampleCount = self.sound.loopEnd - curOffsetSample + 1;
         var curTrackMono = false;
         if((self.track + 1) * 2 > self.sound.channelCount)curTrackMono = true;
+        var hzBase = 20;
         for(var i = 0;i < 2;i++){
-            var levelBase = 0;
-            for(var j = 0;j < readSampleCount;j++){
-                var sample;
-                if(curTrackMono){
-                    sample = self.sound.getSample(self.track * 2, self.getCurSampleIndex(curOffsetSample + j));
+            for(var j = 0;j < 10; j++){
+                var hz = hzBase * Math.pow(2.15443469003, j);
+                var curLevelIdx;
+                if(i == 0){
+                    curLevelIdx = j;
                 }else{
-                    sample = self.sound.getSample(self.track * 2 + i, self.getCurSampleIndex(curOffsetSample + j));
+                    curLevelIdx = 10 + (9 - j);
                 }
-                levelBase += Math.abs(sample);
-            }
-            levelBase /= readSampleCount;
-            if(i){
-                setLeftLevel(Math.round(levelBase / 0.05));
-            }else{
-                setRightLevel(Math.round(levelBase / 0.05));
+                if(curTrackMono){
+                    setLevel(curLevelIdx, self.calcLevel(hz, self.track * 2, curOffsetSample));
+                }else{
+                    setLevel(curLevelIdx, self.calcLevel(hz, self.track * 2 + i, curOffsetSample));
+                }
             }
         }
         time.innerHTML = self.getTimeStr(curOffset * 1000) + "/" + self.getTimeStr(self.source.loopEnd * 1000);
         self.cdDeg += 0.6;
         cdMsg.style.transform = "rotate(" + self.cdDeg + "deg)";
+    }
+    calcLevel(hz, track, curOffsetSample){
+        var readSampleCount = (1 / hz) * this.sound.sampleRate;
+        if(!this.sound.isLooped && readSampleCount + curOffsetSample > this.sound.loopEnd)readSampleCount = this.sound.loopEnd - curOffsetSample + 1;
+        readSampleCount = Math.ceil(readSampleCount);
+        if(readSampleCount < 1)readSampleCount = 1;
+        var levelBase = 0;
+        for(var j = 0;j < readSampleCount;j++){
+            var sample = this.sound.getSample(track, this.getCurSampleIndex(curOffsetSample + j));
+            levelBase += Math.abs(sample);
+        }
+        levelBase /= readSampleCount;
+        return Math.round(levelBase * 16);
     }
 }
 
