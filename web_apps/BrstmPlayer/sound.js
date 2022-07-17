@@ -469,39 +469,53 @@ class SoundPlayer{
         self.taskOffset += 0.017;
         var curTrackMono = false;
         if((self.track + 1) * 2 > self.sound.channelCount)curTrackMono = true;
-        var hzBase = 20;
         for(var i = 0;i < 2;i++){
-            for(var j = 0;j < 10; j++){
-                var hz = hzBase * Math.pow(2.15443469003, j);
+            var curLevel;
+            if(curTrackMono){
+                curLevel = self.calcLevel(self.track * 2, curOffsetSample);
+            }else{
+                curLevel = self.calcLevel(self.track * 2 + i, curOffsetSample);
+            }
+            for(var j = 0;j < 20; j++){
                 var curLevelIdx;
                 if(i == 0){
                     curLevelIdx = j;
                 }else{
-                    curLevelIdx = 10 + (9 - j);
+                    curLevelIdx = 20 + (19 - j);
                 }
-                if(curTrackMono){
-                    setLevel(curLevelIdx, self.calcLevel(hz, self.track * 2, curOffsetSample));
-                }else{
-                    setLevel(curLevelIdx, self.calcLevel(hz, self.track * 2 + i, curOffsetSample));
-                }
+                setLevel(curLevelIdx, curLevel[j]);
             }
         }
         time.innerHTML = self.getTimeStr(curOffset * 1000) + "/" + self.getTimeStr(self.source.loopEnd * 1000);
         self.cdDeg += 0.6;
         cdMsg.style.transform = "rotate(" + self.cdDeg + "deg)";
     }
-    calcLevel(hz, track, curOffsetSample){
-        var readSampleCount = (1 / hz) * this.sound.sampleRate;
-        if(!this.sound.isLooped && readSampleCount + curOffsetSample > this.sound.loopEnd)readSampleCount = this.sound.loopEnd - curOffsetSample + 1;
-        readSampleCount = Math.ceil(readSampleCount);
-        if(readSampleCount < 1)readSampleCount = 1;
-        var levelBase = 0;
-        for(var j = 0;j < readSampleCount;j++){
-            var sample = this.sound.getSample(track, this.getCurSampleIndex(curOffsetSample + j));
-            levelBase += Math.abs(sample);
+    calcLevel(channel, curOffsetSample){
+        var hz = [20, 220, 420, 620, 820, 1020, 1220, 1420, 1620, 1820, 2020, 2220, 2420, 2620, 2820, 3020, 3220, 3420, 3620, 3820, 4020];
+        var dest = Array(10);
+        var fftSrc = Array(2048);
+        for(var i = 0;i < 1024;i++){
+            fftSrc[i << 1] = this.sound.getSample(channel, this.getCurSampleIndex(curOffsetSample + i));
+            fftSrc[(i << 1) + 1] = 0;
         }
-        levelBase /= readSampleCount;
-        return Math.round(levelBase * 16);
+        DFT.fft(1024, fftSrc);
+        var oneHz = this.sound.sampleRate / 1024;
+        for(var i = 0;i < 20;i++){
+            var startIndex = Math.round(hz[i] / oneHz);
+            if(startIndex >= 1024)startIndex = 1023;
+            var endIndex = Math.round(hz[i + 1] / oneHz);
+            if(endIndex >= 1024)endIndex = 1023;
+            dest[i] = 0;
+            var indexCount = 0;
+            for(var j = startIndex; j < endIndex; j++){
+                dest[i] += Math.sqrt(fftSrc[j << 1] * fftSrc[j << 1] + fftSrc[(j << 1) + 1] * fftSrc[(j << 1) + 1]);
+                indexCount++;
+            }
+            dest[i] *= LEVEL_HEIGHT;
+            dest[i] /= (128 * indexCount);
+            dest[i] = Math.round(dest[i]);
+        }
+        return dest;
     }
 }
 
