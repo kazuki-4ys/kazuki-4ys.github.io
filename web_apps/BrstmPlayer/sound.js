@@ -323,11 +323,7 @@ class SoundPlayer{
             this.valid = false;
             return;
         }
-        if(window.AudioContext){
-            this.ac = new window.AudioContext({sampleRate: sound.sampleRate});
-        }else{
-            this.ac = new window.webkitAudioContext({sampleRate: sound.sampleRate});
-        }
+        this.createAudioContext();
         this.track = 0;
         this.trackCount = Math.ceil(sound.channelCount / 2);
         this.buffer = Array(this.trackCount);
@@ -351,6 +347,13 @@ class SoundPlayer{
         if(fn.length > 50)fn = fn.substr(0,49) + "...";
         cdMsg.innerHTML = fn;
     }
+    createAudioContext(){
+        if(window.AudioContext){
+            this.ac = new window.AudioContext({sampleRate: this.sound.sampleRate});
+        }else{
+            this.ac = new window.webkitAudioContext({sampleRate: this.sound.sampleRate});
+        }
+    }
     getCurSampleIndex(index){
         if(index < this.sound.sampleLength)return index;
         if(!this.sound.isLooped)return 0;
@@ -363,6 +366,8 @@ class SoundPlayer{
         if(!this.valid)return;
         this.isPlaying = true;
         playButton.src = "stop.png";
+        this.createAudioContext();
+        this.lastAcTime = -1;
         this.source = this.ac.createBufferSource();
         this.startTime = this.ac.currentTime + 0.017;
         this.source.loop = this.sound.isLooped;
@@ -379,7 +384,6 @@ class SoundPlayer{
         while(this.offset >= this.source.loopEnd){
             this.offset -= (this.source.loopEnd - this.source.loopStart);
         }
-        console.log(this.offset);
         if(this.isPlaying)this.source.stop();
         this.isPlaying = false;
         playButton.src = "play.png";
@@ -450,6 +454,11 @@ class SoundPlayer{
         return min + ":" + s + ":" + ms;
     }
     task(self){
+        if(self.lastAcTime == self.ac.currentTime && self.lastAcTime != 0){
+            self.pause();
+            return;
+        }
+        self.lastAcTime = self.ac.currentTime; 
         var curOffset = self.offset + self.ac.currentTime - self.startTime;
         if(self.ac.currentTime - self.startTime < 0)return;
         if(!self.sound.isLooped && curOffset >= self.sound.loopEnd / self.sound.sampleRate){
