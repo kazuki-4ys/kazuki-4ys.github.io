@@ -13,6 +13,38 @@ var playButton = document.getElementById("playButton");
 var trackButton = document.getElementById("trackButton");
 var errMsgHideTimer = false;
 var cdResizedCheckerLastWidth = cd.clientWidth;
+var isInited = false;
+
+var soundWorker = new Worker('sound_decode.js');
+soundWorker.postMessage({
+    cmd: "init",
+});
+
+soundWorker.onmessage = function(e) {
+    var cmd = e.data.cmd;
+    switch(cmd){
+        case "init_result":
+            isInited = true;
+            break;
+        case "decode_result":
+            if(errMsgHideTimer){
+                clearTimeout(errMsgHideTimer);
+                errMsgHideTimer = false;
+            }
+            if(e.data.result){
+                soundParams = e.data.result.soundParams;
+                rawPcm16 = e.data.result.rawPcm16;
+                var tmpSp = new SoundPlayer(new Sound(soundParams, rawPcm16),inputFileName);
+                decodeMsg.style.display = "none";
+                cdMsg.style.display = "block";
+                sp.stop();
+                sp = tmpSp;
+                document.getElementById('trackButtonMsg').innerHTML = "トラック1";
+            }else{
+                showErrMsg();
+            }
+    }
+}
 
 for(var i = 0; i < 81;i++){
     var curDiv = document.createElement("div");
@@ -85,21 +117,11 @@ var reader = new FileReader();
 var inputFileName;
 
 function fileLoaded(){
-    var tmpSp = new SoundPlayer(new Sound(new Uint8Array(reader.result)),inputFileName);
-    if(errMsgHideTimer){
-        clearTimeout(errMsgHideTimer);
-        errMsgHideTimer = false;
-    }
-    if(tmpSp.valid){
-        decodeMsg.style.display = "none";
-        cdMsg.style.display = "block";
-        sp.stop();
-        sp = tmpSp;
-        document.getElementById('trackButtonMsg').innerHTML = "トラック1";
-        //sp.play();
-    }else{
-        showErrMsg();
-    }
+    var buf = new Uint8Array(reader.result);
+    soundWorker.postMessage({
+        cmd: "decode",
+        src: buf
+    });
 }
 
 reader.addEventListener('load',fileLoaded,false);
@@ -108,7 +130,6 @@ function loadFile(event){
     var tmp = event.target.files;
     if(tmp){
         var f = tmp[0];
-        console.log(f);
         inputFileName = f.name;
         reader.readAsArrayBuffer(f);
         showDecodeMsg();
@@ -118,6 +139,7 @@ function loadFile(event){
 brstmOpen.addEventListener('change',loadFile,false);
 
 cd.addEventListener('click',function(event){
+    if(!isInited)return;
     brstmOpen.value = "";
     brstmOpen.click();
 });
@@ -133,6 +155,7 @@ cd.addEventListener('dragleave', function(event) {
 });
 
 cd.addEventListener('drop', function(event){
+    if(!isInited)return;
     event.stopPropagation();
     event.preventDefault();
     var tmp = event.dataTransfer.files;

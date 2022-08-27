@@ -4,12 +4,24 @@
     src:url(PixelMplus12-Regular.ttf);
 }
 
+html{
+    height: 100%;
+}
+
 body{
     background-color: #03080B;
+    height: 100%;
+    margin: 0;
 }
 
 #brstmOpen{
     display: none;
+}
+
+#root{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 #containerParent{
@@ -22,6 +34,12 @@ body{
 
 #container{
     z-index: 2;
+}
+
+#footer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 #cd{
@@ -58,10 +76,6 @@ body{
     display:none;
     grid-area: cdMsg;
     transform-origin:50% 50%;
-}
-
-#footer{
-    height:150px;
 }
 
 /*900pxまで*/
