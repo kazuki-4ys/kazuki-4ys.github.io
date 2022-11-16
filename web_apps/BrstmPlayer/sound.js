@@ -29,6 +29,11 @@ class Sound{
 
 class SoundPlayer{
     constructor(sound, fn){
+        this.isMobile = true;
+        var ua = navigator.userAgent;
+        if (!(ua.indexOf('iPhone') > 0 || ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0 || ua.indexOf('Mobile') > 0 )) {
+            this.isMobile = false;
+        }
         this.cdDeg = 0;
         this.isPlaying = false;
         this.sound = sound;
@@ -170,7 +175,7 @@ class SoundPlayer{
         return min + ":" + s + ":" + ms;
     }
     task(self){
-        if(self.lastAcTime == self.ac.currentTime && self.lastAcTime != 0){
+        if(self.isMobile && self.lastAcTime == self.ac.currentTime && self.lastAcTime != 0){
             self.pause();
             return;
         }
