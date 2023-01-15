@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Base64 Encoder</title>
+    <link rel="shortcut icon" href="../mu-wave/mu-wave.ico" type="image/vnd.microsoft.icon">
+    <link rel="icon" href="../mu-wave/mu-wave.ico" type="image/vnd.microsoft.icon">
+    <link rel="apple-touch-icon" href="../mu-wave/mu-wave.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <input type="file" class="defaultHidden" id="fileOpen">
+    <div id="header">
+        <div id="title">Base64 Encoder</div>
+    </div>
+    <div id="containerParent">
+        <div class="containerPadding"></div>
+        <div id="container">
+            <div id="noScript">
+                <div id="noScriptMsg">
+                あなたがお使いになっているブラウザは対応していない、またはJavaScriptが無効になっています<br>
+                Your browser is not supportted or JavaScript is disabled.
+                </div>
+            </div>
+            <div id="default" class="defaultHidden">
+                <div id="defaultContent">
+                    <div id="defaultMsg">
+                    8MB以下のバイナリファイルをBase64へエンコードできるWebアプリです。<br>処理は全てクライアント側で行われるので、ファイルの著作権を気にせずに使用することができます。
+                    </div>
+                    <div id="fileButtonParent">
+                        <div id="fileButton" class="bigButton">
+                            <div id="fileButtonMsg">
+                                バイナリファイルをドロップorクリック!
+                            </div>
+                        </div>
+                        <div id="waitingMsg"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="result" class="defaultHidden">
+                <textarea id="resultTextArea" readonly></textarea>
+                <div id="twoButtonArea">
+                    <div id="clipBoard" class="smallButton">クリップボードにコピー</div>
+                    <div id="reloadButton" class="smallButton">別のファイルをエンコードする</div>
+                    <div id="copiedText"></div>
+                </div>
+            </div>
+        </div>
+        <div class="containerPadding"></div>
+    </div>
+    <script src="base64.js"></script>
+    <script src="script.js"></script>
+</body>
