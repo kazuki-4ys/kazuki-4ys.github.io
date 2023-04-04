@@ -333,6 +333,11 @@ h1{
     #defaultMsg{
     font-size: 15px;
     }
+
+    #formatSelectLine{
+        height: 22.5px;
+    }
+
     #paramsSettingsContent{
         grid-template:
         "... ... ..." 10px
@@ -341,6 +346,8 @@ h1{
         "sampleRate sampleRate sampleRate"
         "... ... ..." 10px
         "loopStartEndParent loopStartEndParent loopStartEndParent"
+        "... ... ..." 10px
+        "formatSelectLine formatSelectLine formatSelectLine"
         "... ... ..." 1fr
         "... buildButton ..."
         "... ... ..." 1fr
