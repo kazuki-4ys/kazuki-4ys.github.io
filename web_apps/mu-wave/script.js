@@ -14,11 +14,15 @@ var sampleRate = document.getElementById("sampleRate");
 var loopStart = document.getElementById("loopStart");
 var loopEnd = document.getElementById("loopEnd");
 var buildButton = document.getElementById("buildButton");
+var buildButtonMsg = document.getElementById("buildButtonMsg");
 var paramsSettings = document.getElementById("paramsSettings");
 var encodeWaiting = document.getElementById("encodeWaiting");
 var loopCheckBox = document.getElementById("loopCheckBox");
+var brstmCheckBox = document.getElementById("brstmCheckBox");
+var bfstmCheckBox = document.getElementById("bfstmCheckBox");
 var progressBarFilled = document.getElementById("progressBarFilled");
 var saveButton = document.getElementById("saveButton");
+var saveButtonMsg = document.getElementById("saveButtonMsg");
 var footerOss = document.getElementById("footerOss");
 var footerBack = document.getElementById("footerBack");
 var startAgain = document.getElementById("startAgain");
@@ -29,6 +33,7 @@ noneImg.src = "none.png";
 var saveLink = document.createElement('a');
 saveLink.download = "output.brstm";
 
+var buildBfstm = false;
 var isDecoding = false;
 var mX;
 var soundParams;
@@ -45,9 +50,9 @@ if(!islangJpn){
     document.getElementById("loopCheckBoxMsg").innerHTML = "Loop";
     document.getElementById("loopStartMsg").innerHTML = "Loop start(Samples):";
     document.getElementById("loopEndMsg").innerHTML = "Loop end(Samples):";
-    document.getElementById("buildButtonMsg").innerHTML = "Build BRSTM!";
+    buildButtonMsg.innerHTML = "Build BRSTM!";
     document.getElementById("encodingMsg").innerHTML = "Encoding...";
-    document.getElementById("saveButtonMsg").innerHTML = "Save BRSTM";
+    saveButtonMsg.innerHTML = "Save BRSTM";
     footerOss.innerHTML = "OSS in use";
     footerBack.innerHTML = "Back";
     startAgain.innerHTML = "Start again";
@@ -214,6 +219,35 @@ loopCheckBox.addEventListener('click',(event) => {
     }
 });
 
+brstmCheckBox.addEventListener('click', (event =>{
+    buildBfstm = false;
+    brstmCheckBox.src = "checked.png";
+    bfstmCheckBox.src = "none.png";
+    if(islangJpn){
+        buildButtonMsg.innerHTML = "BRSTM作成!";
+        saveButtonMsg.innerHTML = "BRSTMを保存";
+    }else{
+        buildButtonMsg.innerHTML = "Build BRSTM!";
+        saveButtonMsg.innerHTML = "Save BRSTM";
+    }
+    saveLink.download = "output.brstm";
+}));
+
+bfstmCheckBox.addEventListener('click', (event =>{
+    buildBfstm = true;
+    bfstmCheckBox.src = "checked.png";
+    brstmCheckBox.src = "none.png";
+    if(islangJpn){
+        buildButtonMsg.innerHTML = "BFSTM作成!";
+        saveButtonMsg.innerHTML = "BFSTMを保存";
+    }else{
+        buildButtonMsg.innerHTML = "Build BFSTM!";
+        saveButtonMsg.innerHTML = "Save BFSTM";
+    }
+    saveLink.download = "output.bfstm";
+}));
+
+
 buildButton.addEventListener('click',(event) => {
     saveButton.style.display = "none";
     progressBarFilled.style.width = "0%";
@@ -221,7 +255,8 @@ buildButton.addEventListener('click',(event) => {
     encodeWaiting.style.display = "block";
     soundWorker.postMessage({
         cmd: "encode",
-        soundParams: soundParams
+        soundParams: soundParams,
+        buildBfstm: buildBfstm
     });
 });
 

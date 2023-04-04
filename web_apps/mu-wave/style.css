@@ -139,6 +139,13 @@ h1{
     height:100%;
 }
 
+#formatSelectLine{
+    height: 45px;
+    display: flex;
+    grid-area: formatSelectLine;
+}
+
+
 #paramsSettingsContent{
     display: grid;
     grid-template:
@@ -148,6 +155,8 @@ h1{
     "sampleRate sampleRate sampleRate"
     "... ... ..." 20px
     "loopStartEndParent loopStartEndParent loopStartEndParent"
+    "... ... ..." 20px
+    "formatSelectLine formatSelectLine formatSelectLine"
     "... ... ..." 1fr
     "... buildButton ..."
     "... ... ..." 1fr
