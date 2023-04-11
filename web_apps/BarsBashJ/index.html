@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BarsBashJ</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="root">
+        <div class="overlay" id="waitingMsgDiv">
+            <div class="overlayDivChild" id="waitingMsgDivChild">
+                <div id="waitingMsg"></div>
+            </div>
+        </div>
+        <div class="overlay" id="alertMsgDiv">
+            <div class="overlayDivChild" id="alertMsgDivChild">
+                <div id="alertMsg"></div>
+            </div>
+            <div id="alertButtonDiv">
+                <button id="alertButton">Close</button>
+            </div>
+        </div>
+        <div id="header">
+            BarsBashJ
+        </div>
+        <div id="header2">
+            BGM.bars patcher for MK8DX
+        </div>
+        <div id="rootChild">
+            <div class="flex1"></div>
+            <div id="content">
+                <div id="barsGroupBox" class="groupBox">
+                    <div class="groupBoxName">BARS</div>
+                    <div class="groupBoxLine">
+                        <div class="flex1 barsLoadButtonParent">
+                            <div class="flex1"></div>
+                            <div id="barsFileNameDisplay" class="fileNameDisplay"></div>
+                            <div class="flex1"></div>
+                        </div>
+                        <div class="barsLoadButtonParent">
+                            <div class="flex1"></div>
+                            <button id="barsLoadButton" class="loadButton">Load BARS</button>
+                            <div class="flex1"></div>
+                        </div>
+                    </div>
+                    <div id="trackListSelectparent">
+                        <div class="flex1 displayFlex">
+                            <div class="flex1"></div>
+                            <div>
+                                Track list
+                            </div>
+                        </div>
+                        <select name="trackListSelect" id="trackListSelect"></select>
+                        <div class="flex1"></div>
+                    </div>
+                </div>
+                <div id="bfstmGroupBox" class="groupBox">
+                    <div class="groupBoxName">BFSTM</div>
+                    <div class="groupBoxLine">
+                        <div class="flex1 barsLoadButtonParent">
+                            <div class="flex1"></div>
+                            <div id="bfstmFileNameDisplay" class="fileNameDisplay"></div>
+                            <div class="flex1"></div>
+                        </div>
+                        <div class="barsLoadButtonParent">
+                            <div class="flex1"></div>
+                            <button id="bfstmLoadButton" class="loadButton">Load BFSTM</button>
+                            <div class="flex1"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="twoButtonParent">
+                    <div class="flex1"></div>
+                    <button id="patchButton">Patch BARS</button>
+                    <div class="twoButtonGap"></div>
+                    <button id="saveButton">Save BARS</button>
+                    <div class="flex1"></div>
+                </div>
+                
+            </div>
+            <div class="flex1"></div>
+        </div>
+        <script src="utils.js"></script>
+        <script src="bars_tool.js"></script>
+        <script src="bfstp_tool.js"></script>
+        <script src="script.js"></script>
+    </div>
+</body>
