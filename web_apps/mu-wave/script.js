@@ -41,7 +41,7 @@ var rawPcm16;
 var lang = (navigator.language) ? navigator.language : navigator.userLanguage;
 var islangJpn = lang && lang.toLowerCase().indexOf("ja") !== -1;
 if(!islangJpn){
-    description.innerHTML = "<h1>Super Easy Online BRSTM Maker</h1>";
+    description.innerHTML = "<h1>Super Easy Online BRSTM/BFSTM(Switch) Maker</h1>";
     initWaiting.innerHTML = "Preparing...<br>Please wait a moment.";
     initFail.innerHTML = "An error has ocurred during initialize μ-wave";
     document.getElementById("defaultMsg").innerHTML = "Welcome to μ-wave!<br>μ-wave is web-based BRSTM maker using WebAssembly.<br>Multi-Channel BRSTM is also supported.<br>Let's drop your mp3 or wave file now!";
@@ -334,9 +334,9 @@ footerOss.addEventListener('click', function(event){
 footerBack.addEventListener('click', function(event){
     title.innerHTML = "μ-wave";
     if(islangJpn){
-        description.innerHTML = "<h1>超お手軽オンラインBRSTM Maker</h1>";
+        description.innerHTML = "<h1>超お手軽オンラインBRSTM/BFSTM(Switch) Maker</h1>";
     }else{
-        description.innerHTML = "<h1>Super Easy Online BRSTM Maker</h1>";
+        description.innerHTML = "<h1>Super Easy Online BRSTM/BFSTM(Switch) Maker</h1>";
     }
     ossLicense.style.display = "none";
     defaultDiv.style.display = "block";
