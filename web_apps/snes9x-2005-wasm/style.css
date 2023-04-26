@@ -1,0 +1,447 @@
+html, body {
+  font-family:'メイリオ', 'Meiryo','ＭＳ ゴシック','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3',sans-serif;
+  background-color: #eeeeee;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+a{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#root{
+  display: flex;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+#menuOpen1Parent{
+  margin-top: 10px;
+  font-size: 20px;
+  display: flex;
+}
+
+#menuOpen1{
+  margin-left: 5px;
+  margin-right: 10px;
+  border: 3px solid #888888;
+  background-color: #cccccc;
+  cursor: pointer;
+  border-radius:50%;
+}
+
+#fs_output{
+  position: absolute;
+  display: none;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+  width: 100%;
+  height: 100%;
+}
+
+#output {
+  aspect-ratio:  256 / 224;
+  width: 512px;
+  min-height: auto;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+#middle{
+  display: flex;
+  flex-direction: column;
+}
+
+.flex1{
+  flex: 1;
+}
+
+.displayFlex{
+  display: flex;
+}
+
+#menu{
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#menuHeader{
+  display: flex;
+  background-color: #000000E0;
+  backdrop-filter: blur(5px);
+  padding-top: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 30px;
+  color: rgb(86, 226, 43);
+  border-bottom: 3px solid rgb(86, 226, 43);
+}
+
+#menuHeaderRightMessage{
+  display: none;
+}
+
+#squareButtonParentParent{
+  background-color: #000000B0;
+  backdrop-filter: blur(5px);
+  display: grid;
+  height: 100%;
+  flex-direction: column;
+  grid-template:
+  "squareButtonParent ..." auto
+  "... ..." 1fr /
+  auto 1fr ;
+}
+
+.squareButton{
+  width: 150px;
+  height: 150px;
+  display: grid;
+  cursor: pointer;
+  border-radius:15%;
+  border: 3px solid rgb(86, 226, 43);
+  background-color: #00000000;
+  grid-template:
+  "... ... ..." 1fr
+  "... squareButtonMsg ..." auto
+  "... ... ..." 1fr /
+  1fr auto 1fr;
+}
+
+.squareButtonMsg{
+  font-size: 20px;
+  color: rgb(86, 226, 43);
+  text-align: center;
+  grid-area: squareButtonMsg;
+}
+
+.squareButtonMenuBottom{
+  font-size: 20px;
+  color: rgb(86, 226, 43);
+  text-align: center;
+}
+
+#squareButtonParent{
+  grid-area: squareButtonParent;
+  margin-left: 50px;
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  column-gap: 50px;
+  row-gap: 50px;
+  margin-top: 100px;
+}
+
+#aboutParent{
+  display: none;
+  background-color: #000000B0;
+  backdrop-filter: blur(5px);
+}
+
+#about{
+  min-width: 1000px;
+  font-size: 20px;
+  color: rgb(86, 226, 43);
+}
+
+#LRButtonParent{
+  margin-top: 20px;
+  display: flex;
+}
+
+.LRButton{
+  cursor: pointer;
+  width: 150px;
+  display: grid;
+  font-size: 20px;
+  border: 3px solid #888888;
+  background-color: #cccccc;
+  color: #888888;
+  text-align: center;
+  height: 30px;
+  box-sizing: border-box;
+  border-radius: 15px;
+  grid-template:
+  "... ... ..." 1fr
+  "... LRButtonChild ..." auto
+  "... ... ..." 1fr /
+  1fr auto 1fr;
+}
+
+.LRButtonChild{
+  grid-area: LRButtonChild;
+}
+
+#menuOpen2Parent{
+  display: none;
+}
+
+#StartSelectParent{
+  display: flex;
+  margin-top: 30px;
+}
+
+.StartSelectGap{
+  width: 10px;
+}
+
+#ABXYDPadParent{
+  margin-top: 30px;
+  display: flex;
+}
+
+
+#DpadParent{
+  width: 200px;
+  height: 200px;
+  position: relative;
+}
+
+#DUButton{
+  top: 0px;
+  left: 60px;
+  border: 3px solid #888888;
+  background-color: #cccccc;
+  color: #888888;
+}
+
+#DDButton{
+  top: 120px;
+  left: 60px;
+  border: 3px solid #888888;
+  background-color: #cccccc;
+  color: #888888;
+}
+
+#DRButton{
+  top: 60px;
+  left: 120px;
+  border: 3px solid #888888;
+  background-color: #cccccc;
+  color: #888888;
+}
+
+#DLButton{
+  top: 60px;
+  left: 0px;
+  border: 3px solid #888888;
+  background-color: #cccccc;
+  color: #888888;
+}
+
+.ABXYuttonCommon{
+  z-index: 1;
+  position: absolute;
+  cursor: pointer;
+  display: grid;
+  font-size: 30px;
+  background-color: #eeeeee;
+  border: 3px solid;
+  text-align: center;
+  height: 80px;
+  width: 80px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  grid-template:
+  "... ... ..." 1fr
+  "... ABXYuttonCommonChild ..." auto
+  "... ... ..." 1fr /
+  1fr auto 1fr;
+}
+
+.ABXYuttonCommonChild{
+  grid-area: ABXYuttonCommonChild;
+}
+
+#ABXYParent{
+  width: 200px;
+  height: 200px;
+  position: relative;
+}
+
+#AButton{
+  top: 60px;
+  left: 120px;
+  border-color: #DA2424;
+  color: #DA2424;
+}
+
+#BButton{
+  top: 120px;
+  left: 60px;
+  border-color: #D5B824;
+  color: #D5B824;
+}
+
+#XButton{
+  top: 0px;
+  left: 60px;
+  border-color: #242DD5;
+  color: #242DD5;
+}
+
+#YButton{
+  top: 60px;
+  left: 0px;
+  border-color: #24D535;
+  color: #24D535;
+}
+
+.StartSelectCommon{
+  font-size: 20px;
+  border: 3px solid #888888;
+  background-color: #cccccc;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  border-radius:50%;
+}
+
+@media screen and (max-width: 1100px){
+  #squareButtonParent{
+    grid-template-columns: repeat(4, auto);
+  }
+}
+
+@media screen and (max-width: 1000px){
+  #aboutParent{
+    max-width: 100%;
+  }
+  #about{
+    max-width: 100%;
+    min-width: auto;
+  }
+}
+
+@media screen and (max-width: 900px){
+  #squareButtonParent{
+    grid-template-columns: repeat(3, auto);
+  }
+}
+
+@media screen and (max-width: 750px){
+  #keyboardInputRight{
+    display: none;
+  }
+  #keyboardInput{
+    display: none;
+  }
+  #middle{
+    width: 100%;
+  }
+  #output{
+    width: 100%;
+  }
+  #menuOpen2Parent{
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 700px){
+  #squareButtonParent{
+    grid-template-columns: repeat(2, auto);
+  }
+}
+
+@media screen and (max-width: 500px){
+  .StartSelectCommon{
+    font-size: 15px;
+    border: 2.25px solid #888888;
+    height: 22.5px;
+    width: 22.5px;
+  }
+
+  .ABXYuttonCommon{
+    font-size: 22.5px;
+    border: 2.25px solid;
+    text-align: center;
+    height: 60px;
+    width: 60px;
+  }
+
+  #ABXYParent{
+    width: 150px;
+    height: 150px;
+  }
+  
+  #AButton{
+    top: 45px;
+    left: 90px;
+  }
+  
+  #BButton{
+    top: 90px;
+    left: 45px;
+  }
+  
+  #XButton{
+    top: 0px;
+    left: 45px;
+  }
+  
+  #YButton{
+    top: 45px;
+    left: 0px;
+  }
+
+  #DpadParent{
+    width: 150px;
+    height: 150px;
+  }
+  
+  #DUButton{
+    top: 0px;
+    left: 45px;
+    border: 2.25px solid #888888;
+  }
+  
+  #DDButton{
+    top: 90px;
+    left: 45px;
+    border: 2.25px solid #888888;
+  }
+  
+  #DRButton{
+    top: 45px;
+    left: 90px;
+    border: 2.25px solid #888888;
+  }
+  
+  #DLButton{
+    top: 45px;
+    left: 0px;
+    border: 2.25px solid #888888;
+  }
+
+  .squareButton{
+    width: 100px;
+    height: 100px;
+    border: 2px solid rgb(86, 226, 43);
+  }
+
+  .squareButtonMsg{
+    font-size: 15px;
+  }
+
+  #squareButtonParent{
+    column-gap: 50px;
+    row-gap: 50px;
+  }
+
+  #menuHeader{
+    font-size: 15px;
+  }
+
+  #about{
+    font-size: 10px;
+  }
+}

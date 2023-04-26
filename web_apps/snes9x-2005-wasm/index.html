@@ -1,0 +1,332 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Snes9x-2005-wasm</title>
+</head>
+<body>
+  <div id="root">
+    <div id="menu">
+      <div id="menuHeader">
+        <div id="menuHeaderLeftMessage">Snes9x-2005-wasm Menu</div>
+        <div class="flex1"></div>
+        <div id="menuHeaderRightMessage"><a herf="#" id="menuHeaderLeftMessageChild">Back</a></div>
+      </div>
+      <div class="flex1">
+        <div id="squareButtonParentParent">
+        <div id="squareButtonParent">
+          <div class="squareButton" id="menuCloseButton"><div class="squareButtonMsg">Close Menu</div></div>
+          <div class="squareButton" id="loadRomButton"><div class="squareButtonMsg">Load ROM</div></div>
+          <div class="squareButton" id="loadSramButton"><div class="squareButtonMsg">Load SRAM</div></div>
+          <div class="squareButton" id="saveSramButton"><div class="squareButtonMsg">Save SRAM</div></div>
+          <div class="squareButton" id="aboutButton"><div class="squareButtonMsg">About</div></div>
+        </div>
+        </div>
+        <div id="aboutParent">
+          <div class="flex1"></div>
+          <div id="about">
+            Snes9x is a Super Nintendo Entertainment System emulator.<br>
+            A port of snes9x2005 libretro core for wasm.<br>
+            Sound and StateSave are not supported at this time.<br>
+            <br>
+            Copyright  (C) 2010-2017 The RetroArch team<br>
+<br>
+Permission is hereby granted, free of charge,<br>
+to any person obtaining a copy of this software and associated documentation files (the "Software"),<br>
+to deal in the Software without restriction, including without limitation the rights to<br>
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,<br>
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br>
+<br>
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br>
+<br>
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,<br>
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br>
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.<br>
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,<br>
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br>
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.<br>
+<br>
+- - - Ported from - - -<br>
+<br>
+ndssfc<br>
+Copyright (C) 2010 dking &lt;dking024@gmail.com&gt;,<br>
+  GBAtemp users BassAceGold, ShadauxCat and Nebuleon<br>
+<br>
+This program is free software; you can redistribute it and/or<br>
+modify it under the terms of the GNU General Public License as<br>
+published by the Free Software Foundation; either version 2 of<br>
+the License, or (at your option) any later version.<br>
+<br>
+Some source code with this sdk belong to the source's author, copyright <br>
+information are in the source files.<br>
+<br>
+This program is distributed in the hope that it will be useful,<br>
+but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU<br>
+General Public License for more details.<br>
+<br>
+You should have received a copy of the GNU General Public License<br>
+along with this program; if not, write to the Free Software<br>
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA<br>
+<br>
+- - - Based on - - -<br>
+<br>
+Snes9x - Portable Super Nintendo Entertainment System (TM) emulator.<br>
+<br>
+(c) Copyright 1996 - 2002  Gary Henderson (gary.henderson@ntlworld.com),<br>
+                           Jerremy Koot (jkoot@snes9x.com)<br>
+<br>
+(c) Copyright 2002 - 2004  Matthew Kendora<br>
+<br>
+(c) Copyright 2002 - 2005  Peter Bortas (peter@bortas.org)<br>
+<br>
+(c) Copyright 2004 - 2005  Joel Yliluoma (http://iki.fi/bisqwit/)<br>
+<br>
+(c) Copyright 2001 - 2006  John Weidman (jweidman@slip.net)<br>
+<br>
+(c) Copyright 2002 - 2006  funkyass (funkyass@spam.shaw.ca),<br>
+                           Kris Bleakley (codeviolation@hotmail.com)<br>
+<br>
+(c) Copyright 2002 - 2010  Brad Jorsch (anomie@users.sourceforge.net),<br>
+                           Nach (n-a-c-h@users.sourceforge.net),<br>
+                           zones (kasumitokoduck@yahoo.com)<br>
+<br>
+(c) Copyright 2006 - 2007  nitsuja<br>
+<br>
+(c) Copyright 2009 - 2010  BearOso,<br>
+                           OV2<br>
+<br>
+<br>
+BS-X C emulator code<br>
+(c) Copyright 2005 - 2006  Dreamer Nom,<br>
+                           zones<br>
+<br>
+C4 x86 assembler and some C emulation code<br>
+(c) Copyright 2000 - 2003  _Demo_ (_demo_@zsnes.com),<br>
+                           Nach,<br>
+                           zsKnight (zsknight@zsnes.com)<br>
+<br>
+C4 C++ code<br>
+(c) Copyright 2003 - 2006  Brad Jorsch,<br>
+                           Nach<br>
+<br>
+DSP-1 emulator code<br>
+(c) Copyright 1998 - 2006  _Demo_,<br>
+                           Andreas Naive (andreasnaive@gmail.com),<br>
+                           Gary Henderson,<br>
+                           Ivar (ivar@snes9x.com),<br>
+                           John Weidman,<br>
+                           Kris Bleakley,<br>
+                           Matthew Kendora,<br>
+                           Nach,<br>
+                           neviksti (neviksti@hotmail.com)<br>
+<br>
+DSP-2 emulator code<br>
+(c) Copyright 2003         John Weidman,<br>
+                           Kris Bleakley,<br>
+                           Lord Nightmare (lord_nightmare@users.sourceforge.net),<br>
+                           Matthew Kendora,<br>
+                           neviksti<br>
+<br>
+DSP-3 emulator code<br>
+(c) Copyright 2003 - 2006  John Weidman,<br>
+                           Kris Bleakley,<br>
+                           Lancer,<br>
+                           z80 gaiden<br>
+<br>
+DSP-4 emulator code<br>
+(c) Copyright 2004 - 2006  Dreamer Nom,<br>
+                           John Weidman,<br>
+                           Kris Bleakley,<br>
+                           Nach,<br>
+                           z80 gaiden<br>
+<br>
+OBC1 emulator code<br>
+(c) Copyright 2001 - 2004  zsKnight,<br>
+                           pagefault (pagefault@zsnes.com),<br>
+                           Kris Bleakley<br>
+                           Ported from x86 assembler to C by sanmaiwashi<br>
+<br>
+SPC7110 and RTC C++ emulator code used in 1.39-1.51<br>
+(c) Copyright 2002         Matthew Kendora with research by<br>
+                           zsKnight,<br>
+                           John Weidman,<br>
+                           Dark Force<br>
+<br>
+SPC7110 and RTC C++ emulator code used in 1.52+<br>
+(c) Copyright 2009         byuu,<br>
+                           neviksti<br>
+<br>
+S-DD1 C emulator code<br>
+(c) Copyright 2003         Brad Jorsch with research by<br>
+                           Andreas Naive,<br>
+                           John Weidman<br>
+<br>
+S-RTC C emulator code<br>
+(c) Copyright 2001 - 2006  byuu,<br>
+                           John Weidman<br>
+<br>
+ST010 C++ emulator code<br>
+(c) Copyright 2003         Feather,<br>
+                           John Weidman,<br>
+                           Kris Bleakley,<br>
+                           Matthew Kendora<br>
+<br>
+Super FX x86 assembler emulator code<br>
+(c) Copyright 1998 - 2003  _Demo_,<br>
+                           pagefault,<br>
+                           zsKnight<br>
+<br>
+Super FX C emulator code<br>
+(c) Copyright 1997 - 1999  Ivar,<br>
+                           Gary Henderson,<br>
+                           John Weidman<br>
+<br>
+Sound emulator code used in 1.5-1.51<br>
+(c) Copyright 1998 - 2003  Brad Martin<br>
+(c) Copyright 1998 - 2006  Charles Bilyue'<br>
+<br>
+Sound emulator code used in 1.52+<br>
+(c) Copyright 2004 - 2007  Shay Green (gblargg@gmail.com)<br>
+<br>
+(c) Copyright 2014 - 2016 Daniel De Matteis. (UNDER NO CIRCUMSTANCE<br>
+WILL COMMERCIAL RIGHTS EVER BE APPROPRIATED TO ANY PARTY)<br>
+<br>
+Snes9x homepage: http://www.snes9x.com/<br>
+<br>
+Permission to use, copy, modify and/or distribute Snes9x in both binary<br>
+and source form, for non-commercial purposes, is hereby granted without<br>
+fee, providing that this license information and copyright notice appear<br>
+with all copies and any derived work.<br>
+<br>
+This software is provided 'as-is', without any express or implied<br>
+warranty. In no event shall the authors be held liable for any damages<br>
+arising from the use of this software or it's derivatives.<br>
+<br>
+Snes9x is freeware for PERSONAL USE only. Commercial users should<br>
+seek permission of the copyright holders first. Commercial use includes,<br>
+but is not limited to, charging money for Snes9x or software derived from<br>
+Snes9x, including Snes9x or derivatives in commercial game bundles, and/or<br>
+using Snes9x as a promotion for your commercial product.<br>
+<br>
+The copyright holders request that bug fixes and improvements to the code<br>
+should be forwarded to them so everyone can benefit from the modifications<br>
+in future versions.<br>
+<br>
+Super NES and Super Nintendo Entertainment System are trademarks of<br>
+Nintendo Co., Limited and its subsidiary companies.<br>
+<br>
+- - - Also includes code by - - -<br>
+<br>
+Copyright (C) 1997-2001 ZSNES Team ( zsknight@zsnes.com / _demo_@zsnes.com )<br>
+<br>
+This program is free software; you can redistribute it and/or<br>
+modify it under the terms of the GNU General Public License<br>
+as published by the Free Software Foundation; either<br>
+version 2 of the License, or (at your option) any later<br>
+version.<br>
+<br>
+This program is distributed in the hope that it will be useful,<br>
+but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br>
+GNU General Public License for more details.<br>
+<br>
+You should have received a copy of the GNU General Public License<br>
+along with this program; if not, write to the Free Software<br>
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.<br>
+
+          </div>
+          <div class="flex1"></div>
+        </div>
+      </div>
+    </div>
+    <canvas id="fs_output"></canvas>
+    <div id="keyboardInputRight" class="flex1">
+      <div id="menuOpen1Parent">
+        <div class="flex1"></div>
+        <div>Menu</div>
+        <div class="StartSelectCommon" id="menuOpen1"></div>
+      </div>
+    </div>
+    <div id="middle">
+      <canvas id="output"></canvas>
+      <div class="flex1">
+        <div id="LRButtonParent">
+          <div class="LRButton" id="LButton" data-snes-button="5">
+            <div class="LRButtonChild">L</div>
+          </div>
+          <div class="flex1"></div>
+          <div class="LRButton" id="RButton" data-snes-button="4">
+            <div class="LRButtonChild">R</div>
+          </div>
+        </div>
+        <div id="StartSelectParent">
+          <div class="flex1 displayFlex">
+            <div class="flex1 displayFlex">
+              <div id="menuOpen2Parent" class="displayFlex">
+                <div class="StartSelectCommon" id="menuOpen2"></div>
+                <div class="flex1">Menu</div>
+              </div>
+            </div>
+            <div class="startSelectMsg">SELECT</div>
+          </div>
+          <div class="StartSelectCommon" id="SEButton" data-snes-button="13"></div>
+          <div class="StartSelectGap"></div>
+          <div class="StartSelectCommon" id="STButton" data-snes-button="12"></div>
+          <div class="flex1 displayFlex">
+            <div class="startSelectMsg">START</div>
+            <div class="flex1"></div>
+          </div>
+        </div>
+        <div id="ABXYDPadParent">
+          <div id="DpadParent">
+            <div class="ABXYuttonCommon" id="DUButton" data-snes-button="11">
+              <div class="ABXYuttonCommonChild">↑</div>
+            </div>
+            <div class="ABXYuttonCommon" id="DDButton" data-snes-button="10">
+              <div class="ABXYuttonCommonChild">↓</div>
+            </div>
+            <div class="ABXYuttonCommon" id="DRButton" data-snes-button="8">
+              <div class="ABXYuttonCommonChild">→</div>
+            </div>
+            <div class="ABXYuttonCommon" id="DLButton" data-snes-button="9">
+              <div class="ABXYuttonCommonChild">←</div>
+            </div>
+          </div>
+          <div class="flex1"></div>
+          <div id="ABXYParent">
+            <div class="ABXYuttonCommon" id="AButton" data-snes-button="7">
+              <div class="ABXYuttonCommonChild">A</div>
+            </div>
+            <div class="ABXYuttonCommon" id="BButton" data-snes-button="15">
+              <div class="ABXYuttonCommonChild">B</div>
+            </div>
+            <div class="ABXYuttonCommon" id="XButton" data-snes-button="6">
+              <div class="ABXYuttonCommonChild">X</div>
+            </div>
+            <div class="ABXYuttonCommon" id="YButton" data-snes-button="14">
+              <div class="ABXYuttonCommonChild">Y</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="keyboardInput" class="flex1">
+      Keyboard Input:<br>
+      START : Enter<br>
+      SELRCT : Shift<br>
+      A : A<br>
+      B : Z<br>
+      X : X<br>
+      Y : S<br>
+      L : D<br>
+      R : C<br>
+    </div>
+  </div>
+  <script src="snes9x_2005.js"></script>
+  <script src="gamepad.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
