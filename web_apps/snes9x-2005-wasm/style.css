@@ -135,7 +135,7 @@ a{
   grid-area: squareButtonParent;
   margin-left: 50px;
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  grid-template-columns: repeat(6, auto);
   column-gap: 50px;
   row-gap: 50px;
   margin-top: 100px;
@@ -151,6 +151,80 @@ a{
   min-width: 1000px;
   font-size: 20px;
   color: rgb(86, 226, 43);
+}
+
+#gamepadSettings{
+  height: 100%;
+  font-size: 20px;
+  color: rgb(86, 226, 43);
+  display: none;
+  background-color: #000000B0;
+  backdrop-filter: blur(5px);
+  flex-direction: column;
+}
+
+#gamepadNameShowParent{
+  height: 100px;
+  display: grid;
+  grid-template: 
+  "... ... ..." 50px
+  "... gamepadNameShow ..."
+  "... ... ..." 20px /
+  1fr auto 1fr;
+}
+
+#gamepadNameShow{
+  grid-area: gamepadNameShow;
+}
+
+#gamepadButtonSettings{
+  display: flex;
+  flex: 1;
+}
+
+.gamepadButtonSettingsButtonNameShowParent{
+  height: 50px;
+  display: grid;
+  grid-template: 
+  "... ... ..." 1fr
+  "... gamepadButtonSettingsButtonNameShow ..."
+  "... ... ..." 1fr /
+  1fr auto 10px;
+}
+
+.gamepadButtonSettingsButtonNameShow{
+  grid-area: gamepadButtonSettingsButtonNameShow;
+  font-size: 20px;
+}
+
+.buttonRemapSelectParent{
+  display: grid;
+  height: 50px;
+  grid-template: 
+  "... ... ..." 1fr
+  "... buttonRemapSelect ..."
+  "... ... ..." 1fr /
+  1fr auto 1fr;
+}
+
+.buttonRemapSelect{
+  grid-area: buttonRemapSelect;
+}
+
+select{
+  cursor: pointer;
+  background-color: #00000000;
+  color: rgb(86, 226, 43);;
+  font-size: 20px;
+  border: 3px solid;
+  border-radius: 6px;
+  border-color: rgb(86, 226, 43);
+}
+
+option:nth-child(n){
+  border: 3px solid;
+  border-color: rgb(86, 226, 43);
+  background-color: #00000000;
 }
 
 #LRButtonParent{
@@ -306,6 +380,12 @@ a{
   border-radius:50%;
 }
 
+@media screen and (max-width: 1300px){
+  #squareButtonParent{
+    grid-template-columns: repeat(5, auto);
+  }
+}
+
 @media screen and (max-width: 1100px){
   #squareButtonParent{
     grid-template-columns: repeat(4, auto);
@@ -444,4 +524,5 @@ a{
   #about{
     font-size: 10px;
   }
+
 }

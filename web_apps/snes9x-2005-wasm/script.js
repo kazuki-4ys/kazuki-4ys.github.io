@@ -8,30 +8,6 @@ var dummyBufferSource = null;
 var keyInput = 0;
 var softPadInput = 0;
 var g = new gamepad();
-console.log(g);
-function testPad(){
-  console.log("gamepadconnectedHandler called");
-  //テスト用
-if(g.gamepads[0].id === "JC-W01U (Vendor: 056e Product: 2007)"){
-  g.buttonRemappers[0][0] = 14;//Y
-  g.buttonRemappers[0][1] = 6;//X
-  g.buttonRemappers[0][2] = 15;//B
-  g.buttonRemappers[0][3] = 7;//A
-  g.buttonRemappers[0][4] = 5;//L
-  g.buttonRemappers[0][5] = 4;//R
-  g.buttonRemappers[0][6] = -1;
-  g.buttonRemappers[0][7] = -1;
-  g.buttonRemappers[0][8] = 13;//SELECT
-  g.buttonRemappers[0][9] = 12;//START
-  g.axesRemappers[0].length = 22;
-  for(var i = 0;i < g.axesRemappers[0].length;i++)g.axesRemappers[0][i] = -1;
-  g.axesRemappers[0][18] = 8;
-  g.axesRemappers[0][19] = 9;
-  g.axesRemappers[0][20] = 10;
-  g.axesRemappers[0][21] = 11;
-}
-}
-g.gamepadconnectedHandler = testPad;
 
 function el(id) {
   return document.getElementById(id);
@@ -257,7 +233,7 @@ requestFrame();
 function run1fr(){
   if(!isModuleInited)return;
   if(isMenuDisplay)return;
-  Module._setJoypadInput(keyInput | softPadInput);
+  Module._setJoypadInput(keyInput | softPadInput | g.getHoldButton());
   Module._mainLoop();
   var frameBufferPtr = Module._getScreenBuffer();
   var frameBufferRawData = new Uint8Array(Module.HEAP8.buffer, frameBufferPtr, 512 * 448 * 4);
@@ -308,8 +284,106 @@ el("aboutButton").addEventListener("click", (e) => {
   el("menuHeaderLeftMessage").innerHTML = "About Snes9x-2005-wasm";
 });
 
+function applySettingsToGamePad(){
+  if(g.gamepads[g.curGamepadIndex] === null)return;
+  for(var i = 0;i < g.buttonRemappers[g.curGamepadIndex].length;i++)g.buttonRemappers[g.curGamepadIndex][i] = -1;
+  for(var i = 0;i < g.axesRemappers[g.curGamepadIndex].length;i++)g.axesRemappers[g.curGamepadIndex][i] = -1;
+  var selects = document.getElementsByClassName("buttonRemapSelect");
+  for(var i = 0;i < selects.length;i++){
+    if(selects[i].value === 0)continue;
+    if(selects[i].value - 1 < g.buttonRemappers[g.curGamepadIndex].length)g.buttonRemappers[g.curGamepadIndex][selects[i].value - 1] = Number(selects[i].getAttribute("data-snes-button"));
+    var axisRemaptarget = selects[i].value - (1 + g.buttonRemappers[g.curGamepadIndex].length);
+    if(axisRemaptarget > -1 && axisRemaptarget < g.axesRemappers[g.curGamepadIndex].length)g.axesRemappers[g.curGamepadIndex][axisRemaptarget] = Number(selects[i].getAttribute("data-snes-button"));
+  }
+}
+
+function applyGamepadSettingsToUI(){
+  var selects = document.getElementsByClassName("buttonRemapSelect");
+  for(var i = 0;i < selects.length;i++){
+    selects[i].value = g.findValueForOption(Number(selects[i].getAttribute("data-snes-button")));
+  }
+}
+
+function buttonRemapSelect(e){
+  console.log(e);
+  g.findGamepads();
+  var selectValue = e.target.value;
+  //同じ値をもつやつがいないか調べる
+  var selects = document.getElementsByClassName("buttonRemapSelect");
+  for(var i = 0;i < selects.length;i++){
+    if(selects[i].getAttribute("data-snes-button") == e.target.getAttribute("data-snes-button"))continue;
+    if(selectValue === selects[i].value){
+      e.target.value = 0;
+    }
+  }
+  applySettingsToGamePad();
+  applyGamepadSettingsToUI();
+}
+
+function createButtonRemapSelectParentParent(){
+  g.findGamepads();
+  if(!g.gamepads[g.curGamepadIndex]){
+    el("gamepadNameShow").innerHTML = "no controller connected";
+    el("gamepadButtonSettingsButtonName").style.display = "none";
+    el("buttonRemapSelectParentParent").style.display = "none";
+    return;
+  }
+  el("gamepadButtonSettingsButtonName").style.display = "block";
+  el("buttonRemapSelectParentParent").style.display = "block";
+  el("gamepadNameShow").innerHTML = g.gamepads[g.curGamepadIndex].id;
+  el("buttonRemapSelectParentParent").innerHTML = "";
+  var snesButtonIDs = ["12", "13", "7", "15", "6", "14", "5", "4", "8", "9", "10", "11"];
+  for(var i = 0;i < snesButtonIDs.length;i++){
+    var template =  el("buttonRemapSelectParentTemplate").content.cloneNode(true);
+    var select = template.querySelector(".buttonRemapSelect");
+    select.setAttribute("data-snes-button", snesButtonIDs[i]);
+    var option = document.createElement("option");
+    option.setAttribute("value", "0");
+    option.innerHTML = "None";
+    select.insertBefore(option, null);
+    var curValue = 1;
+    for(var j = 0;j < g.gamepads[g.curGamepadIndex].buttons.length;j++){
+      option = document.createElement("option");
+      option.setAttribute("value", String(curValue));
+      option.innerHTML = "Button " + String(j);
+      select.insertBefore(option, null);
+      curValue++;
+    }
+    for(var j = 0;j < g.axesRemappers[g.curGamepadIndex].length * 2;j++){
+      var curAxeIndex = Math.floor(j / 2);
+      option = document.createElement("option");
+      option.setAttribute("value", String(curValue));
+      if((j & 1) == 0){
+        option.innerHTML = "Axis " + String(curAxeIndex) + " +";
+      }else{
+        option.innerHTML = "Axis " + String(curAxeIndex) + " -";
+      }
+      select.insertBefore(option, null);
+      curValue++;
+    }
+    select.value = g.findValueForOption(Number(snesButtonIDs[i]));
+    select.addEventListener("change", buttonRemapSelect);
+    el("buttonRemapSelectParentParent").insertBefore(template, null);
+  }
+}
+
+el("gamepadSettingsButton").addEventListener("click", (e) => {
+  el("squareButtonParentParent").style.display = "none";
+  el("gamepadSettings").style.display = "flex";
+  el("menuHeaderRightMessage").style.display = "block";
+  el("menuHeaderLeftMessage").innerHTML = "Gamepad Settings";
+  if(g.gamepads.length === 0){
+    el("gamepadNameShow").innerHTML = "no controller connected";
+    el("gamepadButtonSettingsButtonName").style.display = "none";
+    el("buttonRemapSelectParentParent").style.display = "none";
+    return;
+  }
+  createButtonRemapSelectParentParent();
+});
+
 el("menuHeaderLeftMessageChild").addEventListener("click", (e) => {
   el("aboutParent").style.display = "none";
+  el("gamepadSettings").style.display = "none";
   el("squareButtonParentParent").style.display = "grid";
   el("menuHeaderRightMessage").style.display = "none";
   el("menuHeaderLeftMessage").innerHTML = "Snes9x-2005-wasm Menu";

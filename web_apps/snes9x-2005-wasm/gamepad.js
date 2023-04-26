@@ -58,6 +58,23 @@ class gamepad{
         console.log(this);
         if(this.gamepadconnectedHandler)this.gamepadconnectedHandler();
     }
+    findGamepads(){
+        this.gamepads = navigator.getGamepads();
+        if(this.curGamepadIndex >= this.gamepads.length || !this.gamepads[0] || !this.gamepads[this.curGamepadIndex].connected)return;
+        this.checkAxisBehaveDpad(this.gamepads[this.curGamepadIndex].axes, this.axisBehaveDpad[this.curGamepadIndex]);
+        if((this.axisBehaveDpad[this.curGamepadIndex].length + this.gamepads[this.curGamepadIndex].axes.length) * 2 > this.axesRemappers[this.curGamepadIndex].length){
+            while((this.axisBehaveDpad[this.curGamepadIndex].length + this.gamepads[this.curGamepadIndex].axes.length) * 2 ==  this.axesRemappers[this.curGamepadIndex].length)this.axesRemappers[this.curGamepadIndex].push(-1);
+        }
+    }
+    findValueForOption(snesbutton){
+        for(var i = 0;i < this.buttonRemappers[this.curGamepadIndex].length;i++){
+            if(this.buttonRemappers[this.curGamepadIndex][i] === snesbutton)return 1 + i;
+        }
+        for(var i = 0;i < this.axesRemappers[this.curGamepadIndex].length;i++){
+            if(this.axesRemappers[this.curGamepadIndex][i] === snesbutton)return 1 + i + this.buttonRemappers[this.curGamepadIndex].length;
+        }
+        return 0;
+    }
     getHoldButton(){
         this.gamepads = navigator.getGamepads();
         if(this.curGamepadIndex >= this.gamepads.length || !this.gamepads[0] || !this.gamepads[this.curGamepadIndex].connected)return 0;

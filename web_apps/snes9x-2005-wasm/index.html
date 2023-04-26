@@ -7,6 +7,11 @@
   <title>Snes9x-2005-wasm</title>
 </head>
 <body>
+  <template id="buttonRemapSelectParentTemplate">
+    <div class="buttonRemapSelectParent">
+      <select class="buttonRemapSelect"></select>
+    </div>
+  </template>
   <div id="root">
     <div id="menu">
       <div id="menuHeader">
@@ -22,7 +27,56 @@
           <div class="squareButton" id="loadSramButton"><div class="squareButtonMsg">Load SRAM</div></div>
           <div class="squareButton" id="saveSramButton"><div class="squareButtonMsg">Save SRAM</div></div>
           <div class="squareButton" id="aboutButton"><div class="squareButtonMsg">About</div></div>
+          <div class="squareButton" id="gamepadSettingsButton"><div class="squareButtonMsg">Gamepad</div></div>
         </div>
+        </div>
+        <div id="gamepadSettings">
+          <div id="gamepadNameShowParent">
+            <div id="gamepadNameShow">no controller connected</div>
+          </div>
+          <div id="gamepadButtonSettings">
+            <div class="flex1"></div>
+            <div id="gamepadButtonSettingsButtonName">
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">START:</div>
+              </div>
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">SELECT:</div>
+              </div>
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">A:</div>
+              </div>
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">B:</div>
+              </div>
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">X:</div>
+              </div>
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">Y:</div>
+              </div>
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">L:</div>
+              </div>
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">R:</div>
+              </div>
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">D-Pad RIGHT:</div>
+              </div>
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">D-Pad LEFT:</div>
+              </div>
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">D-Pad DOWN:</div>
+              </div>
+              <div class="gamepadButtonSettingsButtonNameShowParent">
+                <div class="gamepadButtonSettingsButtonNameShow">D-Pad UP:</div>
+              </div>
+            </div>
+            <div id="buttonRemapSelectParentParent"></div>
+            <div class="flex1"></div>
+          </div>
         </div>
         <div id="aboutParent">
           <div class="flex1"></div>
