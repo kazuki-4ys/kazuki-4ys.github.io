@@ -295,6 +295,8 @@ function applySettingsToGamePad(){
     var axisRemaptarget = selects[i].value - (1 + g.buttonRemappers[g.curGamepadIndex].length);
     if(axisRemaptarget > -1 && axisRemaptarget < g.axesRemappers[g.curGamepadIndex].length)g.axesRemappers[g.curGamepadIndex][axisRemaptarget] = Number(selects[i].getAttribute("data-snes-button"));
   }
+  g.saveSettingsToDict();
+  g.saveDictToLocalStorage();
 }
 
 function applyGamepadSettingsToUI(){
@@ -328,6 +330,7 @@ function createButtonRemapSelectParentParent(){
     el("buttonRemapSelectParentParent").style.display = "none";
     return;
   }
+  g.setSettingsFromDict();
   el("gamepadButtonSettingsButtonName").style.display = "block";
   el("buttonRemapSelectParentParent").style.display = "block";
   el("gamepadNameShow").innerHTML = g.gamepads[g.curGamepadIndex].id;
@@ -349,7 +352,7 @@ function createButtonRemapSelectParentParent(){
       select.insertBefore(option, null);
       curValue++;
     }
-    for(var j = 0;j < g.axesRemappers[g.curGamepadIndex].length * 2;j++){
+    for(var j = 0;j < g.axesRemappers[g.curGamepadIndex].length;j++){
       var curAxeIndex = Math.floor(j / 2);
       option = document.createElement("option");
       option.setAttribute("value", String(curValue));
