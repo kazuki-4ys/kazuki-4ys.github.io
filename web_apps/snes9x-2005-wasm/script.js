@@ -1,12 +1,15 @@
-const SAMPLE_RATE = 32050;
+const SAMPLE_RATE = 32040;
 
 var isFullScreen = false;
 var isModuleInited = false;
 var isMenuDisplay = true;
 var ac = null;
+var noSound = false;
 var dummyBufferSource = null;
 var keyInput = 0;
 var softPadInput = 0;
+var isVisible = true;
+var userMute = false;
 var g = new gamepad();
 
 function el(id) {
@@ -121,6 +124,14 @@ document.addEventListener("keyup", (e) =>{
   }
 });
 
+document.onvisibilitychange = function(e) {
+  if(document.hidden) {
+    isVisible = false;
+  }else{
+    isVisible = true;
+  }
+}
+
 class MyFileReader extends FileReader{
   constructor(_buttonElement, filter){
       super();
@@ -162,6 +173,7 @@ function exitMenu(){
 
 var romFr = new MyFileReader(el("loadRomButton"), ".sfc,.smc");
 romFr.loadHandlerFunc = () => {
+  if(!ac && (noSound === false))enableSound();
   romPtr = setUint8ArrayToCMemory(romFr.fileData);
   Module._startWithRom(romPtr, romFr.fileData.length, SAMPLE_RATE);
   Module._my_free(romPtr);
@@ -178,18 +190,45 @@ sramFr.loadHandlerFunc = () => {
   exitMenu();
 };
 
-/*function enableSound(){//ユーザーの動きで呼び出す(ボタンを押させるとか)
+function scriptNodeProcess(e){
+  if(!isModuleInited)return;
+  let outputL = e.outputBuffer.getChannelData(0);
+  let outputR = e.outputBuffer.getChannelData(1);
+  if(isMenuDisplay || !isVisible || userMute){
+    for(var i = 0;i < 2048;i++)outputL[i] = 0;
+    for(var i = 0;i < 2048;i++)outputR[i] = 0;
+  }else{
+    var soundBuffer = new Float32Array(Module.HEAPF32.buffer, Module._getSoundBuffer(), 2048 * 2);
+    //console.log(soundBuffer);
+    for(var i = 0;i < 2048;i++)outputL[i] = soundBuffer[i];
+    for(var i = 0;i < 2048;i++)outputR[i] = soundBuffer[i + 2048];
+  }
+}
+
+function enableSound(){//ユーザーの動きで呼び出す(ボタンを押させるとか)
   var AudioContext = window.AudioContext || window.webkitAudioContext;
-  if(!AudioContext)return;
+  if(!AudioContext){
+    noSound = true;
+    return;
+  }
   ac = new AudioContext({sampleRate: SAMPLE_RATE});
-  dummyBufferSource = ac.createBufferSource();
-  dummyBufferSource.loop = true;
-  dummyBufferSource.loopStart = 0;
-  dummyBufferSource.loopEnd = 0.5;
-  dummyBufferSource.buffer = ac.createBuffer(2, 0.5 * SAMPLE_RATE, SAMPLE_RATE);
-  dummyBufferSource.connect(ac.destination);
-  dummyBufferSource.start();
-}*/
+  if(!ac){
+    noSound = true;
+    return;
+  }
+  var scriptNode = null;
+  if(ac.createScriptProcessor){
+    scriptNode = ac.createScriptProcessor(2048, 0, 2);
+  }else if(ac.createJavaScriptNode){
+    scriptNode = ac.createJavaScriptNode(2048, 0, 2);
+  }else{
+    ac = null;
+    noSound = true;
+    return;
+  }
+  scriptNode.onaudioprocess = scriptNodeProcess;
+  scriptNode.connect(ac.destination);
+}
 
 function setUint8ArrayToCMemory(src){
   var buffer = Module._my_malloc(src.length);
@@ -270,6 +309,15 @@ function saveSram(){
 
 el("menuCloseButton").addEventListener("click", (e) => {
   exitMenu();
+});
+
+el("muteButton").addEventListener("click", (e) => {
+  userMute = !userMute;
+  if(userMute){
+    el("muteButtonMsg").innerHTML = "Unmute";
+  }else{
+    el("muteButtonMsg").innerHTML = "Mute";
+  }
 });
 
 el("saveSramButton").addEventListener("click", (e) => {
