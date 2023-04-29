@@ -1,4 +1,4 @@
-const SAMPLE_RATE = 32040;
+const SAMPLE_RATE = 36000;
 
 var isFullScreen = false;
 var isModuleInited = false;
