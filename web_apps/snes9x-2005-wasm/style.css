@@ -135,7 +135,7 @@ a{
   grid-area: squareButtonParent;
   margin-left: 50px;
   display: grid;
-  grid-template-columns: repeat(7, auto);
+  grid-template-columns: repeat(9, auto);
   column-gap: 50px;
   row-gap: 50px;
   margin-top: 100px;
@@ -378,6 +378,18 @@ option:nth-child(n){
   height: 30px;
   width: 30px;
   border-radius:50%;
+}
+
+@media screen and (max-width: 1900px){
+  #squareButtonParent{
+    grid-template-columns: repeat(8, auto);
+  }
+}
+
+@media screen and (max-width: 1700px){
+  #squareButtonParent{
+    grid-template-columns: repeat(7, auto);
+  }
 }
 
 @media screen and (max-width: 1500px){

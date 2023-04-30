@@ -190,6 +190,15 @@ sramFr.loadHandlerFunc = () => {
   exitMenu();
 };
 
+var stateFr = new MyFileReader(el("loadStateButton"), ".s95ws");
+stateFr.loadHandlerFunc = () => {
+  var fileData = stateFr.fileData;
+  var statePtr = setUint8ArrayToCMemory(fileData);
+  Module._loadState(statePtr, fileData.length);
+  Module._my_free(statePtr);
+  exitMenu();
+};
+
 function scriptNodeProcess(e){
   if(!isModuleInited)return;
   let outputL = e.outputBuffer.getChannelData(0);
@@ -303,8 +312,17 @@ function saveSram(){
   if(sramSize == 0)return;
   var sramPtr = Module._getSaveSram();
   var sram = new Uint8Array(new Uint8Array(Module.HEAP8.buffer, sramPtr, sramSize));
-  Module._my_free(sram);
+  Module._my_free(sramPtr);
   fileSave(sram, "save.srm");
+}
+
+function saveState(){
+  var stateSize = Module._getStateSaveSize();
+  var statePtr = Module._saveState();
+  if(statePtr == 0)return;
+  var state = new Uint8Array(new Uint8Array(Module.HEAP8.buffer, statePtr, stateSize));
+  Module._my_free(statePtr);
+  fileSave(state, "state.s95ws");
 }
 
 el("menuCloseButton").addEventListener("click", (e) => {
@@ -323,6 +341,11 @@ el("muteButton").addEventListener("click", (e) => {
 el("saveSramButton").addEventListener("click", (e) => {
   if(!isModuleInited)return;
   saveSram();
+});
+
+el("saveStateButton").addEventListener("click", (e) => {
+  if(!isModuleInited)return;
+  saveState();
 });
 
 el("aboutButton").addEventListener("click", (e) => {
