@@ -3,10 +3,13 @@ class MousePos{
         this.x = 0;
         this.y = 0;
         document.getElementsByTagName('body')[0].addEventListener("mousemove", {handleEvent: this.mouseMoveHandler, self: this});
-        document.getElementsByTagName('body')[0].addEventListener("touchmove", {handleEvent: this.mouseMoveHandler, self: this});
+        document.getElementsByTagName('body')[0].addEventListener("touchmove", {handleEvent: this.touchMoveHandler, self: this});
     }
     mouseMoveHandler(e){
         this.self.mouseMove(e);
+    }
+    touchMoveHandler(e){
+        this.self.touchMove(e);
     }
     mouseMove(e){
         this.x = e.pageX;
