@@ -1,3 +1,13 @@
+function el(elId){
+    return document.getElementById(elId);
+}
+
+function ssValueChangedHandler(arg, value){
+    arg.setOffset(value);
+}
+
+var ss = new SimpleSlider(500, el("sliderBar"), el("sliderKnob"));
+
 class Sound{
     constructor(soundParams, rawPcm16){
         this.isLooped = false;
@@ -67,6 +77,10 @@ class SoundPlayer{
         time.innerHTML = this.getTimeStr(0) + "/" + this.getTimeStr(sound.loopEnd / sound.sampleRate * 1000);
         if(fn.length > 50)fn = fn.substr(0,49) + "...";
         cdMsg.innerHTML = fn;
+        ss.sliderBar.maxValue = sound.loopEnd / sound.sampleRate;
+        ss.knob.value = 0;
+        ss.knob.valueChangedArg = this;
+        ss.knob.valueChangedHandleFunc = ssValueChangedHandler;
     }
     createAudioContext(){
         if(window.AudioContext){
@@ -123,6 +137,11 @@ class SoundPlayer{
     }
     setOffset(val){
         if(!this.valid)return;
+        if(!this.source){
+            console.log("this.sourece is invalid!!");
+            ss.knob.setValue(0);
+            return;
+        }
         this.offset = val;
         while(this.offset >= this.source.loopEnd){
             this.offset -= (this.source.loopEnd - this.source.loopStart);
@@ -216,7 +235,12 @@ class SoundPlayer{
                 setLevel(curLevelIdx, curLevel[j]);
             }
         }
-        time.innerHTML = self.getTimeStr(curOffset * 1000) + "/" + self.getTimeStr(self.source.loopEnd * 1000);
+        if(ss.knob.isKnobGrabbed){
+            time.innerHTML = self.getTimeStr(ss.knob.value * 1000) + "/" + self.getTimeStr(self.source.loopEnd * 1000);
+        }else{
+            time.innerHTML = self.getTimeStr(curOffset * 1000) + "/" + self.getTimeStr(self.source.loopEnd * 1000);
+            ss.knob.setValue(curOffset);
+        }
         self.cdDeg += 0.6;
         cdMsg.style.transform = "rotate(" + self.cdDeg + "deg)";
     }

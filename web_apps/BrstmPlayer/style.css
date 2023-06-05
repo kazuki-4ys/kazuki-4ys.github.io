@@ -140,6 +140,33 @@ img{
     flex:1;
 }
 
+#sliderParent{
+    display: grid;
+    grid-template:
+    "... ... ..." 30px
+    "... sliderBar ..." 5px
+    "... ... ..." 30px /
+    50px 1fr 50px;
+}
+
+#sliderBar{
+    grid-area: sliderBar;
+    position: relative;
+    background-color: #42ADB5;
+}
+
+#sliderKnob{
+    cursor: pointer;
+    position: absolute;
+    top: -15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border:2.5px solid;
+    background-color: #03080B;
+    border-color:#42ADB5;
+}
+
 @media screen and (max-width: 520px) {
     #cd{
         width: 300px;
@@ -177,6 +204,21 @@ img{
         height: 37.5px;
         font-size: 30px;
         min-height: 33px;
+    }
+    #sliderParent{
+        grid-template:
+        "... ... ..." 15px
+        "... sliderBar ..." 2.5px
+        "... ... ..." 15px /
+        25px 1fr 25px;
+    }
+    
+    #sliderKnob{
+        top: -7.5px;
+        width: 15px;
+        height: 15px;
+        border: 1.25px solid;
+        border-color: #42ADB5;
     }
 }
 
