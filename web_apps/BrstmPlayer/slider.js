@@ -9,6 +9,10 @@ class MousePos{
         this.self.mouseMove(e);
     }
     mouseMove(e){
+        this.x = e.pageX;
+        this.y = e.pageY;
+    }
+    touchMove(e){
         this.x = e.touches[0].pageX;
         this.y = e.touches[0].pageY;
     }
