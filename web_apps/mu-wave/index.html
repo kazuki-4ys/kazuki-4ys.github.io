@@ -74,7 +74,7 @@
                             ループさせる
                         </div>
                         <div id="loopCheckBoxParent">
-                            <img id="loopCheckBox" src="checked.png">
+                            <img id="loopCheckBox" src="checked.png" class="imgCheckBox">
                         </div>
                     </div>
                     <div id="sampleRate">
@@ -98,19 +98,43 @@
                             BRSTM(Wii)
                         </div>
                         <div>
-                            <img id="brstmCheckBox" src="checked.png">
+                            <img id="brstmCheckBox" src="checked.png" class="imgCheckBox">
                         </div>
                         <div class="flex1"></div>
                         <div>
                             BFSTM(Switch)
                         </div>
                         <div>
-                            <img id="bfstmCheckBox" src="none.png">
+                            <img id="bfstmCheckBox" src="none.png" class="imgCheckBox">
                         </div>
                     </div>
-                    <div id="buildButton" class="bigButton">
-                        <div id="buildButtonMsg">
-                            BRSTM作成!
+                    <div id="sliderParent">
+                        <div id="sliderBar">
+                            <div id="sliderKnob" draggable="false">
+                            </div>
+                            <img class="loopStartKnob" src="loopStart.png" draggable="false">
+                            <img class="loopEndKnob" src="loopEnd.png" draggable="false">
+                            <div class="loopFrontBar">
+                            </div>
+                            <div class="loopGapBar">
+                            </div>
+                            <div class="loopEndBar">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="testPlayPosDisplay">
+                        0/0
+                    </div>
+                    <div id="testPlayPauseButtonParent">
+                        <div class="flex1"></div>
+                        <img id="testPlayPauseButton" src="play.png">
+                        <div class="flex1"></div>
+                    </div>
+                    <div id="buildButtonParent">
+                        <div id="buildButton" class="bigButton">
+                            <div id="buildButtonMsg">
+                                BRSTM作成!
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -173,5 +197,6 @@ SOFTWARE.
             <a id="startAgain" class="defaultHidden" href="#">最初からやり直す</a>
         </div>
     </div>
+    <script src="slider.js"></script>
     <script src="script.js"></script>
 </body>

@@ -10,6 +10,7 @@ html {
 }
 
 body{
+    user-select: none;
     min-height: 100vh;
     display:flex;
     flex-direction: column;
@@ -33,7 +34,7 @@ option:nth-child(n){
     border-color:#42ADB5;
 }
 
-img{
+.imgCheckBox{
     cursor: pointer;
     box-sizing:border-box;
     border:5px solid;
@@ -89,10 +90,6 @@ h1{
 
 .containerPadding{
     flex:1;
-}
-
-#container{
-
 }
 
 #default{
@@ -156,9 +153,15 @@ h1{
     "... ... ..." 20px
     "loopStartEndParent loopStartEndParent loopStartEndParent"
     "... ... ..." 20px
+    "sliderParent sliderParent sliderParent"
+    "... ... ..." 20px
+    "testPlayPosDisplay testPlayPosDisplay testPlayPosDisplay"
+    "... ... ..." 20px
+    "testPlayPauseButtonParent testPlayPauseButtonParent testPlayPauseButtonParent"
+    "... ... ..." 20px
     "formatSelectLine formatSelectLine formatSelectLine"
     "... ... ..." 1fr
-    "... buildButton ..."
+    "... buildButtonParent ..."
     "... ... ..." 1fr
     / 1fr auto 1fr;
 }
@@ -199,6 +202,98 @@ h1{
     "... ..." 20px
     "loopEndMsg loopEndParent"
     / auto 1fr;
+}
+
+#sliderParent{
+    grid-area: sliderParent;
+    display: grid;
+    grid-template:
+    "... ... ..." 30px
+    "... sliderBar ..." 5px
+    "... ... ..." 30px /
+    50px 1fr 50px;
+}
+
+#sliderBar{
+    display: flex;
+    grid-area: sliderBar;
+    position: relative;
+    background-color: #03080B;
+}
+
+#sliderKnob{
+    z-index: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: -15px;
+    width: 30px;
+    height: 30px;
+    border:2.5px solid;
+    background-color: #03080B;
+    border-color:#42ADB5;
+}
+
+.loopStartKnob{
+    cursor: pointer;
+    position: absolute;
+    top: -30px;
+    width: 30px;
+    height: 30px;
+}
+
+.loopEndKnob{
+    cursor: pointer;
+    position: absolute;
+    top: -30px;
+    width: 30px;
+    height: 30px;
+}
+
+.loopFrontBar{
+    height: 100%;
+    width: 20%;
+    background-color: #42ADB5;
+}
+
+.loopGapBar{
+    height: 100%;
+    width: 60%;
+    background-color: #C68BBA
+}
+
+.loopEndBar{
+    height: 100%;
+    flex: 1;
+    background-color: #123133;
+}
+
+#testPlayPosDisplay{
+    grid-area: testPlayPosDisplay;
+    text-align: center;
+}
+
+#testPlayPauseButtonParent{
+    display: flex;
+    grid-area: testPlayPauseButtonParent;
+}
+
+#testPlayPauseButton{
+    cursor: pointer;
+    border:5px solid;
+    border-color:#42ADB5;
+    height: 35px;
+}
+
+#buildButtonParent{
+    height: 400px;
+    grid-area: buildButtonParent;
+    display: grid;
+    grid-template:
+    "... .............. ..." 1fr
+    "... buildButton ..."
+    "... .............. ..." 1fr
+    / 1fr auto 1fr;
 }
 
 #buildButton{
@@ -312,7 +407,7 @@ h1{
     #title{
         font-size: 40px;
     }
-    img{
+    .imgCheckBox{
         border:2.5px solid;
     }
     input{
@@ -347,12 +442,23 @@ h1{
         "... ... ..." 10px
         "loopStartEndParent loopStartEndParent loopStartEndParent"
         "... ... ..." 10px
+        "sliderParent sliderParent sliderParent"
+        "... ... ..." 10px
+        "testPlayPosDisplay testPlayPosDisplay testPlayPosDisplay"
+        "... ... ..." 10px
+        "testPlayPauseButtonParent testPlayPauseButtonParent testPlayPauseButtonParent"
+        "... ... ..." 10px
         "formatSelectLine formatSelectLine formatSelectLine"
         "... ... ..." 1fr
-        "... buildButton ..."
+        "... buildButtonParent ..."
         "... ... ..." 1fr
         / 1fr auto 1fr;
     }
+    
+    #buildButtonParent{
+        height: 200px;
+    }
+
     #loopStartEndParent{
         grid-template:
         "loopStartMsg loopStartParent"
@@ -360,6 +466,43 @@ h1{
         "loopEndMsg loopEndParent"
         / auto 1fr;
     }
+
+    #sliderParent{
+        grid-area: sliderParent;
+        display: grid;
+        grid-template:
+        "... ... ..." 15px
+        "... sliderBar ..." 2.5px
+        "... ... ..." 15px /
+        25px 1fr 25px;
+    }
+    
+    #sliderKnob{
+        top: -7.5px;
+        width: 15px;
+        height: 15px;
+        border: 1.25px solid;
+        background-color: #03080B;
+        border-color:#42ADB5;
+    }
+    
+    .loopStartKnob{
+        top: -15px;
+        width: 15px;
+        height: 15px;
+    }
+    
+    .loopEndKnob{
+        top: -15px;
+        width: 15px;
+        height: 15px;
+    }
+
+    #testPlayPauseButton{
+        border: 2.5px solid;
+        height: 17.5px;
+    }
+
     #paramsSettingsContentHeader{
         height: 22.5px;
     }

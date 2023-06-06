@@ -18,6 +18,7 @@ var buildButtonMsg = document.getElementById("buildButtonMsg");
 var paramsSettings = document.getElementById("paramsSettings");
 var encodeWaiting = document.getElementById("encodeWaiting");
 var loopCheckBox = document.getElementById("loopCheckBox");
+var testPlayPosDisplay = document.getElementById("testPlayPosDisplay");
 var brstmCheckBox = document.getElementById("brstmCheckBox");
 var bfstmCheckBox = document.getElementById("bfstmCheckBox");
 var progressBarFilled = document.getElementById("progressBarFilled");
@@ -32,6 +33,144 @@ var noneImg = document.createElement("img");
 noneImg.src = "none.png";
 var saveLink = document.createElement('a');
 saveLink.download = "output.brstm";
+var tps = null;
+var sp = null;
+
+class Sound{
+    constructor(_rawPcm16, _soundParams){
+        this.ac = new (window.AudioContext || window.webkitAudioContext)({sampleRate: _soundParams[0]});
+        this.buffer = this.ac.createBuffer(
+            2,
+            _soundParams[1],
+            _soundParams[0],
+        );
+        if(_soundParams[5] > 1){//2ch以上ある場合
+            for(var i = 0;i < 2;i++){
+                var curChannelBuffer = this.buffer.getChannelData(i);
+                for(var j = 0;j < _soundParams[1];j++)curChannelBuffer[j] = _rawPcm16[i * _soundParams[1] + j] / 0x8000;
+            }
+        }else{
+            for(var i = 0;i < 2;i++){
+                var curChannelBuffer = this.buffer.getChannelData(i);
+                for(var j = 0;j < _soundParams[1];j++)curChannelBuffer[j] = _rawPcm16[j] / 0x8000;
+            }
+        }
+    }
+}
+
+class SoundPlayer{
+    constructor(_pcmPtr, _soundParams){
+        this.isPlaying = false;
+        this.pcmPtr = _pcmPtr;
+        this.soundParams = _soundParams;
+        this.sampleRate = this.soundParams[0];
+        this.sampleLength = this.soundParams[1];
+        this.isLooped = false;
+        if(this.soundParams[2])this.isLooped = true;
+        this.loopStart = this.soundParams[3] / this.soundParams[0];
+        this.loopEnd = this.soundParams[4] / this.soundParams[0];
+        this.sound = null;
+        this.source = null;
+        this.offset = 0;
+        window.requestAnimationFrame(this.animationFrameHandler.bind(null, this));
+    }
+    animationFrameHandler(self){
+        self.update();
+        window.requestAnimationFrame(self.animationFrameHandler.bind(null, self));
+    }
+    update(){
+        if(this.isPlaying){
+            var displayTime = this.getCorrectDisplayTime();
+            if(displayTime > (this.sampleLength / this.sampleRate) && !this.source.loop){//最後まで再生した
+                console.log(displayTime);
+                console.log("sound ended!!");
+                this.isPlaying = false;
+                this.setOffset(0);
+                displayTime = 0;
+                el("testPlayPauseButton").src = "play.png"
+            }
+            if(tps)tps.curPosKnob.setValue(displayTime * this.sampleRate);
+            if(tps && (!tps.curPosKnob.isKnobGrabbed))testPlayPosDisplay.innerHTML = Math.floor(displayTime * this.sampleRate) + "/" + this.soundParams[1];
+        }
+        if(tps && tps.curPosKnob.isKnobGrabbed)testPlayPosDisplay.innerHTML = Math.floor(tps.curPosKnob.value) + "/" + this.soundParams[1];
+    }
+    createSound(){
+        this.sound = new Sound(this.pcmPtr, this.soundParams);
+    }
+    pause(){
+        if(!this.isPlaying)return;
+        this.offset = this.getCorrectDisplayTime();
+        this.createBufferSource();
+        this.isPlaying = false;
+    }
+    play(){
+        if(this.isPlaying)return;
+        if(!this.source)this.createBufferSource();
+        this.source.connect(this.sound.ac.destination);
+        this.startTime = this.sound.ac.currentTime;
+        this.source.start(this.startTime, this.offset);
+        this.isPlaying = true;
+    }
+    getCorrectDisplayTime(){
+        if(!this.isPlaying)return this.offset;
+        var displayTime = this.sound.ac.currentTime - this.startTime;
+        if(displayTime < 0)displayTime = 0;
+        displayTime += this.offset;
+        var loopStartSec = this.loopStart;
+        var loopEndSec = this.loopEnd;
+        if(this.source && this.source.loop){
+            while(displayTime >= loopEndSec){
+                displayTime -= (loopEndSec - loopStartSec);
+            }
+        }
+        return displayTime;
+    }
+    getCorrectOffset(val){
+        if(val < 0)val = 0;
+        if(val > (this.sampleLength / this.sampleRate))val = (this.sampleLength / this.sampleRate);
+        return val;
+    }
+    createBufferSource(){
+        if(!this.sound)this.createSound();
+        try{
+            if(this.source)this.source.stop();
+        }catch(e){
+            console.log(e);
+        }
+        this.source = this.sound.ac.createBufferSource();
+        this.source.buffer = this.sound.buffer;
+        if(this.isLooped && (this.offset < this.loopEnd)){
+            this.source.loopStart = this.loopStart;
+            this.source.loopEnd = this.loopEnd;
+            this.source.loop = true;
+        }
+    }
+    changeLoopSettings(_isLooped, _loopStart, _loopEnd){
+        this.offset = this.getCorrectDisplayTime();
+        this.offset = this.getCorrectOffset(this.offset);
+        this.isLooped = _isLooped;
+        this.loopStart = _loopStart;
+        this.loopEnd = _loopEnd;
+        this.setOffset(this.offset);
+    }
+    setOffset(val){
+        console.log(val);
+        if(!this.sound)this.createSound();
+        this.offset = this.getCorrectOffset(val);
+        this.createBufferSource();
+        if(tps && (!tps.curPosKnob.isKnobGrabbed))testPlayPosDisplay.innerHTML = Math.floor(this.offset * this.sampleRate) + "/" + this.soundParams[1];
+        if(this.isPlaying){
+            this.source.connect(this.sound.ac.destination);
+            this.startTime = this.sound.ac.currentTime;
+            this.source.start(this.startTime, this.offset);
+        }
+    }
+}
+
+function el(id){
+    return document.getElementById(id);
+}
+  
 
 var buildBfstm = false;
 var isDecoding = false;
@@ -179,6 +318,15 @@ soundWorker.onmessage = function(e) {
                 startAgain.style.display = "block";
                 defaultDiv.style.display = "none";
                 paramsSettings.style.display = "block";
+                tps = new TestPlaySlider(soundParams[1], el("sliderBar"), el("sliderKnob"), el("sliderBar").querySelector(".loopStartKnob"), el("sliderBar").querySelector(".loopEndKnob"));
+                tps.loopStartKnob.value = soundParams[3];
+                tps.loopEndKnob.value = soundParams[4];
+                sp = new SoundPlayer(rawPcm16, soundParams);
+                tps.curPosKnob.valueChangedHandleFunc = curPosKnobValueChangedHandler;
+                tps.loopStartKnob.valueChangedHandleFunc = loopStartKnobValueChangedHandler;
+                tps.loopEndKnob.valueChangedHandleFunc = loopEndValueChangedHandler;
+                testPlayPosDisplay.innerHTML = "0/" + soundParams[1];
+                //sp.play();
             }else{
                 if(islangJpn){
                     musicErrorMsg.innerHTML = "無効なファイルです";
@@ -211,11 +359,66 @@ musicButton.addEventListener('click',(event) => {
 
 loopCheckBox.addEventListener('click',(event) => {
     if(soundParams[2]){
-        loopCheckBox.src = noneImg.src;
         soundParams[2] = 0;
     }else{
-        loopCheckBox.src = checkedImg.src;
         soundParams[2] = 1;
+    }
+    applyLoopSettingsToUIAndSp();
+});
+
+function applyLoopSettingsToUIAndSp(){
+    var isLooped = false;
+    if(soundParams[2] == 1){
+        isLooped = true;
+        loopCheckBox.src = checkedImg.src;
+    }else{
+        loopCheckBox.src = noneImg.src;
+    }
+    loopStart.value = soundParams[3].toString(10);
+    loopEnd.value = soundParams[4].toString(10);
+    tps.loopStartKnob.setValue(soundParams[3]);
+    tps.loopEndKnob.setValue(soundParams[4]);
+    sp.changeLoopSettings(isLooped, soundParams[3] / soundParams[0], soundParams[4] / soundParams[0]);
+}
+
+function curPosKnobValueChangedHandler(arg, value){
+    sp.setOffset(value / soundParams[0]);
+}
+
+function loopStartKnobValueChangedHandler(arg, value){
+    value = Math.floor(value);
+    if(value >= (soundParams[1] - 1)){
+        soundParams[4] = soundParams[1] - 1;
+        soundParams[3] = soundParams[4] - 1;
+        applyLoopSettingsToUIAndSp();
+        return;
+    }
+    if(value >= soundParams[4])soundParams[4] = value + 1;
+    soundParams[3] = value;
+    applyLoopSettingsToUIAndSp();
+}
+
+function loopEndValueChangedHandler(arg, value){
+    value = Math.floor(value);
+    if(value >= soundParams[1])value = soundParams[1] - 1;
+    if(value < 2){
+        soundParams[4] = 1;
+        soundParams[3] = 0;
+        applyLoopSettingsToUIAndSp();
+        return;
+    }
+    if(value <= soundParams[3])soundParams[3] = value - 1;
+    soundParams[4] = value;
+    applyLoopSettingsToUIAndSp();
+}
+
+el("testPlayPauseButton").addEventListener('click', event => {
+    if(sp.isPlaying){
+        sp.pause();
+        el("testPlayPauseButton").src = "play.png";
+    }else{
+        sp.play();
+        el("testPlayPauseButton").src = "stop.png";
     }
 });
 
@@ -249,6 +452,7 @@ bfstmCheckBox.addEventListener('click', (event =>{
 
 
 buildButton.addEventListener('click',(event) => {
+    sp.pause();
     saveButton.style.display = "none";
     progressBarFilled.style.width = "0%";
     paramsSettings.style.display = "none";
@@ -265,19 +469,38 @@ channelCount.addEventListener('change',(event) => {
 });
 
 loopStart.addEventListener('change',(event) => {
-    var tmp = ston(loopStart.value);
-    if(tmp > -1 && tmp < soundParams[4]){
-        soundParams[3] = tmp;
+    var value = ston(loopStart.value);
+    if(value < 0){
+        loopStart.value = soundParams[3].toString(10);
+        return;
     }
-    loopStart.value = soundParams[3].toString(10);
+    if(value >= (soundParams[1] - 1)){
+        soundParams[4] = soundParams[1] - 1;
+        soundParams[3] = soundParams[4] - 1;
+        applyLoopSettingsToUIAndSp();
+        return;
+    }
+    if(value >= soundParams[4])soundParams[4] = value + 1;
+    soundParams[3] = value;
+    applyLoopSettingsToUIAndSp();
 });
 
 loopEnd.addEventListener('change',(event) => {
-    var tmp = ston(loopEnd.value);
-    if(tmp > soundParams[3] && tmp < soundParams[1]){
-        soundParams[4] = tmp;
+    var value = ston(loopEnd.value);
+    if(value < 0){
+        loopEnd.value = soundParams[4].toString(10);
+        return;
     }
-    loopEnd.value = soundParams[4].toString(10);
+    if(value >= soundParams[1])value = soundParams[1] - 1;
+    if(value < 2){
+        soundParams[4] = 1;
+        soundParams[3] = 0;
+        applyLoopSettingsToUIAndSp();
+        return;
+    }
+    if(value <= soundParams[3])soundParams[3] = value - 1;
+    soundParams[4] = value;
+    applyLoopSettingsToUIAndSp();
 });
 
 musicOpen.addEventListener('change',(event) => {
