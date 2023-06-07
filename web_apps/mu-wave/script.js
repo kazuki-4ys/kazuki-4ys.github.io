@@ -183,8 +183,8 @@ if(!islangJpn){
     description.innerHTML = "<h1>Super Easy Online BRSTM/BFSTM(Switch) Maker</h1>";
     initWaiting.innerHTML = "Preparing...<br>Please wait a moment.";
     initFail.innerHTML = "An error has ocurred during initialize μ-wave";
-    document.getElementById("defaultMsg").innerHTML = "Welcome to μ-wave!<br>μ-wave is web-based BRSTM maker using WebAssembly.<br>Multi-Channel BRSTM is also supported.<br>Let's drop your mp3 or wave file now!";
-    musicButtonMsg.innerHTML = "Drop sound file or click!<br>supported file:mp3, wave";
+    document.getElementById("defaultMsg").innerHTML = "Welcome to μ-wave!<br>μ-wave is web-based BRSTM maker using WebAssembly.<br>Multi-Channel BRSTM is also supported.<br>Let's drop your mp3, wave or ogg file now!";
+    musicButtonMsg.innerHTML = "Drop sound file or click!<br>supported file:mp3, wave, ogg";
     document.getElementById("channelCountMsg").innerHTML = "Select Channels:";
     document.getElementById("loopCheckBoxMsg").innerHTML = "Loop";
     document.getElementById("loopStartMsg").innerHTML = "Loop start(Samples):";
@@ -293,9 +293,9 @@ soundWorker.onmessage = function(e) {
         case "decode_result":
             isDecoding = false;
             if(islangJpn){
-                musicButtonMsg.innerHTML = "音声ファイルをドロップorクリック!<br>対応ファイル:mp3, wave";
+                musicButtonMsg.innerHTML = "音声ファイルをドロップorクリック!<br>対応ファイル:mp3, wave, ogg";
             }else{
-                musicButtonMsg.innerHTML = "Drop sound file or click!<br>supported format:mp3, wave";
+                musicButtonMsg.innerHTML = "Drop sound file or click!<br>supported format:mp3, wave, ogg";
             }
             if(e.data.result){
                 soundParams = e.data.result.soundParams;
@@ -547,7 +547,7 @@ footerOss.addEventListener('click', function(event){
     }else{
         title.innerHTML = "OSS in use";
     }
-    description.innerHTML = "<a href=\"https://github.com/Thealexbarney/DspTool\"><h1>DspTool</h1></a>";
+    description.innerHTML = "";
     defaultDiv.style.display = "none";
     ossLicense.style.display = "block";
     footerOss.style.display = "none";

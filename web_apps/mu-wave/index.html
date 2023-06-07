@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <input type="file" class="defaultHidden" id="musicOpen" accept=".wav,.wave,.mp3">
+    <input type="file" class="defaultHidden" id="musicOpen" accept=".wav,.wave,.mp3,.ogg">
     <div id="header">
         <div id="title">μ-wave</div>
         <div id="description"><h1>超お手軽オンラインBRSTM/BFSTM(Switch) Maker</h1></div>
@@ -38,13 +38,13 @@
                     μ-waveへようこそ!<br>
                     μ-waveは音声のデコード、エンコード処理をC言語で書き、WebAssembly形式へコンパイルしてブラウザ上で実行することで、JavaScriptよりも高速に(多分)BRSTMを作成できるツールです<br>
                     さらにあの作るのがめんどくさいマルチBRSTMにも対応しています<br>
-                    さぁ、いますぐmp3かwaveファイルをドロップしよう!!
+                    さぁ、いますぐmp3, wave, oggファイルをドロップしよう!!
                     </div>
                     <div id="musicButtonParent">
                         <div id="musicButton" class="bigButton">
                             <div id="musicButtonMsg">
                                 音声ファイルをドロップorクリック!
-                                <br>対応ファイル:mp3, wave
+                                <br>対応ファイル:mp3, wave, ogg
                             </div>
                         </div>
                         <div id="musicErrorMsg"></div>
@@ -161,7 +161,9 @@
                 </div>
             </div>
             <div id="ossLicense" class="defaultHidden">
-                
+<a href="https://github.com/Thealexbarney/DspTool">DspTool</a>
+<br>
+<br>
 MIT License<br>
 <br>
 Copyright (c) 2017 Alex Barney<br>
@@ -182,7 +184,105 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br>
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br>
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br>
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE<br>
-SOFTWARE.
+SOFTWARE.<br>
+<br>
+<a href="https://xiph.org/downloads/">libOgg</a>
+<br>
+<br>
+Ogg - Free Open Media Container Format<br>
+Copyright (c) 2002 Xiph.org Foundation<br>
+<br>
+Redistribution and use in source and binary forms, with or without<br>
+modification, are permitted provided that the following conditions<br>
+are met:<br>
+<br>
+- Redistributions of source code must retain the above copyright<br>
+notice, this list of conditions and the following disclaimer.<br>
+<br>
+- Redistributions in binary form must reproduce the above copyright<br>
+notice, this list of conditions and the following disclaimer in the<br>
+documentation and/or other materials provided with the distribution.<br>
+<br>
+- Neither the name of the Xiph.org Foundation nor the names of its<br>
+contributors may be used to endorse or promote products derived from<br>
+this software without specific prior written permission.<br>
+<br>
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS<br>
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT<br>
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR<br>
+A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION<br>
+OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,<br>
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT<br>
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,<br>
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY<br>
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT<br>
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE<br>
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>
+<br>
+<a href="https://xiph.org/downloads/">libVorbis</a>
+<br>
+<br>
+Vorbis - Free Open Audio Codec<br>
+Copyright (c) 2002-2018 Xiph.org Foundation<br>
+<br>
+Redistribution and use in source and binary forms, with or without<br>
+modification, are permitted provided that the following conditions<br>
+are met:<br>
+<br>
+- Redistributions of source code must retain the above copyright<br>
+notice, this list of conditions and the following disclaimer.<br>
+<br>
+- Redistributions in binary form must reproduce the above copyright<br>
+notice, this list of conditions and the following disclaimer in the<br>
+documentation and/or other materials provided with the distribution.<br>
+<br>
+- Neither the name of the Xiph.org Foundation nor the names of its<br>
+contributors may be used to endorse or promote products derived from<br>
+this software without specific prior written permission.<br>
+<br>
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS<br>
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT<br>
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR<br>
+A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION<br>
+OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,<br>
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT<br>
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,<br>
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY<br>
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT<br>
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE<br>
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>
+<br>
+<a href="#">ogg decode example</a>
+<br>
+<br>
+Copyright (c) 2008 Francisco Muñoz 'Hermes' &lt;www.elotrolado.net&gt;<br>
+All rights reserved.<br>
+<br>
+Proper (standard) vorbis usage by Tantric, 2009<br>
+Threading modifications/corrections by Tantric, 2009<br>
+<br>
+Redistribution and use in source and binary forms, with or without<br>
+modification, are permitted provided that the following conditions are met:<br>
+<br>
+- Redistributions of source code must retain the above copyright notice, this<br>
+list of conditions and the following disclaimer.<br>
+- Redistributions in binary form must reproduce the above copyright notice,<br>
+this list of conditions and the following disclaimer in the documentation<br>
+and/or other materials provided with the distribution.<br>
+- The names of the contributors may not be used to endorse or promote products<br>
+derived from this software without specific prior written permission.<br>
+<br>
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"<br>
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE<br>
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE<br>
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE<br>
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL<br>
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR<br>
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER<br>
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,<br>
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE<br>
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>
+
             </div>
             <div id="decodeWaiting" class="defaultHidden">
                 μ-waveの準備中にエラーが発生しました
