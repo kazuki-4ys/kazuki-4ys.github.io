@@ -10,6 +10,7 @@ html {
 }
 
 body{
+    margin: 0;
     user-select: none;
     min-height: 100vh;
     display:flex;
@@ -88,6 +89,14 @@ h1{
     flex:1;
 }
 
+#container{
+    width: 100%;
+}
+
+#noScript{
+    display: flex;
+}
+
 .containerPadding{
     flex:1;
 }
@@ -146,24 +155,24 @@ h1{
 #paramsSettingsContent{
     display: grid;
     grid-template:
-    "... ... ..." 20px
-    " paramsSettingsContentHeader paramsSettingsContentHeader  paramsSettingsContentHeader"
-    "... ... ..." 20px
-    "sampleRate sampleRate sampleRate"
-    "... ... ..." 20px
-    "loopStartEndParent loopStartEndParent loopStartEndParent"
-    "... ... ..." 20px
-    "sliderParent sliderParent sliderParent"
-    "... ... ..." 20px
-    "testPlayPosDisplay testPlayPosDisplay testPlayPosDisplay"
-    "... ... ..." 20px
-    "testPlayPauseButtonParent testPlayPauseButtonParent testPlayPauseButtonParent"
-    "... ... ..." 20px
-    "formatSelectLine formatSelectLine formatSelectLine"
-    "... ... ..." 1fr
-    "... buildButtonParent ..."
-    "... ... ..." 1fr
-    / 1fr auto 1fr;
+    "... ... ... ... ..." 20px
+    "... paramsSettingsContentHeader paramsSettingsContentHeader  paramsSettingsContentHeader ..."
+    "... ... ... ... ..." 20px
+    "... sampleRate sampleRate sampleRate ..."
+    "... ... ... ... ..." 20px
+    "... loopStartEndParent loopStartEndParent loopStartEndParent ..."
+    "... ... ... ... ..." 20px
+    "sliderParent sliderParent sliderParent sliderParent sliderParent"
+    "... ... ... ... ..." 20px
+    "... testPlayPosDisplay testPlayPosDisplay testPlayPosDisplay ..."
+    "... ... ... ... ..." 20px
+    "... testPlayPauseButtonParent testPlayPauseButtonParent testPlayPauseButtonParent ..."
+    "... ... ... ... ..." 20px
+    "... formatSelectLine formatSelectLine formatSelectLine ..."
+    "... ... ... ... ..." 1fr
+    "... ... buildButtonParent ... ..."
+    "... ... ... ... ..." 1fr
+    / 1fr auto auto auto 1fr;
 }
 
 
@@ -223,15 +232,12 @@ h1{
 
 #sliderKnob{
     z-index: 1;
-    border-radius: 50%;
     cursor: pointer;
     position: absolute;
-    top: -15px;
+    top: 5px;
     width: 30px;
     height: 30px;
-    border:2.5px solid;
     background-color: #03080B;
-    border-color:#42ADB5;
 }
 
 .loopStartKnob{
@@ -435,26 +441,25 @@ h1{
 
     #paramsSettingsContent{
         grid-template:
-        "... ... ..." 10px
-        " paramsSettingsContentHeader paramsSettingsContentHeader  paramsSettingsContentHeader"
-        "... ... ..." 10px
-        "sampleRate sampleRate sampleRate"
-        "... ... ..." 10px
-        "loopStartEndParent loopStartEndParent loopStartEndParent"
-        "... ... ..." 10px
-        "sliderParent sliderParent sliderParent"
-        "... ... ..." 10px
-        "testPlayPosDisplay testPlayPosDisplay testPlayPosDisplay"
-        "... ... ..." 10px
-        "testPlayPauseButtonParent testPlayPauseButtonParent testPlayPauseButtonParent"
-        "... ... ..." 10px
-        "formatSelectLine formatSelectLine formatSelectLine"
-        "... ... ..." 1fr
-        "... buildButtonParent ..."
-        "... ... ..." 1fr
-        / 1fr auto 1fr;
+        "... ... ... ... ..." 10px
+        "... paramsSettingsContentHeader paramsSettingsContentHeader  paramsSettingsContentHeader ..."
+        "... ... ... ... ..." 10px
+        "... sampleRate sampleRate sampleRate ..."
+        "... ... ... ... ..." 10px
+        "... loopStartEndParent loopStartEndParent loopStartEndParent ..."
+        "... ... ... ... ..." 10px
+        "sliderParent sliderParent sliderParent sliderParent sliderParent"
+        "... ... ... ... ..." 10px
+        "... testPlayPosDisplay testPlayPosDisplay testPlayPosDisplay ..."
+        "... ... ... ... ..." 10px
+        "... testPlayPauseButtonParent testPlayPauseButtonParent testPlayPauseButtonParent ..."
+        "... ... ... ... ..." 10px
+        "... formatSelectLine formatSelectLine formatSelectLine ..."
+        "... ... ... ... ..." 1fr
+        "... ... buildButtonParent ... ..."
+        "... ... ... ... ..." 1fr
+        / 1fr auto auto auto 1fr;
     }
-    
     #buildButtonParent{
         height: 200px;
     }
@@ -478,12 +483,9 @@ h1{
     }
     
     #sliderKnob{
-        top: -7.5px;
+        top: 2.5px;
         width: 15px;
         height: 15px;
-        border: 1.25px solid;
-        background-color: #03080B;
-        border-color:#42ADB5;
     }
     
     .loopStartKnob{

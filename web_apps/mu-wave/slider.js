@@ -79,6 +79,7 @@ class SliderKnob{
         this.knobDiv.addEventListener("touchstart", {handleEvent: this.knobClickHandler, self: this});
         document.getElementsByTagName('body')[0].addEventListener("mouseup", {handleEvent: this.bodyMouseupHandler, self: this});
         document.getElementsByTagName('body')[0].addEventListener("touchend", {handleEvent: this.bodyMouseupHandler, self: this});
+        document.getElementsByTagName('body')[0].addEventListener("mouseleave", {handleEvent: this.bodyMouseupHandler, self: this});
         window.requestAnimationFrame(this.animationFrameHandler.bind(null, this));
     }
     animationFrameHandler(self){

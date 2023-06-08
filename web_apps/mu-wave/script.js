@@ -100,6 +100,10 @@ class SoundPlayer{
     pause(){
         if(!this.isPlaying)return;
         this.offset = this.getCorrectDisplayTime();
+        if(tps && (!tps.curPosKnob.isKnobGrabbed)){
+            tps.curPosKnob.setValue(this.offset * this.sampleRate);
+            testPlayPosDisplay.innerHTML = Math.floor(this.offset * this.sampleRate) + "/" + this.soundParams[1];
+        }
         this.createBufferSource();
         this.isPlaying = false;
     }
@@ -181,8 +185,8 @@ var lang = (navigator.language) ? navigator.language : navigator.userLanguage;
 var islangJpn = lang && lang.toLowerCase().indexOf("ja") !== -1;
 if(!islangJpn){
     description.innerHTML = "<h1>Super Easy Online BRSTM/BFSTM(Switch) Maker</h1>";
-    initWaiting.innerHTML = "Preparing...<br>Please wait a moment.";
-    initFail.innerHTML = "An error has ocurred during initialize μ-wave";
+    el("initWaitingChild").innerHTML = "Preparing...<br>Please wait a moment.";
+    el("initFailChild").innerHTML = "An error has ocurred during initialize μ-wave";
     document.getElementById("defaultMsg").innerHTML = "Welcome to μ-wave!<br>μ-wave is web-based BRSTM maker using WebAssembly.<br>Multi-Channel BRSTM is also supported.<br>Let's drop your mp3, wave or ogg file now!";
     musicButtonMsg.innerHTML = "Drop sound file or click!<br>supported file:mp3, wave, ogg";
     document.getElementById("channelCountMsg").innerHTML = "Select Channels:";
@@ -271,7 +275,7 @@ window.addEventListener('drop', function(ev){
 
 var soundWorker = new Worker('sound/sound.js');
 noScript.style.display =  "none";
-initWaiting.style.display = "block";
+initWaiting.style.display = "flex";
 soundWorker.postMessage({
     cmd: "init",
 });
@@ -283,11 +287,11 @@ soundWorker.onmessage = function(e) {
         case "init_result":
             if(e.data.result){
                 initWaiting.style.display =  "none";
-                defaultDiv.style.display = "block";
+                defaultDiv.style.display = "flex";
                 footerOss.style.display = "block";
             }else{
                 initWaiting.style.display =  "none";
-                initFail.style.display = "block";
+                initFail.style.display = "flex";
             }
             break;
         case "decode_result":
@@ -456,7 +460,7 @@ buildButton.addEventListener('click',(event) => {
     saveButton.style.display = "none";
     progressBarFilled.style.width = "0%";
     paramsSettings.style.display = "none";
-    encodeWaiting.style.display = "block";
+    encodeWaiting.style.display = "flex";
     soundWorker.postMessage({
         cmd: "encode",
         soundParams: soundParams,
@@ -549,7 +553,7 @@ footerOss.addEventListener('click', function(event){
     }
     description.innerHTML = "";
     defaultDiv.style.display = "none";
-    ossLicense.style.display = "block";
+    ossLicense.style.display = "flex";
     footerOss.style.display = "none";
     footerBack.style.display = "block";
 });
@@ -562,7 +566,7 @@ footerBack.addEventListener('click', function(event){
         description.innerHTML = "<h1>Super Easy Online BRSTM/BFSTM(Switch) Maker</h1>";
     }
     ossLicense.style.display = "none";
-    defaultDiv.style.display = "block";
+    defaultDiv.style.display = "flex";
     footerBack.style.display = "none";
     footerOss.style.display = "block";
 });
