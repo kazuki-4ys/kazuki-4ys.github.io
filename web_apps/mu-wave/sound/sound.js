@@ -77,7 +77,7 @@ self.addEventListener('message', (message) => {
             var dest;
             try{
                 if(message.data.buildBfstm){
-                    dest =  Module._encodeBfstm(rawPcmPtr);
+                    dest =  Module._encodeBfstm(rawPcmPtr, false);
                 }else{
                     dest =  Module._encodeBrstm(rawPcmPtr);
                 }
