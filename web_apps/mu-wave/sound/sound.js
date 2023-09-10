@@ -76,10 +76,21 @@ self.addEventListener('message', (message) => {
             Module.HEAP32.set(message.data.soundParams, soundParamsPtr / 4);
             var dest;
             try{
-                if(message.data.buildBfstm){
-                    dest =  Module._encodeBfstm(rawPcmPtr, false);
-                }else{
-                    dest =  Module._encodeBrstm(rawPcmPtr);
+                switch (message.data.buildType){
+                    case 0: //BRSTM (Wii)
+                        dest =  Module._encodeBrstm(rawPcmPtr);
+                        break;
+                    case 1: //BCSTM (3DS)
+                        //unsigned char *encodeBfstm(short *src, bool is3DSBcstm, bool isLE, unsigned int version);
+                        dest =  Module._encodeBfstm(rawPcmPtr, true, true, 0x2000000);
+                        break;
+                    case 2: //BFSTM (WiiU)
+                        //WiiUのBFSTMは3DSのBCSTMと非常に似ている。違う部分はバージョンとバイトオーダー、そして0バイト目が'C'か'F'かの違いだけである(多分)
+                        dest =  Module._encodeBfstm(rawPcmPtr, true, false, 0x30000);
+                        break;
+                    default://BFSTM (Switch)
+                        dest =  Module._encodeBfstm(rawPcmPtr, false, true, 0x30000);
+                        break;
                 }
             }catch{
                 Module._my_free(rawPcmPtr);
@@ -91,12 +102,22 @@ self.addEventListener('message', (message) => {
             }
             Module._my_free(rawPcmPtr);
             var destSize;
-            if(message.data.buildBfstm){
-                destSize = bytesToUint32(new Uint8Array(Module.HEAP8.buffer, dest, 0x10), 0xC, true);
-            }else{
-                destSize = bytesToUint32(new Uint8Array(Module.HEAP8.buffer, dest, 0xC), 8, false);
+            switch (message.data.buildType){
+                case 0: //BRSTM (Wii)
+                    destSize = bytesToUint32(new Uint8Array(Module.HEAP8.buffer, dest, 0xC), 8, false);
+                    break;
+                case 1: //BCSTM (3DS)
+                    destSize = bytesToUint32(new Uint8Array(Module.HEAP8.buffer, dest, 0x10), 0xC, true);
+                    break;
+                case 2: //BFSTM (WiiU)
+                    destSize = bytesToUint32(new Uint8Array(Module.HEAP8.buffer, dest, 0x10), 0xC, false);
+                    break;
+                default://BFSTM (Switch)
+                    destSize = bytesToUint32(new Uint8Array(Module.HEAP8.buffer, dest, 0x10), 0xC, true);
+                    break;
             }
             var destUint8Array = new Uint8Array(new Uint8Array(Module.HEAP8.buffer, dest, destSize));
+            if(message.data.buildType == 2)destUint8Array[0] = 0x46;
             Module._my_free(dest);
             self.postMessage({
                 cmd: "encode_result",

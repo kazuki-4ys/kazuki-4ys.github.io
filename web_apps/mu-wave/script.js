@@ -19,8 +19,7 @@ var paramsSettings = document.getElementById("paramsSettings");
 var encodeWaiting = document.getElementById("encodeWaiting");
 var loopCheckBox = document.getElementById("loopCheckBox");
 var testPlayPosDisplay = document.getElementById("testPlayPosDisplay");
-var brstmCheckBox = document.getElementById("brstmCheckBox");
-var bfstmCheckBox = document.getElementById("bfstmCheckBox");
+var formatSelect = document.getElementById("formatSelect");
 var progressBarFilled = document.getElementById("progressBarFilled");
 var saveButton = document.getElementById("saveButton");
 var saveButtonMsg = document.getElementById("saveButtonMsg");
@@ -176,7 +175,7 @@ function el(id){
 }
   
 
-var buildBfstm = false;
+var buildType = 0;
 var isDecoding = false;
 var mX;
 var soundParams;
@@ -184,7 +183,7 @@ var rawPcm16;
 var lang = (navigator.language) ? navigator.language : navigator.userLanguage;
 var islangJpn = lang && lang.toLowerCase().indexOf("ja") !== -1;
 if(!islangJpn){
-    description.innerHTML = "<h1>Super Easy Online BRSTM/BFSTM(Switch) Maker</h1>";
+    description.innerHTML = "<h1>Super Easy Online BRSTM/BCSTM/BFSTM Maker</h1>";
     el("initWaitingChild").innerHTML = "Preparing...<br>Please wait a moment.";
     el("initFailChild").innerHTML = "An error has ocurred during initialize μ-wave";
     document.getElementById("defaultMsg").innerHTML = "Welcome to μ-wave!<br>μ-wave is web-based BRSTM maker using WebAssembly.<br>Multi-Channel BRSTM is also supported.<br>Let's drop your mp3, wave or ogg file now!";
@@ -193,6 +192,7 @@ if(!islangJpn){
     document.getElementById("loopCheckBoxMsg").innerHTML = "Loop";
     document.getElementById("loopStartMsg").innerHTML = "Loop start(Samples):";
     document.getElementById("loopEndMsg").innerHTML = "Loop end(Samples):";
+    el("formatSelectLineMsg").innerHTML = "Output format:";
     buildButtonMsg.innerHTML = "Build BRSTM!";
     document.getElementById("encodingMsg").innerHTML = "Encoding...";
     saveButtonMsg.innerHTML = "Save BRSTM";
@@ -426,32 +426,58 @@ el("testPlayPauseButton").addEventListener('click', event => {
     }
 });
 
-brstmCheckBox.addEventListener('click', (event =>{
-    buildBfstm = false;
-    brstmCheckBox.src = "checked.png";
-    bfstmCheckBox.src = "none.png";
+formatSelect.addEventListener('change', (event =>{
+    buildType = Number(formatSelect.value);
     if(islangJpn){
-        buildButtonMsg.innerHTML = "BRSTM作成!";
-        saveButtonMsg.innerHTML = "BRSTMを保存";
+        switch(buildType){
+            case 0:
+                buildButtonMsg.innerHTML = "BRSTM作成!";
+                saveButtonMsg.innerHTML = "BRSTMを保存";
+                break;
+            case 1:
+                buildButtonMsg.innerHTML = "BCSTM作成!";
+                saveButtonMsg.innerHTML = "BRSTMを保存";
+                break;
+            case 2:
+                buildButtonMsg.innerHTML = "BFSTM(WiiU)作成!";
+                saveButtonMsg.innerHTML = "BFSTM(WiiU)を保存";
+                break;
+            default:
+                buildButtonMsg.innerHTML = "BFSTM(Switch)作成!";
+                saveButtonMsg.innerHTML = "BFSTM(Switch)を保存";
+                break;
+        }
     }else{
-        buildButtonMsg.innerHTML = "Build BRSTM!";
-        saveButtonMsg.innerHTML = "Save BRSTM";
+        switch(buildType){
+            case 0:
+                buildButtonMsg.innerHTML = "Build BRSTM!";
+                saveButtonMsg.innerHTML = "Save BRSTM";
+                break;
+            case 1:
+                buildButtonMsg.innerHTML = "Build BCSTM!";
+                saveButtonMsg.innerHTML = "Save BCSTM";
+                break;
+            case 2:
+                buildButtonMsg.innerHTML = "Build BFSTM(WiiU)!";
+                saveButtonMsg.innerHTML = "Save BFSTM(WiiU)";
+                break;
+            default:
+                buildButtonMsg.innerHTML = "Build BFSTM(Switch)!";
+                saveButtonMsg.innerHTML = "Save BFSTM(Switch)";
+                break;
+        }
     }
-    saveLink.download = "output.brstm";
-}));
-
-bfstmCheckBox.addEventListener('click', (event =>{
-    buildBfstm = true;
-    bfstmCheckBox.src = "checked.png";
-    brstmCheckBox.src = "none.png";
-    if(islangJpn){
-        buildButtonMsg.innerHTML = "BFSTM作成!";
-        saveButtonMsg.innerHTML = "BFSTMを保存";
-    }else{
-        buildButtonMsg.innerHTML = "Build BFSTM!";
-        saveButtonMsg.innerHTML = "Save BFSTM";
+    switch(buildType){
+        case 0:
+            saveLink.download = "output.brstm";
+            break;
+        case 1:
+            saveLink.download = "output.bcstm";
+            break;
+        default:
+            saveLink.download = "output.bfstm";
+            break;
     }
-    saveLink.download = "output.bfstm";
 }));
 
 
@@ -464,7 +490,7 @@ buildButton.addEventListener('click',(event) => {
     soundWorker.postMessage({
         cmd: "encode",
         soundParams: soundParams,
-        buildBfstm: buildBfstm
+        buildType: buildType
     });
 });
 

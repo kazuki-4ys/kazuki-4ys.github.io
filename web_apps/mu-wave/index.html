@@ -14,7 +14,7 @@
     <input type="file" class="defaultHidden" id="musicOpen" accept=".wav,.wave,.mp3,.ogg">
     <div id="header">
         <div id="title">μ-wave</div>
-        <div id="description"><h1>超お手軽オンラインBRSTM/BFSTM(Switch) Maker</h1></div>
+        <div id="description"><h1>超お手軽オンラインBRSTM/BCSTM/BFSTM Maker</h1></div>
     </div>
     <div id="containerParent">
         <div id="container">
@@ -104,18 +104,16 @@
                         </div>
                     </div>
                     <div id="formatSelectLine">
-                        <div>
-                            BRSTM(Wii)
+                        <div id="formatSelectLineMsg">
+                            変換するフォーマット:
                         </div>
                         <div>
-                            <img id="brstmCheckBox" src="checked.png" class="imgCheckBox">
-                        </div>
-                        <div class="flex1"></div>
-                        <div>
-                            BFSTM(Switch)
-                        </div>
-                        <div>
-                            <img id="bfstmCheckBox" src="none.png" class="imgCheckBox">
+                            <select name="formatSelect" id="formatSelect">
+                                <option value="0" selected>BRSTM (Wii)</option>
+                                <option value="1">BCSTM (3DS)</option>
+                                <option value="2">BFSTM (WiiU)</option>
+                                <option value="3">BFSTM (Switch)</option>
+                            </select>
                         </div>
                     </div>
                     <div id="sliderParent">
