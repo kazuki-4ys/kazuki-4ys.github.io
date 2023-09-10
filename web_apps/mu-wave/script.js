@@ -436,7 +436,7 @@ formatSelect.addEventListener('change', (event =>{
                 break;
             case 1:
                 buildButtonMsg.innerHTML = "BCSTM作成!";
-                saveButtonMsg.innerHTML = "BRSTMを保存";
+                saveButtonMsg.innerHTML = "BCSTMを保存";
                 break;
             case 2:
                 buildButtonMsg.innerHTML = "BFSTM(WiiU)作成!";
