@@ -13,17 +13,26 @@
     </div>
   </template>
   <div id="root">
+    <div id="fullScreenRoot">
+      <div id="menuOpen3ParentParent">
+        <div id="menuOpen3Parent">
+          <div class="flex1"></div>
+          <div class="StartSelectCommon" id="menuOpen3"></div>
+        </div>
+      </div>
+      <canvas id="fs_output"></canvas>
+    </div>
     <div id="menu">
       <div id="menuHeader">
         <div id="menuHeaderLeftMessage">Snes9x-2005-wasm Menu</div>
         <div class="flex1"></div>
-        <div id="menuHeaderRightMessage"><a herf="#" id="menuHeaderLeftMessageChild">Back</a></div>
+        <div id="menuHeaderRightMessage"><a herf="#" id="menuHeaderLeftMessageChild">Close</a></div>
       </div>
       <div class="flex1">
         <div id="squareButtonParentParent">
         <div id="squareButtonParent">
-          <div class="squareButton" id="menuCloseButton"><div class="squareButtonMsg">Close Menu</div></div>
           <div class="squareButton" id="muteButton"><div class="squareButtonMsg" id="muteButtonMsg">Mute</div></div>
+          <div class="squareButton" id="fullScreenButton"><div class="squareButtonMsg" id="fullScreenButtonMsg">Enter<br>Fullscreen</div></div>
           <div class="squareButton" id="loadRomButton"><div class="squareButtonMsg">Load ROM</div></div>
           <div class="squareButton" id="loadSramButton"><div class="squareButtonMsg">Load SRAM</div></div>
           <div class="squareButton" id="saveSramButton"><div class="squareButtonMsg">Save SRAM</div></div>
@@ -298,13 +307,16 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.<br>
         </div>
       </div>
     </div>
-    <canvas id="fs_output"></canvas>
     <div id="keyboardInputRight" class="flex1">
-      <div id="menuOpen1Parent">
-        <div class="flex1"></div>
-        <div>Menu</div>
-        <div class="StartSelectCommon" id="menuOpen1"></div>
-      </div>
+      Keyboard Input:<br>
+      START : Enter<br>
+      SELRCT : Shift<br>
+      A : A<br>
+      B : Z<br>
+      X : X<br>
+      Y : S<br>
+      L : D<br>
+      R : C<br>
     </div>
     <div id="middle">
       <canvas id="output"></canvas>
@@ -320,11 +332,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.<br>
         </div>
         <div id="StartSelectParent">
           <div class="flex1 displayFlex">
-            <div class="flex1 displayFlex">
-              <div id="menuOpen2Parent" class="displayFlex">
-                <div class="StartSelectCommon" id="menuOpen2"></div>
-                <div class="flex1">Menu</div>
-              </div>
+            <div class="flex1">
             </div>
             <div class="startSelectMsg">SELECT</div>
           </div>
@@ -333,7 +341,14 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.<br>
           <div class="StartSelectCommon" id="STButton" data-snes-button="12"></div>
           <div class="flex1 displayFlex">
             <div class="startSelectMsg">START</div>
-            <div class="flex1"></div>
+            <div class="flex1 displayFlex">
+              <div class="flex1">
+              </div>
+              <div id="menuOpen2Parent" class="displayFlex">
+                <div class="flex1">Menu</div>
+                <div class="StartSelectCommon" id="menuOpen2"></div>
+              </div>
+            </div>
           </div>
         </div>
         <div id="ABXYDPadParent">
@@ -370,15 +385,11 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.<br>
       </div>
     </div>
     <div id="keyboardInput" class="flex1">
-      Keyboard Input:<br>
-      START : Enter<br>
-      SELRCT : Shift<br>
-      A : A<br>
-      B : Z<br>
-      X : X<br>
-      Y : S<br>
-      L : D<br>
-      R : C<br>
+      <div id="menuOpen1Parent">
+        <div class="flex1"></div>
+        <div>Menu</div>
+        <div class="StartSelectCommon" id="menuOpen1"></div>
+      </div>
     </div>
   </div>
   <script src="snes9x_2005.js"></script>

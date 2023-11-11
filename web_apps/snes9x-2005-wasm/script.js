@@ -11,14 +11,57 @@ var softPadInput = 0;
 var isVisible = true;
 var userMute = false;
 var g = new gamepad();
+var rightUpBackCloseMenu = true;
 
 function el(id) {
   return document.getElementById(id);
 }
 
+var rootElement = document.documentElement ;
+rootElement.requestFullscreen = rootElement.requestFullscreen || rootElement.mozRequestFullScreen || rootElement.webkitRequestFullscreen || rootElement.msRequestFullscreen;
+document.exitFullscreen = document.exitFullscreen || document.cancelFullScreen || document.mozCancelFullScreen || document.webkitCancelFullScreen || document.msExitFullscreen;
+
+function enableFullScreen(){
+  el("fullScreenRoot").style.display = "grid";
+  el("fullScreenButtonMsg").innerHTML = "Exit<br>Fullscreen";
+  document.getElementsByTagName("body")[0].style.backgroundColor = "#000000";
+}
+
+function disableFullScreen(){
+  el("fullScreenRoot").style.display = "none";
+  el("fullScreenButtonMsg").innerHTML = "Enter<br>Fullscreen";
+  document.getElementsByTagName("body")[0].style.backgroundColor = "#eeeeee";
+}
+
+"webkitfullscreenchange mozfullscreenchange MSFullscreenChange fullscreenchange".split(" ").forEach((en)=>{
+  document.addEventListener(en, (e)=>{
+    if(document.fullscreenElement){
+      isFullScreen = true;
+      enableFullScreen();
+    } else {
+      isFullScreen = false;
+      disableFullScreen();
+    }
+  });
+})
+
+function menuButtonFullScreen(){
+  if(!isFullScreen){
+    rootElement.requestFullscreen();
+  }else{
+    document.exitFullscreen();
+  }
+}
+
 //キー入力
 document.addEventListener("keydown", (e) =>{
   console.log(e);
+  if(e.keyCode == 122)
+  {
+    e.keyCode = null;
+    e.returnValue = false;
+    menuButtonFullScreen();
+  }
   switch(e.key){
     case "ArrowRight":
       //スーファミ右
@@ -245,11 +288,39 @@ function setUint8ArrayToCMemory(src){
   return buffer;
 }
 
-let c = el("output");
-c.width = 256;
-c.height = 224;
-let ctx = c.getContext("2d");
-let imgData = ctx.getImageData(0, 0, 512, 448);
+function canvasSetup(can){
+  var dest = Array();
+  can.width = 256;
+  can.height = 224;
+  var canCtx = can.getContext("2d");
+  var canImgData = canCtx.getImageData(0, 0, 512, 448);
+  dest.push(canCtx);
+  dest.push(canImgData);
+  return dest;
+}
+
+function setFsoSize(fso, root){
+  var heightRaito = 0.75;
+  var rWidth = root.clientWidth;
+  var rHeight = root.clientHeight;
+  if((rHeight / rWidth) > heightRaito){
+    fso.style.width = rWidth + "px";
+    fso.style.height = (rWidth * heightRaito) + "px";
+  }else{
+    fso.style.height = rHeight + "px";
+    fso.style.width = (rHeight / heightRaito) + "px";
+  }
+}
+
+var root = el("root");
+var fso = el("fs_output");
+var canvasSetupDest;
+canvasSetupDest = canvasSetup(el("output"));
+var ctx = canvasSetupDest[0];
+var imgData = canvasSetupDest[1];
+canvasSetupDest = canvasSetup(fso);
+var fs_ctx = canvasSetupDest[0];
+var fs_imgData = canvasSetupDest[1];
 
 Module.onRuntimeInitialized = async _ => {
   isModuleInited = true;
@@ -279,14 +350,20 @@ function requestFrame(){
 requestFrame();
 
 function run1fr(){
+  if(isFullScreen)setFsoSize(fso, root);
   if(!isModuleInited)return;
   if(isMenuDisplay)return;
   Module._setJoypadInput(keyInput | softPadInput | g.getHoldButton());
   Module._mainLoop();
   var frameBufferPtr = Module._getScreenBuffer();
   var frameBufferRawData = new Uint8Array(Module.HEAP8.buffer, frameBufferPtr, 512 * 448 * 4);
-  for(var i = 0;i < 512 * 448 * 4;i++)imgData.data[i] = frameBufferRawData[i];
-  ctx.putImageData(imgData, 0, 0);
+  if(isFullScreen){
+    for(var i = 0;i < 512 * 448 * 4;i++)fs_imgData.data[i] = frameBufferRawData[i];
+    fs_ctx.putImageData(fs_imgData, 0, 0);
+  }else{
+    for(var i = 0;i < 512 * 448 * 4;i++)imgData.data[i] = frameBufferRawData[i];
+    ctx.putImageData(imgData, 0, 0);
+  }
 }
 
 function fileSave(data,fn){
@@ -325,10 +402,6 @@ function saveState(){
   fileSave(state, "state.s95ws");
 }
 
-el("menuCloseButton").addEventListener("click", (e) => {
-  exitMenu();
-});
-
 el("muteButton").addEventListener("click", (e) => {
   userMute = !userMute;
   if(userMute){
@@ -336,6 +409,10 @@ el("muteButton").addEventListener("click", (e) => {
   }else{
     el("muteButtonMsg").innerHTML = "Mute";
   }
+});
+
+el("fullScreenButton").addEventListener("click", (e) => {
+  menuButtonFullScreen();
 });
 
 el("saveSramButton").addEventListener("click", (e) => {
@@ -349,9 +426,10 @@ el("saveStateButton").addEventListener("click", (e) => {
 });
 
 el("aboutButton").addEventListener("click", (e) => {
+  rightUpBackCloseMenu = false;
+  el("menuHeaderLeftMessageChild").innerHTML = "Back";
   el("squareButtonParentParent").style.display = "none";
   el("aboutParent").style.display = "flex";
-  el("menuHeaderRightMessage").style.display = "block";
   el("menuHeaderLeftMessage").innerHTML = "About Snes9x-2005-wasm";
 });
 
@@ -442,9 +520,10 @@ function createButtonRemapSelectParentParent(){
 }
 
 el("gamepadSettingsButton").addEventListener("click", (e) => {
+  rightUpBackCloseMenu = false;
+  el("menuHeaderLeftMessageChild").innerHTML = "Back";
   el("squareButtonParentParent").style.display = "none";
   el("gamepadSettings").style.display = "flex";
-  el("menuHeaderRightMessage").style.display = "block";
   el("menuHeaderLeftMessage").innerHTML = "Gamepad Settings";
   if(g.gamepads.length === 0){
     el("gamepadNameShow").innerHTML = "no controller connected";
@@ -456,11 +535,15 @@ el("gamepadSettingsButton").addEventListener("click", (e) => {
 });
 
 el("menuHeaderLeftMessageChild").addEventListener("click", (e) => {
+  if(rightUpBackCloseMenu){
+    exitMenu();
+  }
   el("aboutParent").style.display = "none";
   el("gamepadSettings").style.display = "none";
   el("squareButtonParentParent").style.display = "grid";
-  el("menuHeaderRightMessage").style.display = "none";
   el("menuHeaderLeftMessage").innerHTML = "Snes9x-2005-wasm Menu";
+  el("menuHeaderLeftMessageChild").innerHTML = "Close";
+  rightUpBackCloseMenu = true;
 });
 
 function menuOpen(e){
@@ -470,6 +553,7 @@ function menuOpen(e){
 
 el("menuOpen1").addEventListener("click", menuOpen);
 el("menuOpen2").addEventListener("click", menuOpen);
+el("menuOpen3").addEventListener("click", menuOpen);
 
 function padButtonMousedown(e){
   var target = e.target;
