@@ -587,9 +587,9 @@ footerOss.addEventListener('click', function(event){
 footerBack.addEventListener('click', function(event){
     title.innerHTML = "μ-wave";
     if(islangJpn){
-        description.innerHTML = "<h1>超お手軽オンラインBRSTM/BFSTM(Switch) Maker</h1>";
+        description.innerHTML = "<h1>超お手軽オンラインBRSTM/BCSTM/BFSTM Maker</h1>";
     }else{
-        description.innerHTML = "<h1>Super Easy Online BRSTM/BFSTM(Switch) Maker</h1>";
+        description.innerHTML = "<h1>Super Easy Online BRSTM/BCSTM/BFSTM Maker</h1>";
     }
     ossLicense.style.display = "none";
     defaultDiv.style.display = "flex";
